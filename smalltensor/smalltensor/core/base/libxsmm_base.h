@@ -7,21 +7,9 @@
 #include <cstdarg>  /* ..., va_list, va_start, va_arg, va_end */
 #include <cassert> /* assert */
 #include "../../../third_party/libxsmm/include/libxsmm_source.h"
+#include "../../utils/__utils.h"
 using namespace std;
 
-
-#ifndef NDEBUG
-#   define ASSERT_MSG(condition, message) \
-    do { \
-        if (! (condition)) { \
-            std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
-                      << " line " << __LINE__ << ": \nError!!! " << message << std::endl; \
-            std::terminate(); \
-        } \
-    } while (false)
-#else
-#   define ASSERT_MSG(condition, message) do { } while (false)
-#endif
 
 
 template <typename T>
@@ -191,7 +179,7 @@ public:
 	// value_type operator[](counter_type n_)
 	// {
 	// 	ASSERT_MSG(n_ < _data_count, "tensor[] index out of bounds. " ) ; 
-	// 	return *(_data + n_) ;
+	// 	return _data[n_];
 	// }
 
 	inline value_type operator()(dimension_type d1_)const
