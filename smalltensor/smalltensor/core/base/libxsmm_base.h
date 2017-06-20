@@ -1,10 +1,12 @@
 #ifndef LIBXSMM_BASE_H_
 #define LIBXSMM_BASE_H_
 
-#include <cstdio>   /* printf */
+#include <cstdio>  /* printf */
+#include <iostream>  /* cout */
 #include <cstdint> /* uint_fast8_t, uint_fast16_t */
-#include <stdarg>  /* ..., va_list, va_start, va_arg, va_end */
+#include <cstdarg>  /* ..., va_list, va_start, va_arg, va_end */
 #include <cassert> /* assert */
+#include "../../../third_party/libxsmm/include/libxsmm_source.h"
 using namespace std;
 
 
@@ -13,7 +15,7 @@ using namespace std;
     do { \
         if (! (condition)) { \
             std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
-                      << " line " << __LINE__ << ": \n" << message << std::endl; \
+                      << " line " << __LINE__ << ": \nError!!! " << message << std::endl; \
             std::terminate(); \
         } \
     } while (false)
@@ -55,7 +57,7 @@ public:
 		_data_count = 0;
 		for (int i = 0; i < __order; ++i)
 		{
-			dimension[i] = 0;
+			_dimension[i] = 0;
 		}
 	}
 	void clear()
@@ -67,7 +69,7 @@ public:
 		_data_count = 0 ; 
 		for (int i = 0; i < __order; ++i)
 		{
-			dimension[i] = 0;
+			_dimension[i] = 0;
 		}
 	}
 	virtual ~libxsmmm_base()
@@ -75,42 +77,29 @@ public:
 		clear();
 	}
 
-	libxsmmm_base(uint_fast16_t dimension_)
-	:_data_count(dimension_), 
-	(_dimension[0])(dimension_)
+	libxsmmm_base(dimension_type dimension_)
+	:_data_count(dimension_),
+	_dimension({dimension_})
 	{
 		init_data();
 	}
 
-	libxsmmm_base(uint_fast16_t dimension_)
-	:_data_count(dimension_), 
-	(_dimension[0])(dimension_)
-	{
-		init_data();
-	}
-
-	libxsmmm_base(uint_fast16_t dimension1_, uint_fast16_t dimension2_)
+	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_)
 	:_data_count(dimension1_*dimension2_), 
-	(_dimension[0])(dimension1_),
-	(_dimension[1])(dimension2_)
+	_dimension({dimension1_, dimension2_})
 	{
 		init_data();
 	}
 
-	libxsmmm_base(uint_fast16_t dimension1_, uint_fast16_t dimension2_, uint_fast16_t dimension3_)
+	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_)
 	:_data_count(dimension1_*dimension2_*dimension3_), 
-	(_dimension[0])(dimension1_),
-	(_dimension[1])(dimension2_),
-	(_dimension[2])(dimension3_)
+	_dimension({dimension1_, dimension2_, dimension3_})
 	{
 		init_data();
 	}
-	libxsmmm_base(uint_fast16_t dimension1_, uint_fast16_t dimension2_, uint_fast16_t dimension3_, uint_fast16_t dimension4_)
+	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_, dimension_type dimension4_)
 	:_data_count(dimension1_*dimension2_*dimension3_*dimension4_), 
-	(_dimension[0])(dimension1_),
-	(_dimension[1])(dimension2_),
-	(_dimension[2])(dimension3_),
-	(_dimension[3])(dimension4_)
+	_dimension({dimension1_, dimension2_, dimension3_, dimension4_})
 	{
 		init_data();
 	}
@@ -156,6 +145,7 @@ public:
 		return *this;
 	}
 
+	template< typename __rhs_type>
 	libxsmmm_base<value_type, __order>& operator=(libxsmmm_base<__rhs_type, __order> const& rhs_)
 	{
 		if(rhs_._data == nullptr)
@@ -182,28 +172,74 @@ public:
 	}
 
 
-	void set_dimension(uint_fast16_t n_dim, ...)
-	{
-		va_list l;
-		va_start(l, n_dim);
-		_data_count = 1;
-		for (int i = 0; i < n_dim; ++i)
-		{
-			_dimension[i] = va_arg(l, uint_fast16_t);
-			_data_count *= _dimension[i];
-		}
-		va_end(l);
+	// void set_dimension(uint_fast16_t n_dim, ...)
+	// {
+	// 	va_list l;
+	// 	va_start(l, n_dim);
+	// 	_data_count = 1;
+	// 	for (int i = 0; i < n_dim; ++i)
+	// 	{
+	// 		_dimension[i] = va_arg(l, uint_fast16_t);
+	// 		_data_count *= _dimension[i];
+	// 	}
+	// 	va_end(l);
 
-		init_data();
+	// 	init_data();
+	// }
+
+
+	// value_type operator[](counter_type n_)
+	// {
+	// 	ASSERT_MSG(n_ < _data_count, "tensor[] index out of bounds. " ) ; 
+	// 	return *(_data + n_) ;
+	// }
+
+	inline value_type operator()(dimension_type d1_)const
+	{
+		ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
+		return _data[d1_];
+	}
+	inline value_type& operator()(dimension_type d1_)
+	{
+		ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
+		return _data[d1_];
+	}
+	inline value_type operator()(dimension_type d1_, dimension_type d2_)const
+	{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[1] + d2_ * _stride[0]];
+	}
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_)
+	{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[1] + d2_ * _stride[0]];
 	}
 
-
-	value_type operator[](counter_type n_)
+	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)const
 	{
-		ASSERT_MSG(n_ <  )
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
 	}
 
-}
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)
+	{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
+	}
+
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)
+	{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
+	}
+
+	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)const
+	{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
+	}
+
+};
 
 
 
@@ -211,4 +247,4 @@ public:
 
 
 
-#endif LIBXSMM_BASE_H_
+#endif /*LIBXSMM_BASE_H_*/
