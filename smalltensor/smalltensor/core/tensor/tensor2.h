@@ -16,6 +16,34 @@ class tensor2: public xsmm_base< __data_type, 2 >
     typedef uint_fast32_t counter_type;
     typedef xsmm_base< __data_type, 2 > base2;
 public:
+
+    tensor2():
+    base2()
+    {
+    }
+
+    tensor2 (tensor2 const& rhs_):
+    base2(rhs_)
+    {
+    }
+
+    tensor2& operator=(tensor2 const& rhs_)
+    {
+        base2::operator=(rhs_); 
+        return *this;
+    }
+
+    tensor2 (tensor2&& rhs_):
+    base2(std::move(rhs_))
+    {
+    }
+
+    tensor2& operator=(tensor2&& rhs_)
+    {
+        base2::operator=(std::move(rhs_)); 
+        return *this;
+    }
+
     tensor2(dimension_type d1_, dimension_type d2_)
     :base2(d1_, d2_)
     {
@@ -46,20 +74,6 @@ public:
         }
     }
 
-    tensor2 (tensor2 const& rhs_)
-    {
-    	(*this) = rhs_;
-    }
-
-    tensor2()
-    {
-    }
-
-    tensor2& operator=(tensor2 const& rhs_)
-    {
-        base2::operator=(rhs_); 
-        return *this;
-    }
 
     template <class __rhs_scale_type>
     inline tensor2 & operator=(__rhs_scale_type const& rhs_)

@@ -81,8 +81,8 @@ public:
     }
 
     xsmm_base(xsmm_base && rhs_) noexcept:
-    _data_count{rhs_._data_count},
-    _data{rhs_._data}
+    _data_count{std::move(rhs_._data_count)},
+    _data{std::move(rhs_._data)}
     {
         // std::cout<<"move constructor is used!"<<std::endl;
         memcpy(_dimension, rhs_._dimension, sizeof(rhs_._dimension));
@@ -96,7 +96,7 @@ public:
         if(this != &rhs_)
         {
             clear();
-            _data_count = rhs_._data_count ; 
+            _data_count = std::move(rhs_._data_count) ; 
             _data = std::move(rhs_._data);
             memcpy(_dimension, rhs_._dimension, sizeof(rhs_._dimension));
             memcpy(_stride, rhs_._stride, sizeof(rhs_._stride));
