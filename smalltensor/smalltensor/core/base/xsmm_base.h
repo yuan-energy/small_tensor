@@ -90,7 +90,7 @@ public:
 			// 	~raii(){delete[] raw;}
 			// } buffer(_data_count);
 			_data = new value_type[_data_count];
-			_data = LIBXSMM_ALIGN(_data, LIBXSMM_ALIGNMENT);
+			// _data = LIBXSMM_ALIGN(_data, LIBXSMM_ALIGNMENT);
 		}
 
 		_stride[0] = 1;

@@ -19,11 +19,10 @@ public:
     tensor2(dimension_type d1_, dimension_type d2_)
     :base2(d1_, d2_)
     {
-        // for (dimension_type i = 0; i < get_dim1(); i++)
-        //     for (dimension_type j = 0; j < get_dim2(); j++){
-        //         (*this)(i, j) = (value_type)(0.) ;
-        //     }
-        // (*this) = (value_type)(0.) ;
+        for (dimension_type i = 0; i < get_dim1(); i++)
+            for (dimension_type j = 0; j < get_dim2(); j++){
+                (*this)(i, j) = (value_type)(0.) ;
+            }
     }
 
     tensor2(dimension_type d1_, dimension_type d2_, __data_type val_)
@@ -39,10 +38,9 @@ public:
     :base2(d1_, d2_)
     {
         if(val_ == "identity"){
-            for (dimension_type i = 0; i < get_dim1(); i++)
-                for (dimension_type j = 0; j < get_dim2(); j++){
-                    (*this)(i, j) = (value_type)(i==j? 1:0);
-                }
+            for (dimension_type i = 0; i < get_dim1(); i++){
+                (*this)(i, i) = (value_type)(1.);
+            }
         }else{
             std:cerr << "tensor2 -- unknown string "<< val_<<endl;
         }
@@ -63,16 +61,15 @@ public:
         return *this;
     }
 
-    // template <class __rhs_scale_type>
-    // inline tensor2 & operator=(__rhs_scale_type const& rhs_)
-    // {
-    //     for ( dimension_type i = 0; i < get_dim1(); i++)
-    //         for (dimension_type j = 0; j < get_dim2(); j++)
-    //         {
-    //             (*this)(i, j) = (value_type)rhs_;
-    //         }
-    //     return *this;
-    // }
+    template <class __rhs_scale_type>
+    inline tensor2 & operator=(__rhs_scale_type const& rhs_)
+    {
+        for ( dimension_type i = 0; i < get_dim1(); i++)
+        {
+            (*this)(i, i) = (value_type)rhs_;
+        }
+        return *this;
+    }
 
     dimension_type get_dim1(){
     	return base2::_dimension[0];
@@ -82,7 +79,7 @@ public:
     	return base2::_dimension[1];
     }
 
-    inline const value_type operator() (dimension_type d1_, dimension_type d2_){
+    inline value_type& operator() (dimension_type d1_, dimension_type d2_){
     	return base2::operator()(d1_,d2_);
     }
     inline const value_type operator() (dimension_type d1_, dimension_type d2_)const{
