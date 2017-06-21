@@ -1,5 +1,5 @@
-#ifndef LIBXSMM_BASE_H_
-#define LIBXSMM_BASE_H_
+#ifndef XSMM_BASE_H_
+#define XSMM_BASE_H_
 
 #include <cstdio>  /* printf */
 #include <iostream>  /* cout */
@@ -11,22 +11,8 @@
 using namespace std;
 
 
-
-template <typename T>
-inline void copy_vector(T* v1,T* v2,int n){
-    for(int i=0;i<n;i++)
-        v1[i]=v2[i];
-    }
-
-template <typename T1, typename T2>
-inline void copy_vector(T1* v1,T2* v2,int n){
-    for(int i=0;i<n;i++)
-        v1[i]=static_cast<T1>(v2[i]);
-    }
-
-
 template <typename __data_type, uint_fast8_t __order>
-class libxsmmm_base
+class xsmm_base
 {
 public:
 	typedef __data_type   value_type;
@@ -39,7 +25,7 @@ public:
 	value_type* __restrict__ _data;
 	stride_type _stride[__order];
 
-	libxsmmm_base()
+	xsmm_base()
 	{
 		_data = nullptr;
 		_data_count = 0;
@@ -50,9 +36,10 @@ public:
 	}
 	void clear()
 	{
-		if (_data != nullptr)
+		if (_data)
 		{
 			delete[] _data;
+			_data=nullptr;
 		}
 		_data_count = 0 ; 
 		for (int i = 0; i < __order; ++i)
@@ -60,34 +47,34 @@ public:
 			_dimension[i] = 0;
 		}
 	}
-	virtual ~libxsmmm_base()
+	~xsmm_base()
 	{
 		clear();
 	}
 
-	libxsmmm_base(dimension_type dimension_)
-	:_data_count(dimension_),
-	_dimension({dimension_})
+	xsmm_base(dimension_type dimension_)
+	:_data_count{dimension_},
+	_dimension{dimension_}
 	{
 		init_data();
 	}
 
-	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_)
-	:_data_count(dimension1_*dimension2_), 
-	_dimension({dimension1_, dimension2_})
+	xsmm_base(dimension_type dimension1_, dimension_type dimension2_)
+	:_data_count{dimension1_*dimension2_}, 
+	_dimension{dimension1_, dimension2_}
 	{
 		init_data();
 	}
 
-	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_)
-	:_data_count(dimension1_*dimension2_*dimension3_), 
-	_dimension({dimension1_, dimension2_, dimension3_})
+	xsmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_)
+	:_data_count{dimension1_*dimension2_*dimension3_}, 
+	_dimension{dimension1_, dimension2_, dimension3_}
 	{
 		init_data();
 	}
-	libxsmmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_, dimension_type dimension4_)
-	:_data_count(dimension1_*dimension2_*dimension3_*dimension4_), 
-	_dimension({dimension1_, dimension2_, dimension3_, dimension4_})
+	xsmm_base(dimension_type dimension1_, dimension_type dimension2_, dimension_type dimension3_, dimension_type dimension4_)
+	:_data_count{dimension1_*dimension2_*dimension3_*dimension4_},
+	_dimension{dimension1_, dimension2_, dimension3_, dimension4_}
 	{
 		init_data();
 	}
@@ -97,6 +84,11 @@ public:
 		if(_data_count == 0){
 			_data = nullptr;
 		}else{
+			// struct raii{
+			// 	value_type *raw;
+			// 	raii(counter_type raw_size): raw(new value_type[raw_size]){}
+			// 	~raii(){delete[] raw;}
+			// } buffer(_data_count);
 			_data = new value_type[_data_count];
 			_data = LIBXSMM_ALIGN(_data, LIBXSMM_ALIGNMENT);
 		}
@@ -108,13 +100,13 @@ public:
 		}
 	};
 
-	libxsmmm_base<value_type, __order>& operator=(libxsmmm_base<value_type, __order> const& rhs_)
+	xsmm_base<value_type, __order>& operator=(xsmm_base<value_type, __order> const& rhs_)
 	{
-		if(rhs_._data == nullptr)
+		if( nullptr == rhs_._data )
 		{
 			this->clear();
 		}else{
-			if(this->_data == nullptr)
+			if( nullptr == this->_data )
 			{
 				this->_data = new value_type[rhs_._data_count];
 			}else{
@@ -134,13 +126,13 @@ public:
 	}
 
 	template< typename __rhs_type>
-	libxsmmm_base<value_type, __order>& operator=(libxsmmm_base<__rhs_type, __order> const& rhs_)
+	xsmm_base<value_type, __order>& operator=(xsmm_base<__rhs_type, __order> const& rhs_)
 	{
-		if(rhs_._data == nullptr)
+		if( nullptr == rhs_._data )
 		{
 			this->clear();
 		}else{
-			if(this->_data == nullptr)
+			if( nullptr == this->_data )
 			{
 				this->_data = new value_type[rhs_._data_count];
 			}else{
@@ -182,50 +174,44 @@ public:
 	// 	return _data[n_];
 	// }
 
-	inline value_type operator()(dimension_type d1_)const
-	{
+	inline value_type operator()(dimension_type d1_)const{
 		ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
 		return _data[d1_];
 	}
-	inline value_type& operator()(dimension_type d1_)
-	{
+	inline value_type& operator()(dimension_type d1_){
 		ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
 		return _data[d1_];
 	}
-	inline value_type operator()(dimension_type d1_, dimension_type d2_)const
-	{
+	
+	inline value_type operator()(dimension_type d1_, dimension_type d2_)const{
 		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
 		return _data[d1_ * _stride[1] + d2_ * _stride[0]];
 	}
-	inline value_type& operator()(dimension_type d1_, dimension_type d2_)
-	{
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_){
 		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
 		return _data[d1_ * _stride[1] + d2_ * _stride[0]];
 	}
 
-	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)const
-	{
+	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)const{
+		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
+		return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
+	}
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_){
 		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
 		return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
 	}
 
-	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)
-	{
-		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
-		return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
-	}
-
-	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)
-	{
+	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)const{
 		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
 		return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
 	}
 
-	inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)const
-	{
+	inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_){
 		ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
 		return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
 	}
+
+
 
 };
 
@@ -235,4 +221,4 @@ public:
 
 
 
-#endif /*LIBXSMM_BASE_H_*/
+#endif /*XSMM_BASE_H_*/
