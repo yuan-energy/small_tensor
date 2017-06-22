@@ -9,7 +9,9 @@
 #include <memory.h>
 // #include "../../../third_party/libxsmm/include/libxsmm_source.h"
 #include "../../utils/__utils.h"
+// #include "../expression/index_basic.h"
 using namespace std;
+using namespace __small_tensor;
 
 
 template <typename __data_type, uint_fast8_t __order>
@@ -17,10 +19,9 @@ class xsmm_base
 {
 public:
     typedef __data_type   value_type;
-    typedef uint_fast8_t  order_type;
-    typedef uint_fast16_t dimension_type;
-    typedef uint_fast16_t stride_type;
-    typedef uint_fast32_t counter_type;
+
+
+    // friend class index_basic;
 
     counter_type _data_count;
     value_type* __restrict__ _data;
@@ -200,16 +201,16 @@ public:
     // }
 
     inline value_type operator()(dimension_type d1_)const{
-        ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds, rvalue. ") ;
         return _data[d1_];
     }
     inline value_type& operator()(dimension_type d1_){
-        ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0], "small_tensor() index out of bounds, lvalue. ") ;
         return _data[d1_];
     }
     
     inline value_type operator()(dimension_type d1_, dimension_type d2_)const{
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds, rvalue. ") ;
         return _data[d1_ * _stride[1] + d2_ * _stride[0]];
     }
     inline value_type& operator()(dimension_type d1_, dimension_type d2_){
@@ -217,26 +218,26 @@ public:
         // std::cout<<"d2_= " << d2_<<endl;
         // std::cout<<"_dimension[0]= " << _dimension[0]<<endl;
         // std::cout<<"_dimension[1]= " << _dimension[1]<<endl;
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1], "small_tensor() index out of bounds, lvalue. ") ;
         return _data[d1_ * _stride[1] + d2_ * _stride[0]];
     }
 
     inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_)const{
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds, rvalue. ") ;
         return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
     }
     inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_){
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2], "small_tensor() index out of bounds, lvalue. ") ;
         return _data[d1_ * _stride[2] + d2_ * _stride[1] + d3_ * _stride[0]];
     }
 
     inline value_type operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_)const{
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds, rvalue. ") ;
         return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
     }
 
     inline value_type& operator()(dimension_type d1_, dimension_type d2_, dimension_type d3_, dimension_type d4_){
-        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds. ") ;
+        ASSERT_MSG(d1_ < _dimension[0] && d2_ < _dimension[1] && d3_ < _dimension[2] && d4_ < _dimension[3], "small_tensor() index out of bounds, lvalue. ") ;
         return _data[d1_ * _stride[3] + d2_ * _stride[2] + d3_ * _stride[1] + d4_ * _stride[0]];
     }
 

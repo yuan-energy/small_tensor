@@ -4,16 +4,17 @@
 // template < typename tensor_order2, typename __data_type, char i>  class Expr1;
 // template < typename tensor_order2, typename __data_type, char i, char j> class Expr2;
 #include "../base/xsmm_base.h"
+#include "../expression/expr2/expr2s.h"
+#include "../expression/index_basic.h"
 #include <string>
 #include <iostream>
+using namespace __small_tensor;
+template <typename __data_type> class tensor2;
 
 template <typename __data_type>
 class tensor2: public xsmm_base< __data_type, 2 >
 {
     typedef __data_type   value_type;
-    typedef uint_fast16_t dimension_type;
-    typedef uint_fast16_t stride_type;
-    typedef uint_fast32_t counter_type;
     typedef xsmm_base< __data_type, 2 > base2;
 public:
 
@@ -29,6 +30,7 @@ public:
 
     tensor2& operator=(tensor2 const& rhs_)
     {
+        cout<<"tensor2 copy assignment operator is called." <<endl;
         base2::operator=(rhs_); 
         return *this;
     }
@@ -40,6 +42,7 @@ public:
 
     tensor2& operator=(tensor2&& rhs_)
     {
+        cout<<"tensor2 move assignment operator is called." <<endl;
         base2::operator=(std::move(rhs_)); 
         return *this;
     }
@@ -85,21 +88,20 @@ public:
         return *this;
     }
 
-    dimension_type get_dim1(){
-    	return base2::_dimension[0];
+    inline dimension_type get_dim1(){return base2::_dimension[0];}
+    inline dimension_type get_dim2(){return base2::_dimension[1];}
+    inline value_type& operator() (dimension_type d1_, dimension_type d2_){return base2::operator()(d1_,d2_);}
+    inline value_type operator() (dimension_type d1_, dimension_type d2_)const{return base2::operator()(d1_,d2_);}
+
+    template <char i, char j>
+    inline Expr2<tensor2, value_type, i, j> operator()(Index<i> i_, Index<j> j_){
+        return Expr2<tensor2, value_type, i, j>(*this) ;
     }
 
-    dimension_type get_dim2(){
-    	return base2::_dimension[1];
+    template <char i, char j>
+    inline Expr2<tensor2, value_type, i, j> operator()(Index<i> i_, Index<j> j_) const{
+        return Expr2<tensor2, value_type, i, j>(*this) ;
     }
-
-    inline value_type& operator() (dimension_type d1_, dimension_type d2_){
-    	return base2::operator()(d1_,d2_);
-    }
-    inline const value_type operator() (dimension_type d1_, dimension_type d2_)const{
-    	return base2::operator()(d1_,d2_);
-    }
-
 };
 
 
