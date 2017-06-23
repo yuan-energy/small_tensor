@@ -5,6 +5,10 @@
 
 // using namespace __small_tensor;
 using namespace std;
+
+
+
+
 // template < typename __data_type, char __i , char __j>
 // template < typename rhs_v_type>
 // inline Expr2< __data_type, __i, __j> const&

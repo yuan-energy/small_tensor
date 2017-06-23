@@ -1,21 +1,21 @@
 #ifndef TENSOR2_H_
 #define TENSOR2_H_
 
-// template < typename tensor_order2, typename __data_type, char i>  class Expr1;
-// template < typename tensor_order2, typename __data_type, char i, char j> class Expr2;
+// template < typename tensor_order2, typename __dat_type, char i>  class Expr1;
+// template < typename tensor_order2, typename __dat_type, char i, char j> class Expr2;
 #include "../base/xsmm_base.h"
 #include "../expression/expr2/expr2s.h"
 #include "../expression/index_basic.h"
 #include <string>
 #include <iostream>
 using namespace __small_tensor;
-template <typename __data_type> class tensor2;
+template <typename __dat_type> class tensor2;
 
-template <typename __data_type>
-class tensor2: public xsmm_base< __data_type, 2 >
+template <typename __dat_type>
+class tensor2: public xsmm_base< __dat_type, 2 >
 {
-    typedef __data_type   value_type;
-    typedef xsmm_base< __data_type, 2 > base2;
+    typedef __dat_type   value_type;
+    typedef xsmm_base< __dat_type, 2 > base2;
 public:
 
     tensor2():
@@ -56,7 +56,7 @@ public:
             }
     }
 
-    tensor2(dimension_type d1_, dimension_type d2_, __data_type val_)
+    tensor2(dimension_type d1_, dimension_type d2_, __dat_type val_)
     :base2(d1_, d2_)
     {
         for (dimension_type i = 0; i < get_dim1(); i++)
@@ -94,8 +94,8 @@ public:
     inline value_type operator() (dimension_type d1_, dimension_type d2_)const{return base2::operator()(d1_,d2_);}
 
     template <char i, char j>
-    inline Expr2<value_type, i, j> operator()(Index<i> i_, Index<j> j_){
-        return Expr2<value_type, i, j>(*this) ;
+    inline Expr2<value_type, i, j>& operator()(Index<i> i_, Index<j> j_){
+        return static_cast<Expr2<value_type, i, j>&>(*this) ;
     }
 
     // template <char i, char j>
