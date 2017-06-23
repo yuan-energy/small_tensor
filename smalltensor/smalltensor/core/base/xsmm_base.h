@@ -108,7 +108,7 @@ public:
 
     void clear()
     {
-        if (_data)
+        if (_data!=nullptr)
         {
             delete[] _data;
             _data=nullptr;

@@ -35,12 +35,12 @@ public:
         return *this;
     }
 
-    tensor2 (tensor2&& rhs_):
+    tensor2 (tensor2&& rhs_) noexcept:
     base2(std::move(rhs_))
     {
     }
 
-    tensor2& operator=(tensor2&& rhs_)
+    tensor2& operator=(tensor2&& rhs_) noexcept
     {
         cout<<"tensor2 move assignment operator is called." <<endl;
         base2::operator=(std::move(rhs_)); 

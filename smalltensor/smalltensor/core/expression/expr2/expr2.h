@@ -21,8 +21,8 @@ public:
 		copy_vector(_tensor::_data , rhs_._tensor::_data, rhs_._tensor::_data_count);
 		cout<<"Expr2 copy assignment operator is called \n"; 
 	}
-	// Expr2(Expr2 && rhs_): p_tensor(std::move(rhs_.p_tensor)){}
-	Expr2& operator=(Expr2 && rhs_){_tensor::_data=std::move(rhs_._tensor::_data); cout<<"Expr2 move assignment operator is called \n"; }
+	// Expr2(Expr2 && rhs_) noexcept: p_tensor(std::move(rhs_.p_tensor)){}
+	Expr2& operator=(Expr2 && rhs_) noexcept {_tensor::_data=std::move(rhs_._tensor::_data); cout<<"Expr2 move assignment operator is called \n"; }
    
 	// inline value_type operator()(dimension_type d1_, dimension_type d2_) const
 	// {
