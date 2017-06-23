@@ -4,8 +4,8 @@
 namespace __small_tensor
 {
 	typedef uint_fast8_t  order_type;
-	typedef uint_fast16_t dimension_type;
-	typedef uint_fast16_t stride_type;
+	typedef uint_fast32_t dimension_type;
+	typedef uint_fast32_t stride_type;
 	typedef uint_fast32_t counter_type;
 }
 

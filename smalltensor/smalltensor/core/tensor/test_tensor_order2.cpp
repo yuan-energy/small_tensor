@@ -75,6 +75,7 @@ int main(int argc, char const *argv[])
 	base(k,l);
 
 	base4(i,k) = base(i,k);
+	base(1,0) = 42;
 	cout<<"base(0,0)= " << base(0,0) <<endl;
 	cout<<"base(1,0)= " << base(1,0) <<endl;
 	cout<<"base(1,2)= " << base(1,2) <<endl;
@@ -83,8 +84,9 @@ int main(int argc, char const *argv[])
 	cout<<"base4(1,0)= " << base4(1,0) <<endl;
 	cout<<"base4(1,2)= " << base4(1,2) <<endl;
 	cout<<"base4(1,3)= " << base4(1,1) <<endl;
-	
+
 	base4 = base;
+	base(1,1) = 21;
 	cout<<"base(0,0)= " << base(0,0) <<endl;
 	cout<<"base(1,0)= " << base(1,0) <<endl;
 	cout<<"base(1,2)= " << base(1,2) <<endl;

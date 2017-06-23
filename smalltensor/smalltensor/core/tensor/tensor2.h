@@ -94,13 +94,25 @@ public:
     inline value_type operator() (dimension_type d1_, dimension_type d2_)const{return base2::operator()(d1_,d2_);}
 
     template <char i, char j>
-    inline Expr2<tensor2, value_type, i, j> operator()(Index<i> i_, Index<j> j_){
-        return Expr2<tensor2, value_type, i, j>(*this) ;
+    inline Expr2<value_type, i, j> operator()(Index<i> i_, Index<j> j_){
+        // Expr2<tensor2, value_type, i, j> Expr2<value_type, i, j>(*this);
+        typedef Expr2<value_type, i, j> expr_type;
+        return expr_type(*this) ;
     }
 
+    // template <char i, char j>
+    // using this_expr = Expr2<tensor2, value_type, i, j>;
+    // template <char i, char j>
+    // this_expr< i, j> _expr;
+    // template <char i, char j>
+    // inline this_expr< i, j> operator()(Index<i> i_, Index<j> j_){
+    //     _expr = this_expr< i, j>(*this);
+    //     return _expr;
+    // }
+
     template <char i, char j>
-    inline Expr2<tensor2, value_type, i, j> operator()(Index<i> i_, Index<j> j_) const{
-        return Expr2<tensor2, value_type, i, j>(*this) ;
+    inline Expr2<value_type, i, j> operator()(Index<i> i_, Index<j> j_) const{
+        return Expr2<value_type, i, j>(*this) ;
     }
 };
 
