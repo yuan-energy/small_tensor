@@ -43,9 +43,9 @@ public:
 	// inline Expr2 const&
 	// operator=(Expr2 const& rhs_);
 
-	template <  typename rhs_v_type>
-	inline Expr2 const&
-	operator=(Expr2<rhs_v_type,__i,__j> const& rhs_);
+	// template <  typename rhs_v_type>
+	// inline Expr2 const&
+	// operator=(Expr2<rhs_v_type,__i,__j> const& rhs_);
 
 };
 
