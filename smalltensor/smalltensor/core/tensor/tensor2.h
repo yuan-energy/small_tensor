@@ -4,12 +4,13 @@
 // template < typename tensor_order2, typename __dat_type, char i>  class Expr1;
 // template < typename tensor_order2, typename __dat_type, char i, char j> class Expr2;
 #include "../base/xsmm_base.h"
+#include "../tensor_operations/operations.h"
 #include "../expression/expr2/expr2s.h"
 #include "../expression/index_basic.h"
 #include <string>
 #include <iostream>
 using namespace __small_tensor;
-template <typename __dat_type> class tensor2;
+// template <typename __dat_type> class tensor2;
 
 template <typename __dat_type>
 class tensor2: public xsmm_base< __dat_type, 2 >
@@ -88,8 +89,8 @@ public:
         return *this;
     }
 
-    inline dimension_type get_dim1(){return base2::_dimension[0];}
-    inline dimension_type get_dim2(){return base2::_dimension[1];}
+    inline dimension_type const& get_dim1() const {return base2::_dimension[0];}
+    inline dimension_type const& get_dim2() const {return base2::_dimension[1];}
     inline value_type& operator() (dimension_type d1_, dimension_type d2_){return base2::operator()(d1_,d2_);}
     inline value_type operator() (dimension_type d1_, dimension_type d2_)const{return base2::operator()(d1_,d2_);}
 

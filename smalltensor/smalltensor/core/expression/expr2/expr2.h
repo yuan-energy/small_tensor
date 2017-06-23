@@ -1,6 +1,6 @@
 #ifndef EXPR2_H_
 #define EXPR2_H_
-#include "../../../utils/__utils.h"
+
 #include "../../tensor/tensor2.h"
 using namespace __small_tensor;
 template <typename __data_type> class tensor2;
@@ -36,8 +36,8 @@ public:
 	// 	return (*p_tensor)(d1_, d2_) ; 
 	// }
 
-	// inline dimension_type get_dim1() const {return p_tensor->get_dim1();}
-	// inline dimension_type get_dim2() const {return p_tensor->get_dim2();}
+	// inline dimension_type get_dim1() {return _tensor::get_dim1();}
+	// inline dimension_type get_dim2() {return _tensor::get_dim2();}
 
 
 

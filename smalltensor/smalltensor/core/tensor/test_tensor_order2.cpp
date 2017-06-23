@@ -95,5 +95,8 @@ int main(int argc, char const *argv[])
 	cout<<"base4(1,0)= " << base4(1,0) <<endl;
 	cout<<"base4(1,2)= " << base4(1,2) <<endl;
 	cout<<"base4(1,3)= " << base4(1,1) <<endl;
+
+	double ret = base4(i,j) * base(i,j);
+	cout<<"ret = " <<ret <<endl;
 	return 0;
 }
