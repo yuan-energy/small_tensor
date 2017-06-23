@@ -96,7 +96,11 @@ int main(int argc, char const *argv[])
 	cout<<"base4(1,2)= " << base4(1,2) <<endl;
 	cout<<"base4(1,3)= " << base4(1,1) <<endl;
 
-	double ret = base4(i,j) * base(i,j);
+	tensor2<double> L(3,3);
+	tensor2<double> R(3,3);
+	L(0,0) = 9; R(0,0) = 2;
+	double ret = L(i,j) * R(i,j);
+	ret = L(i,j) * R(j,i);
 	cout<<"ret = " <<ret <<endl;
 	return 0;
 }

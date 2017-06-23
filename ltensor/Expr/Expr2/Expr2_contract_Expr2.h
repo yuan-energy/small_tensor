@@ -40,29 +40,29 @@
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along indexes (i,j)and returns the value
-*	res=A(i,j)*B(i,j)
+*    This operator performs the contraction along indexes (i,j)and returns the value
+*    res=A(i,j)*B(i,j)
 */
 
 template < class A, class B, class T, class U, char i, char j >
 inline const typename promotedType
 operator*  (const ExprAij &ExprL, const ExprBij &ExprR)
 {
-	return Aij_contracts_Bij<ExprAij,ExprBij,typename promotedType >(ExprL,ExprR);
+    return Aij_contracts_Bij<ExprAij,ExprBij,typename promotedType >(ExprL,ExprR);
 }
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along indexes (i,j)and returns the value
-*	res=A(i,j)*B(j,i)
-*	\remarks NOTE the permutted indexes
+*    This operator performs the contraction along indexes (i,j)and returns the value
+*    res=A(i,j)*B(j,i)
+*    \remarks NOTE the permutted indexes
 */
 
 template < class A, class B, class T, class U, char i, char j >
 inline const typename promotedType
 operator*  (const ExprAij &ExprL, const ExprBji &ExprR)
 {
-	return Aij_contracts_Bji<ExprAij,ExprBji,typename promotedType >(ExprL,ExprR);
+    return Aij_contracts_Bji<ExprAij,ExprBji,typename promotedType >(ExprL,ExprR);
 }
 
 
@@ -89,18 +89,18 @@ operator*  (const ExprAij &ExprL, const ExprBji &ExprR)
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along index k and returns the value as Expr of rank 2
-*	A(i,k)*B(k,j)==>C(i,j)
-*	
+*    This operator performs the contraction along index k and returns the value as Expr of rank 2
+*    A(i,k)*B(k,j)==>C(i,j)
+*    
 */
 
 template < class A, class B, class T, class U, char i , char j, char k>
 inline const Expr2 < const Aik_contracts_Bkj < ExprAik , ExprBkj , typename promotedType>,
-				typename promotedType, i, j >
+                typename promotedType, i, j >
 operator* (const ExprAik &a, const ExprBkj &b)
 {
-	typedef const Aik_contracts_Bkj < ExprAik , ExprBkj , typename promotedType> ExprObj;
-	return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
+    typedef const Aik_contracts_Bkj < ExprAik , ExprBkj , typename promotedType> ExprObj;
+    return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
 }
 
 //
@@ -109,53 +109,53 @@ operator* (const ExprAik &a, const ExprBkj &b)
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along index k and returns the value as Expr of rank 2
-*	A(k,i)*B(j,k)==>C(i,j)	
+*    This operator performs the contraction along index k and returns the value as Expr of rank 2
+*    A(k,i)*B(j,k)==>C(i,j)    
 */
 
 
 
 template < class A, class B, class T, class U, char i , char j, char k>
 inline const Expr2 < const Aki_contracts_Bjk < ExprAki , ExprBjk , typename promotedType>,
-				typename promotedType, i, j >
+                typename promotedType, i, j >
 operator* (const ExprAki &a, const ExprBjk &b)
 {
-	typedef const Aki_contracts_Bjk < ExprAki , ExprBjk , typename promotedType> ExprObj;
-	return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
+    typedef const Aki_contracts_Bjk < ExprAki , ExprBjk , typename promotedType> ExprObj;
+    return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
 }
 
 
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along index k and returns the value as Expr of rank 2
-*	A(i,k)*B(j,k)==>C(i,j)	
+*    This operator performs the contraction along index k and returns the value as Expr of rank 2
+*    A(i,k)*B(j,k)==>C(i,j)    
 */
 
 template < class A, class B, class T, class U, char i , char j, char k>
 inline const Expr2 < const Aik_contracts_Bjk < ExprAik , ExprBjk , typename promotedType>,
-				typename promotedType, i, j >
+                typename promotedType, i, j >
 operator* (const ExprAik &a, const ExprBjk &b)
 {
-	typedef const Aik_contracts_Bjk < ExprAik , ExprBjk , typename promotedType> ExprObj;
-	return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
+    typedef const Aik_contracts_Bjk < ExprAik , ExprBjk , typename promotedType> ExprObj;
+    return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
 }
 
 
 /*! \brief The operator that defines a contraction
 *
-*	This operator performs the contraction along index k and returns the value as Expr of rank 2
-*	A(k,i)*B(k,j)==>C(i,j)	
+*    This operator performs the contraction along index k and returns the value as Expr of rank 2
+*    A(k,i)*B(k,j)==>C(i,j)    
 */
 
 
 template < class A, class B, class T, class U, char i , char j, char k>
 inline const Expr2 < const Aki_contracts_Bkj < ExprAki , ExprBkj , typename promotedType>,
-				typename promotedType, i, j >
+                typename promotedType, i, j >
 operator* (const ExprAki &a, const ExprBkj &b)
 {
-	typedef const Aki_contracts_Bkj < ExprAki , ExprBkj , typename promotedType> ExprObj;
-	return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
+    typedef const Aki_contracts_Bkj < ExprAki , ExprBkj , typename promotedType> ExprObj;
+    return Expr2 < ExprObj,typename promotedType , i, j> (ExprObj (a,b));
 }
 
 
