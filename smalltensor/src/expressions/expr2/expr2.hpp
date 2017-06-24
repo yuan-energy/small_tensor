@@ -1,7 +1,6 @@
-#ifndef EXPR2_H_
-#define EXPR2_H_
+#ifndef EXPR2_HPP_
+#define EXPR2_HPP_
 
-#include "../../tensors/tensor2.hpp"
 template <typename __dat_t, std::size_t __d1, std::size_t __d2> class tensor2;
 template<typename __dat_t, std::size_t __d1, std::size_t __d2, char __i, char __j>
 class expr2: public tensor2<__dat_t, __d1, __d2>

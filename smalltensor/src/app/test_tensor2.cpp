@@ -1,4 +1,4 @@
-#include "tensor2.hpp"
+#include "smalltensor.h"
 
 #include <iostream>
 using namespace std;
@@ -96,11 +96,11 @@ int main(int argc, char const *argv[])
 	cout<<"base4(1,2)= " << base4(1,2) <<endl;
 	cout<<"base4(1,3)= " << base4(1,1) <<endl;
 
-	// tensor2<double, 3, 3> L;
-	// tensor2<double, 3, 3> R;
-	// L(0,0) = 9; R(0,0) = 2;
-	// double ret = L(i,j) * R(i,j);
-	// ret = L(i,j) * R(j,i);
-	// cout<<"ret = " <<ret <<endl;
+	tensor2<double, 3, 3> L;
+	tensor2<double, 3, 3> R;
+	L(0,0) = 9; R(0,0) = 2;
+	double ret = L(i,j) * R(i,j);
+	ret = L(i,j) * R(j,i);
+	cout<<"ret = " <<ret <<endl;
 	return 0;
 }

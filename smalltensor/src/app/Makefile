@@ -1,13 +1,8 @@
 include_header_location=\
-# -I../../../third_party/libxsmm/build/include
+# -I../../
 link_lib_location=\
-# -L../../../third_party/libxsmm/build/lib
+# -L../../
 link_lib_name=\
-# -lxsmm \
-# -lxsmmext \
-#-lxsmmf \
-# -lxsmmgen \
-# -lxsmmnoblas \
 # -pthread \
 # -lblas \
 # -llapack \
@@ -15,6 +10,9 @@ link_lib_name=\
 
 test_base:
 	g++ test_tensor2.cpp -o test_tensor2 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
+
+test_by_clang:
+	clang++ test_tensor2.cpp -o test_tensor2 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
 
 clean:
 	rm -f test_tensor2
