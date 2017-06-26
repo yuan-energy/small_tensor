@@ -1,8 +1,7 @@
 #ifndef TENSOR2_HPP_
 #define TENSOR2_HPP_
 #include "../utils/__utils.h"
-#include "../expressions/index.hpp"
-#include "../expressions/expr2/expr2s.h"
+#include "../expressions/expressions.h"
 
 using namespace std;
 template <typename __dat_t, std::size_t __d1, std::size_t __d2>

@@ -1,4 +1,4 @@
-#include "smalltensor.h"
+#include "../../src/app/smalltensor.h"
 
 #include <iostream>
 using namespace std;
