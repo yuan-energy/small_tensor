@@ -12,18 +12,27 @@ public:
 
 	tensor4(): _data{new __dat_t[__d1*__d2*__d3*__d4]}{}
 	tensor4(tensor4 const& rhs_): _data{new __dat_t[__d1*__d2*__d3*__d4]}{
-		std::memcpy(_data, rhs_._data, sizeof(_data));
+		DEBUG_MSG("tensor4 copy constructor is called");
+		std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);
 	}
 	tensor4& operator=(tensor4 const& rhs_){
+		DEBUG_MSG("tensor4 copy assignment operator is called");
 		if(this != &rhs_){
-	        std::memcpy(_data, rhs_._data, sizeof(_data));		
+	        std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);		
 		}
 		return *this;
 	}
-    tensor4(tensor4&& rhs_) noexcept: _data{std::move(rhs_._data)}{}
+    tensor4(tensor4&& rhs_) noexcept
+    : _data{new __dat_t[__d1*__d2*__d3*__d4]}
+    {
+    	std::swap(_data, rhs_._data);
+    	DEBUG_MSG("tensor4 move constructor is called");
+
+    }
     tensor4& operator=(tensor4&& rhs_) noexcept{
+    	DEBUG_MSG("tensor4 move assignment operator is called");
     	if(this != &rhs_){
-    		_data = std::move(rhs_._data);
+    		std::swap(_data, rhs_._data);
     	}
     	return *this;
     }

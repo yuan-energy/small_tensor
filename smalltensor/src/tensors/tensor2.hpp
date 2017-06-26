@@ -12,19 +12,28 @@ public:
 
 	tensor2(): _data{new __dat_t[__d1*__d2]}{}
 	tensor2(tensor2 const& rhs_): _data{new __dat_t[__d1*__d2]}{
-		std::memcpy(_data, rhs_._data, sizeof(_data));
+		DEBUG_MSG("tensor2 copy constructor is called");
+		std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2);
 	}
 	tensor2& operator=(tensor2 const& rhs_){
+		DEBUG_MSG("tensor2 copy assignment operator is called");
 		if(this != &rhs_){
-	        std::memcpy(_data, rhs_._data, sizeof(_data));		
+	        std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2);		
 		}
 		return *this;
 	}
-    tensor2(tensor2&& rhs_) noexcept: _data{std::move(rhs_._data)}{}
+
+    tensor2(tensor2&& rhs_) noexcept
+    : _data{new __dat_t[__d1*__d2]}
+    {
+    	std::swap(_data, rhs_._data);
+    	DEBUG_MSG("tensor2 move constructor is called");
+    }
     tensor2& operator=(tensor2&& rhs_) noexcept{
     	if(this != &rhs_){
-    		_data = std::move(rhs_._data);
+    		std::swap(_data, rhs_._data);
     	}
+    	DEBUG_MSG("tensor2 move assignment operator is called");
     	return *this;
     }
 	~tensor2(){

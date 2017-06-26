@@ -1,6 +1,6 @@
 #ifndef __ASSERT_MSG_H_
 #define __ASSERT_MSG_H_
-    #ifndef NDEBUG
+    #ifdef DEBUG
     #   define ASSERT_MSG(condition, message) \
         do { \
             if (! (condition)) { \
@@ -12,4 +12,11 @@
     #else
     #   define ASSERT_MSG(condition, message) do { } while (false)
     #endif
+
+
+    #ifdef DEBUG
+    #define DEBUG_MSG(str) do { std::cout << str << std::endl; } while( false )
+    #else
+    #define DEBUG_MSG(str) do { } while ( false )
+    #endif    
 #endif /*__ASSERT_MSG_H_*/
