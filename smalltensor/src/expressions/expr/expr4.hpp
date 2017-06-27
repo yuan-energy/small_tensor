@@ -7,14 +7,14 @@ class expr4: public tensor4<__dat_t, __d1, __d2, __d3, __d4>
 {
 public:
     typedef tensor4<__dat_t, __d1, __d2, __d3, __d4> _tensor4;
-    expr4()=delete;
-    expr4(expr4 const& rhs_)=delete;
+    expr4():_tensor4(){} ;
+    expr4(expr4 const& rhs_):_tensor4(rhs_){} ;
     expr4& operator=(expr4 const& rhs_){
-    	memcpy(_tensor4::_data, rhs_._tensor4::_data, __d1*__d2*__d3*__d4);
+    	_tensor4::operator=(rhs_);
     	return (*this);
     }
     expr4 operator=(expr4&& rhs_) noexcept{
-    	_tensor4::_data = std::move(rhs_._tensor4::_data);
+    	_tensor4::operator=(std::move(rhs_));
     	return (*this);
     }
 };

@@ -1,5 +1,4 @@
-#include "../../src/app/smalltensor.h"
-#include "../../src/utils/__utils.h"
+#include "../include_small_tensor.h"
 
 #include <iostream>
 using namespace std;
