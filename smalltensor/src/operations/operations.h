@@ -3,6 +3,7 @@
 
 #include "./contractions/contractions.h"
 #include "./minus/minuses.h"
+#include "./plus/pluses.h"
 
 
 #endif
