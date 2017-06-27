@@ -69,6 +69,40 @@ A(i,j,k)   = B(i,l,m)*C(l,m,j,k);
 A(i,j,k,l) = B(i,j,m,n)*C(m,n,k,l);
 ```
 
+
+The 36 operations above can be used together as well.
+
+
+
+
+
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+
+
+
+
+
+There are 32 tensor permutation operations listed below.
+They are not used for the moment so they are NOT implemented.
+
 #### Tensor Permutation
 ```cpp
 A(i,j)     = B(i,j);
@@ -109,7 +143,3 @@ A(i,j,k,l) = B(l,j,k,i);
 A(i,j,k,l) = B(l,k,i,j);
 A(i,j,k,l) = B(l,k,j,i);
 ```
-
-
-
-The 68 operations above can be used together as well.
