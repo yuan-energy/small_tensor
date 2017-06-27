@@ -1014,7 +1014,7 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>README</title></head><body><article class="markdown-body"><h3 id="small-tensor-library"><a name="user-content-small-tensor-library" href="#small-tensor-library" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Small Tensor Library</h3>
+</style><title>README</title></head><body><article class="markdown-body"><h2 id="small-tensor-library"><a name="user-content-small-tensor-library" href="#small-tensor-library" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Small Tensor Library</h2>
 <p>This is a small tensor library which supports full Einstein notations. </p>
 <h4 id="why-this-library-might-be-useful-to-you"><a name="user-content-why-this-library-might-be-useful-to-you" href="#why-this-library-might-be-useful-to-you" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Why this library might be useful to you</h4>
 <p>To do fast tensor operations, one needs to write them in C/Fortran code style for performance. This means that one needs to use several &ldquo;for loops&rdquo; in order to do the products and sums component-wise. </p>
@@ -1025,7 +1025,7 @@ body .markdown-body
 </code></pre>
 
 <p>A double contraction of a 4th-order tensor stiffness with a 2nd-order tensor strain can be written simply as:<br />
-<pre><code class="cpp">sigma(i,j)=stiffness(i,j,k,l)*strain(k,l);
+<pre><code class="cpp">stress(i,j)=stiffness(i,j,k,l)*strain(k,l);
 </code></pre></p>
 <h4 id="small-tensor-without-heap-memory-in-runtime"><a name="user-content-small-tensor-without-heap-memory-in-runtime" href="#small-tensor-without-heap-memory-in-runtime" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Small Tensor without heap memory in Runtime.</h4>
 <p>Simple usage example for 3 by 3 matrix:<br />

@@ -18,7 +18,7 @@ Index<'i'> i; Index<'j'> j; Index<'k'> k; Index<'l'> l;
 
 A double contraction of a 4th-order tensor stiffness with a 2nd-order tensor strain can be written simply as:
 ```cpp
-sigma(i,j)=stiffness(i,j,k,l)*strain(k,l);
+stress(i,j)=stiffness(i,j,k,l)*strain(k,l);
 ```
 
 #### Small Tensor without heap memory in Runtime. 
