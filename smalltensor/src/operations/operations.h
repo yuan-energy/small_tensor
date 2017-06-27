@@ -4,6 +4,7 @@
 #include "./contractions/contractions.h"
 #include "./minus/minuses.h"
 #include "./plus/pluses.h"
+#include "./multiply_scalar/multiply_scalars.h"
 
 
 #endif
