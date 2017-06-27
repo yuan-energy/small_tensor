@@ -1,4 +1,4 @@
-### Small Tensor Library
+## Small Tensor Library
 
 This is a small tensor library which supports full Einstein notations. 
 
