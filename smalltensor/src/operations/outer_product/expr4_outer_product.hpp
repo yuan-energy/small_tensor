@@ -1,0 +1,8 @@
+#ifndef EXPR4_OUTER_PRODUCT_SMALL_TENSOR_H_
+#define EXPR4_OUTER_PRODUCT_SMALL_TENSOR_H_
+
+
+
+
+
+#endif

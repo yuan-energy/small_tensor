@@ -5,6 +5,6 @@
 #include "./minus/minuses.h"
 #include "./plus/pluses.h"
 #include "./multiply_scalar/multiply_scalars.h"
-
+#include "./outer_product/outer_products.h"
 
 #endif
