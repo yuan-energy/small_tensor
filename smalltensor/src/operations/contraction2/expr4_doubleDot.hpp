@@ -17,6 +17,7 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
       for (std::size_t N2 = 0; N2 < d2; ++N2){
         for (std::size_t N3 = 0; N3 < d3; ++N3){
           for (std::size_t N4 = 0; N4 < d4; ++N4){
+            ret_ijkl(N1,N2,N3,N4)=0;
             for (std::size_t n5 = 0; n5 < d5; ++n5){
               for (std::size_t n6 = 0; n6 < d6; ++n6){
                 ret_ijkl(N1,N2,N3,N4) += Lijmn_(N1,N2,n5,n6) * Rmnkl_(n5,n6,N3,N4);

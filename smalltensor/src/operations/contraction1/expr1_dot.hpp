@@ -2,7 +2,9 @@
 #define EXPR1_DOT_HPP_
 
 template <typename val_type, std::size_t d1, char i>
-inline val_type operator*(expr1<val_type,d1,i>const& Li_, expr1<val_type,d1,i> const& Ri_) {
+inline val_type operator*(
+       expr1<val_type,d1,i> const& Li_, 
+       expr1<val_type,d1,i> const& Ri_) {
     val_type ret{0};
     for (std::size_t n1 = 0; n1 < d1; ++n1){
         ret += Li_(n1) * Ri_(n1);
@@ -18,6 +20,7 @@ inline expr1<val_type,d1,i> operator*(
     typedef expr1<val_type,d1,i> ret_type;
     ret_type ret_i;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
+      ret_i(N1)=0;
     	for (std::size_t n2 = 0; n2 < d2; ++n2)
     	{
 	        ret_i(N1) += Lij_(N1,n2) * Rj_(n2);
@@ -34,6 +37,7 @@ inline expr1<val_type,d1,i> operator*(
     typedef expr1<val_type,d1,i> ret_type;
     ret_type ret_i;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
+      ret_i(N1)=0;
     	for (std::size_t n2 = 0; n2 < d2; ++n2)
     	{
 	        ret_i(N1) += Lj_(n2) * Rij_(N1,n2);

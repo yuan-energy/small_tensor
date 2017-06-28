@@ -12,16 +12,16 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
     typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
     ret_type ret_ijkl;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
-        for (std::size_t N2 = 0; N2 < d2; ++N2){
-            for (std::size_t N3 = 0; N3 < d3; ++N3){
-                for (std::size_t N4 = 0; N4 < d4; ++N4){
-                    for (std::size_t n5 = 0; n5 < d5; ++n5)
-                    {
-                        ret_ijkl(N1,N2,N3,N4) += Lijkm_(N1,N2,N3,n5) * Rml_(n5,N4);
-                    }
-                }
+      for (std::size_t N2 = 0; N2 < d2; ++N2){
+        for (std::size_t N3 = 0; N3 < d3; ++N3){
+          for (std::size_t N4 = 0; N4 < d4; ++N4){
+            ret_ijkl(N1,N2,N3,N4)=0;
+            for (std::size_t n5 = 0; n5 < d5; ++n5){
+              ret_ijkl(N1,N2,N3,N4) += Lijkm_(N1,N2,N3,n5) * Rml_(n5,N4);
             }
+          }
         }
+      }
     }
     return ret_ijkl;
 }
@@ -39,16 +39,16 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
     typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
     ret_type ret_ijkl;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
-        for (std::size_t N2 = 0; N2 < d2; ++N2){
-            for (std::size_t N3 = 0; N3 < d3; ++N3){
-                for (std::size_t N4 = 0; N4 < d4; ++N4){
-                    for (std::size_t n5 = 0; n5 < d5; ++n5)
-                    {
-                        ret_ijkl(N1,N2,N3,N4) += Lijm_(N1,N2,n5) * Rmkl_(n5,N3,N4);
-                    }
-                }
+      for (std::size_t N2 = 0; N2 < d2; ++N2){
+        for (std::size_t N3 = 0; N3 < d3; ++N3){
+          for (std::size_t N4 = 0; N4 < d4; ++N4){
+            ret_ijkl(N1,N2,N3,N4)=0;
+            for (std::size_t n5 = 0; n5 < d5; ++n5){
+              ret_ijkl(N1,N2,N3,N4) += Lijm_(N1,N2,n5) * Rmkl_(n5,N3,N4);
             }
+          }
         }
+      }
     }
     return ret_ijkl;
 }
@@ -66,16 +66,16 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
     typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
     ret_type ret_ijkl;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
-        for (std::size_t N2 = 0; N2 < d2; ++N2){
-            for (std::size_t N3 = 0; N3 < d3; ++N3){
-                for (std::size_t N4 = 0; N4 < d4; ++N4){
-                    for (std::size_t n5 = 0; n5 < d5; ++n5)
-                    {
-                        ret_ijkl(N1,N2,N3,N4) += Lim_(N1,n5) * Rmjkl_(n5,N2,N3,N4);
-                    }
-                }
+      for (std::size_t N2 = 0; N2 < d2; ++N2){
+        for (std::size_t N3 = 0; N3 < d3; ++N3){
+          for (std::size_t N4 = 0; N4 < d4; ++N4){
+            ret_ijkl(N1,N2,N3,N4)=0;
+            for (std::size_t n5 = 0; n5 < d5; ++n5){
+              ret_ijkl(N1,N2,N3,N4) += Lim_(N1,n5) * Rmjkl_(n5,N2,N3,N4);
             }
+          }
         }
+      }
     }
     return ret_ijkl;
 }
