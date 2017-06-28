@@ -25,7 +25,7 @@ p          = A(i,i);
 A(i)       = B(i,j,j);
 A(i,j)     = B(i,j,k,k);
 ```
-<!-- A(i)       = B(j,i,j);
+<!-- A(i)  = B(j,i,j);
 A(i)       = B(j,j,i);
 A(i,j)     = B(k,k,i,j);
 A(i,j)     = B(k,i,k,j);
@@ -54,6 +54,9 @@ A(i,j,k)   = B(i,j,k,l)*C(l);
 A(i,j,k)   = B(i,j,l)*C(l,k);
 A(i,j,k)   = B(i,l)*C(l,j,k);
 A(i,j,k)   = B(l)*C(l,i,j,k);
+A(i,j,k,l) = B(i,j,k,m)*C(m,l);
+A(i,j,k,l) = B(i,j,m)*C(m,k,l);
+A(i,j,k,l) = B(i,m)*C(m,j,k,l);
 ```
 
 #### Tensor Contraction II (Double-Dot Product)
