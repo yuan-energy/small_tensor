@@ -54,6 +54,20 @@ public:
 	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k>& operator()(Index<i> i_, Index<j> j_, Index<k> k_){
         return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>&>(*this);
 	}
+
+	template <char i, char j>
+	inline expr1<__dat_t, __d1, i> operator()(Index<i> i_, Index<j> j_, Index<j> k_){
+		ASSERT_MSG(__d2 == __d3, "Dimension size should be equal for dummy indices. ");
+		typedef expr1<__dat_t, __d1, i> ret_type;
+		ret_type ret_i;
+		for (int n1 = 0; n1 < __d1; ++n1){
+			for (int n2 = 0; n2 < __d2; ++n2)
+			{
+				ret_i(n1) += (*this)(n1,n2,n2);
+			}
+		}
+        return ret_i;
+	}
 };
 
 #endif

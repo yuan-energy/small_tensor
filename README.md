@@ -2,6 +2,18 @@
 
 This is a small tensor library which supports full Einstein notations. 
 
+#### Small Tensor without heap memory in Runtime. 
+Simple usage example for 3 by 3 matrix:
+```cpp
+tensor2<double,3,3> stress;
+```
+This is useful is either of the following cases:
+
+* Avoid the malloc in the runtime.
+* Since the data is kept in-place, you can save extra cache miss in the common case.
+
+
+
 #### Why this library might be useful to you
 
 To do fast tensor operations, one needs to write them in C/Fortran code style for performance. This means that one needs to use several "for loops" in order to do the products and sums component-wise. 
@@ -21,18 +33,9 @@ A double contraction of a 4th-order tensor stiffness with a 2nd-order tensor str
 stress(i,j)=stiffness(i,j,k,l)*strain(k,l);
 ```
 
-#### Small Tensor without heap memory in Runtime. 
-Simple usage example for 3 by 3 matrix:
-```cpp
-tensor2<double,3,3> stress;
-```
-This is useful is either of the following cases:
-
-* Avoid the malloc in the runtime.
-* Since the data is kept in-place, you can save extra cache miss in the common case.
 
 
-#### APIs
+#### API Examples
 ##### Declaration.
 
 ```cpp
@@ -43,10 +46,16 @@ tensor4<double,3,3,3,3> stiffness;
 ```
 
 ##### Einstein Notations.
+
+```cpp
+A(i,j) = B(i,k) * C(k,j) ;
+```
+
 All APIs for Einstein notations are [available here](list_of_operations.md)
 
-#### Development Status 
+#### Development Status and Future Work.
 This repository is under development. This is the basic version.
+The ultimate goal is to make this library like PETSc but in the small tensor field.
 The next steps:
 
 * Asynchronous computation Future/Promise or Concunrrent Queue.

@@ -43,17 +43,38 @@ public:
 		}
 	}
 
-	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_,  std::size_t n3_, std::size_t n4_){
-		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4,"tensor4() index out of bounds in lvalue. ");
+	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_,  
+							   std::size_t n3_, std::size_t n4_){
+		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4,
+			"tensor4() index out of bounds in lvalue. ");
 		return _data[ n1_ * __d2 * __d3 *__d4 + n2_ * __d3 * __d4 + n3_ * __d4 + n4_];
 	}
-	inline __dat_t operator()(std::size_t n1_, std::size_t n2_,  std::size_t n3_, std::size_t n4_)const{
-		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4, "tensor4() index out of bounds in rvalue. ");
+	inline __dat_t operator()(std::size_t n1_, std::size_t n2_, 
+		                      std::size_t n3_, std::size_t n4_)const{
+		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4, 
+			"tensor4() index out of bounds in rvalue. ");
 		return _data[ n1_ * __d2 * __d3 *__d4 + n2_ * __d3 * __d4 + n3_ * __d4 + n4_];
 	}
 	template <char i, char j, char k, char l>
-	inline expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>& operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_){
+	inline expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>& 
+	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_){
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>&>(*this);
+	}
+
+	template <char i, char j, char k>
+	inline expr2<__dat_t, __d1, __d2, i, j> 
+	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k> l_){
+		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
+		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
+		ret_type ret_ij;
+		for (int N1 = 0; N1 < __d1; ++N1){
+			for (int N2 = 0; N2 < __d2; ++N2){
+				for (int n3 = 0; n3 < __d3; ++n3){
+					ret_ij(N1,N2) += (*this)(N1,N2,n3,n3);
+				}
+			}
+		}
+        return ret_ij;
 	}
 };
 
