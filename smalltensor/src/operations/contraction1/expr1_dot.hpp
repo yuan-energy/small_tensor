@@ -13,8 +13,8 @@ inline val_type operator*(expr1<val_type,d1,i>const& Li_, expr1<val_type,d1,i> c
 
 template <typename val_type, std::size_t d1, std::size_t d2, char i, char j>
 inline expr1<val_type,d1,i> operator*(
-                             expr2<val_type,d1,d2,i,j>const& Lij_, 
-                             expr1<val_type,d2,j> const& Rj_) {
+       expr2<val_type,d1,d2,i,j> const& Lij_, 
+       expr1<val_type,d2,j>      const& Rj_) {
     typedef expr1<val_type,d1,i> ret_type;
     ret_type ret_i;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
@@ -29,8 +29,8 @@ inline expr1<val_type,d1,i> operator*(
 
 template <typename val_type, std::size_t d1, std::size_t d2, char i, char j>
 inline expr1<val_type,d1,i> operator*(
-                             expr1<val_type,d2,j>const& Lj_, 
-                             expr2<val_type,d1,d2,i,j> const& Rij_) {
+       expr1<val_type,d2,j>      const& Lj_, 
+       expr2<val_type,d1,d2,i,j> const& Rij_) {
     typedef expr1<val_type,d1,i> ret_type;
     ret_type ret_i;
     for (std::size_t N1 = 0; N1 < d1; ++N1){

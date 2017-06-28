@@ -5,8 +5,8 @@
 template <typename val_type, std::size_t d1, std::size_t d2, std::size_t d3, 
           char i, char j, char k>
 inline expr2<val_type,d1,d2,i,j> operator* (
-                                  expr3<val_type,d1,d2,d3,i,j,k> const& Lijk_,
-                                  expr1<val_type,d3,k> const& Rk_){
+       expr3<val_type,d1,d2,d3,i,j,k> const& Lijk_,
+       expr1<val_type,d3,k>           const& Rk_){
     typedef expr2<val_type,d1,d2,i,j> ret_type;
     ret_type ret_ij;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
