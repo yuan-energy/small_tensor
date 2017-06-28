@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 	// Test 1
 	obj6(2,2,2,2)=1;
 	obj4(2) = 3;
-	obj1(i,j,k)= obj6(i,j,k,l)*obj4(l);
+	obj1(i,j,k)= 	obj6(i,j,k,l)*obj4(l);
 	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
 	ASSERT_MSG(obj1(2,2,2)==3,"tensor2(_i,_j) contraction1  operator error");
 	
