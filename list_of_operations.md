@@ -45,10 +45,10 @@ A(i,j,k,l) = B(i)*C(j,k,l);
 #### Tensor Contraction I (Dot Product)
 ```cpp
 p          = A(i)*B(i);
-A(i)       = B(i,j)*C(j); /*Need to fix*/
+A(i)       = B(i,j)*C(j);
 A(i)       = B(j)*C(i,j);
 A(i,j)     = B(i,j,k)*C(k);
-A(i,j)     = B(i,k)*C(k,j); /*This is actually matrix multiplication.*/
+A(i,j)     = B(i,k)*C(k,j); /*This is the matrix multiplication.*/
 A(i,j)     = B(k)*C(k,i,j);
 A(i,j,k)   = B(i,j,k,l)*C(l); 
 A(i,j,k)   = B(i,j,l)*C(l,k);
