@@ -4,29 +4,57 @@
 using namespace std;
 int main(int argc, char const *argv[])
 {
-	tensor4<double, 3,3,3,3> obj1;
-	tensor4<double, 3,3,3,3> obj2;
-	tensor4<double, 3,3,3,3> obj3;
-	obj1(2,1,1,2) = 3.;
-	obj2(2,1,1,2) = 2.;
-	Index<'i'> _i;
-	Index<'j'> _j;
-	Index<'k'> _k;
-	Index<'l'> _l;
-	obj3(_i,_j,_k,_l) = obj2(_i,_j,_k,_l) - obj1(_i,_j,_k,_l);
-	ASSERT_MSG(obj3(2,1,1,2)==-1,"tensor4(_i,_j,_k,_l) minus operator error");
+	tensor4<double,3, 3,3,3> obj1;
+	tensor3<double,3, 3,3> obj2;
+	tensor3<double,3, 3,3> obj3;
+	tensor2<double,3, 3> obj4;
+	tensor3<double,3, 3,3> obj5;
+	tensor4<double,3, 3,3,3> obj7;
 
-	cout<<"Done execution. Exiting..." <<endl;
+	Index<'i'> i;
+	Index<'j'> j;
+	Index<'k'> k;
+	Index<'l'> l;
+	Index<'m'> m;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// Test 1
+	obj7(2,2,2,2)=1;
+	obj4(2,1) = 3;
+	obj1(i,j,k,l)= 	obj7(i,j,k,m)*obj4(m,l);
+	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
+	ASSERT_MSG(obj1(2,2,2,1)==3,"tensor2(_i,_j) contraction1  operator error");
+	
+	// Test 2
+	obj2(2,1,0)=1;
+	obj3(0,1,1) = 5;
+	obj1(i,j,k,l)= 	obj2(i,j,m)*obj3(m,k,l);
+	ASSERT_MSG(obj1(2,1,1,1)==5,"tensor2(_i,_j) contraction1  operator error");
 
-	// tensor1<double, 3> L;
-	// tensor1<double, 3> R;
-	// L(0,0) = 9; R(0,0) = 2;
-	// double ret = L(i,j) * R(i,j);
-	// ret = L(i,j) * R(j,i);
-	// ASSERT_MSG(ret==18,"expr2 tensor2 contraction error");
+	// Test 3
+	obj7(1,2,2,2)=1;
+	obj4(2,1) = 91;
+	obj1(i,j,k,l)= 	obj4(i,m) * obj7(m,j,k,l);
+	ASSERT_MSG(obj1(2,2,2,2)==91,"tensor2(_i,_j) contraction1  operator error");
+
+	// // // Test 2
+	// // obj1=obj1*0;  obj2=obj2*0;  obj7=obj7*0;
+	// obj1(2,2,1) = 2; obj2(1,0)=4;
+	// obj7(i,j,k)=obj1(i,j,l)*obj2(l,k);
+	// ASSERT_MSG(obj7(2,2,0)==8,"tensor2(_i,_j) contraction1  operator error");
+
+	// // // Test 3
+	// obj1(2,2,1) = 2; obj2(1,2)=4;
+	// obj7(i,j,k)=obj2(i,l) * obj1(l,j,k);
+	// ASSERT_MSG(obj7(1,2,1)==8,"tensor2(_i,_j) contraction1  operator error");
+
+
+	// // // Test 4
+	// obj7(2,2,2,2)=7;
+	// obj4(2) = 1;
+	// obj1(i,j,k) = obj4(l)*obj7(l,i,j,k);
+	// // cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
+	// ASSERT_MSG(obj1(2,2,2)==7,"tensor2(_i,_j) contraction1  operator error");
+
 
 
 	return 0;

@@ -1,8 +1,8 @@
 g++ test_tensor1.cpp -DDEBUG -o test_tensor1 -std=c++11    -g
 test_tensor1.cpp: In function ‘int main(int, const char**)’:
-test_tensor1.cpp:22:15: error: no match for ‘operator*’ (operand types are ‘double’ and ‘expr1<double, 3ul, 'i'>’)
-   obj3(_i,_j) * obj2(_j) ;  
-               ^
+test_tensor1.cpp:22:14: error: no match for ‘operator*’ (operand types are ‘double’ and ‘expr1<double, 3ul, 'i'>’)
+  obj3(_i,_j) * obj2(_j) ;  
+              ^
 In file included from ../../../src/app/../operations/./multiply_scalar/multiply_scalars.h:4:0,
                  from ../../../src/app/../operations/operations.h:6,
                  from ../../../src/app/smalltensor.h:5,
@@ -12,9 +12,9 @@ In file included from ../../../src/app/../operations/./multiply_scalar/multiply_
  inline expr1<val_type,d1,i> operator*(expr1<val_type,d1,i> const& Li_, scalar_type const& scalar_){
                              ^
 ../../../src/app/../operations/./multiply_scalar/./expr1_multiply_scalar.hpp:7:29: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./multiply_scalar/multiply_scalars.h:5:0,
                  from ../../../src/app/../operations/operations.h:6,
                  from ../../../src/app/smalltensor.h:5,
@@ -24,9 +24,9 @@ In file included from ../../../src/app/../operations/./multiply_scalar/multiply_
  inline expr2<val_type,d1,d2,i,j> operator*(
                                   ^
 ../../../src/app/../operations/./multiply_scalar/./expr2_multiply_scalar.hpp:5:34: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./multiply_scalar/multiply_scalars.h:6:0,
                  from ../../../src/app/../operations/operations.h:6,
                  from ../../../src/app/smalltensor.h:5,
@@ -36,9 +36,9 @@ In file included from ../../../src/app/../operations/./multiply_scalar/multiply_
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./multiply_scalar/./expr3_multiply_scalar.hpp:6:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./multiply_scalar/multiply_scalars.h:7:0,
                  from ../../../src/app/../operations/operations.h:6,
                  from ../../../src/app/smalltensor.h:5,
@@ -48,9 +48,9 @@ In file included from ../../../src/app/../operations/./multiply_scalar/multiply_
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./multiply_scalar/./expr4_multiply_scalar.hpp:9:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d4, i, j, k, l>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d4, i, j, k, l>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:4:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -60,9 +60,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr2<val_type,d1,d2,i,j> operator*(
                                   ^
 ../../../src/app/../operations/./outer_product/./expr1_outer_product.hpp:6:34: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:5:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -72,9 +72,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./outer_product/./expr2_outer_product.hpp:9:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:5:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -84,9 +84,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./outer_product/./expr2_outer_product.hpp:30:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:5:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -96,9 +96,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./outer_product/./expr2_outer_product.hpp:51:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:6:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -108,9 +108,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./outer_product/./expr3_outer_product.hpp:10:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./outer_product/outer_products.h:6:0,
                  from ../../../src/app/../operations/operations.h:7,
                  from ../../../src/app/smalltensor.h:5,
@@ -120,9 +120,9 @@ In file included from ../../../src/app/../operations/./outer_product/outer_produ
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./outer_product/./expr3_outer_product.hpp:34:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:4:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -132,9 +132,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline val_type operator*(expr1<val_type,d1,i>const& Li_, expr1<val_type,d1,i> const& Ri_) {
                  ^
 ../../../src/app/../operations/./contraction1/expr1_dot.hpp:5:17: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d1, i>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:4:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -144,9 +144,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr1<val_type,d1,i> operator*(
                              ^
 ../../../src/app/../operations/./contraction1/expr1_dot.hpp:15:29: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:4:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -156,9 +156,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr1<val_type,d1,i> operator*(
                              ^
 ../../../src/app/../operations/./contraction1/expr1_dot.hpp:31:29: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d2, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d2, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:5:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -168,9 +168,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr2<val_type,d1,d2,i,j> operator* (
                                   ^
 ../../../src/app/../operations/./contraction1/expr2_dot.hpp:7:34: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:5:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -180,9 +180,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr2<val_type,d1,d2,i,j> operator* (
                                   ^
 ../../../src/app/../operations/./contraction1/expr2_dot.hpp:27:34: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d3, i, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d3, i, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:5:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -192,9 +192,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr2<val_type,d1,d2,i,j> operator* (
                                   ^
 ../../../src/app/../operations/./contraction1/expr2_dot.hpp:48:34: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d3, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d3, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:6:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -204,9 +204,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction1/expr3_dot.hpp:8:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d4, i, j, k, l>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d4, i, j, k, l>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:6:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -216,9 +216,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction1/expr3_dot.hpp:31:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d4, i, j, l>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d4, i, j, l>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:6:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -228,9 +228,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction1/expr3_dot.hpp:55:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d4, i, l>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d4, i, l>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:6:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -240,9 +240,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction1/expr3_dot.hpp:78:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr1<val_type, d4, l>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr1<val_type, d4, l>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:7:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -252,9 +252,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./contraction1/expr4_dot.hpp:9:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d5, i, j, k, m>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr4<val_type, d1, d2, d3, d5, i, j, k, m>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:7:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -264,9 +264,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./contraction1/expr4_dot.hpp:36:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d5, i, j, m>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d5, i, j, m>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction1/contraction1s.h:7:0,
                  from ../../../src/app/../operations/operations.h:8,
                  from ../../../src/app/smalltensor.h:5,
@@ -276,9 +276,9 @@ In file included from ../../../src/app/../operations/./contraction1/contraction1
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./contraction1/expr4_dot.hpp:63:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d5, i, m>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d5, i, m>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:4:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -288,9 +288,9 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline val_type operator* (
                  ^
 ../../../src/app/../operations/./contraction2/expr1_doubleDot.hpp:5:17: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d1, d2, i, j>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:4:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -300,9 +300,9 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline expr1<val_type,d1,i> operator* (
                              ^
 ../../../src/app/../operations/./contraction2/expr1_doubleDot.hpp:20:29: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d2, d3, i, j, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:4:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -312,9 +312,9 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline expr1<val_type,d1,i> operator* (
                              ^
 ../../../src/app/../operations/./contraction2/expr1_doubleDot.hpp:39:29: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr2<val_type, d2, d3, j, k>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr2<val_type, d2, d3, j, k>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:6:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -324,9 +324,9 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction2/expr3_doubleDot.hpp:11:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr4<val_type, d1, d2, d4, d5, i, j, l, m>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr4<val_type, d1, d2, d4, d5, i, j, l, m>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:6:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -336,9 +336,9 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline expr3<val_type,d1,d2,d3,i,j,k> operator*(
                                        ^
 ../../../src/app/../operations/./contraction2/expr3_doubleDot.hpp:38:39: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr3<val_type, d1, d4, d5, i, l, m>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr3<val_type, d1, d4, d5, i, l, m>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 In file included from ../../../src/app/../operations/./contraction2/contraction2s.h:7:0,
                  from ../../../src/app/../operations/operations.h:9,
                  from ../../../src/app/smalltensor.h:5,
@@ -348,8 +348,8 @@ In file included from ../../../src/app/../operations/./contraction2/contraction2
  inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
                                             ^
 ../../../src/app/../operations/./contraction2/expr4_doubleDot.hpp:11:44: note:   template argument deduction/substitution failed:
-test_tensor1.cpp:22:24: note:   mismatched types ‘const expr4<val_type, d1, d2, d5, d6, i, j, m, n>’ and ‘double’
-   obj3(_i,_j) * obj2(_j) ;  
-                        ^
+test_tensor1.cpp:22:23: note:   mismatched types ‘const expr4<val_type, d1, d2, d5, d6, i, j, m, n>’ and ‘double’
+  obj3(_i,_j) * obj2(_j) ;  
+                       ^
 Makefile:22: recipe for target 'test_tensor1' failed
 make: *** [test_tensor1] Error 1

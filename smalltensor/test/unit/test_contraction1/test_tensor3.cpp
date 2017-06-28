@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
 	tensor1<double, 3> obj4;
 	tensor2<double, 3,3> obj5;
 	tensor4<double, 3,3,3,3> obj6;
+	tensor3<double, 3,3,3> obj7;
 
 	obj2(2,2) = 2.;
 	Index<'i'> i;
@@ -25,15 +26,25 @@ int main(int argc, char const *argv[])
 	ASSERT_MSG(obj1(2,2,2)==3,"tensor2(_i,_j) contraction1  operator error");
 	
 	// // Test 2
-	// obj3(1,1)=9; obj5(1,1) = 3;
-	// obj2(i,j)=obj3(i,k)*obj5(k,j);
-	// ASSERT_MSG(obj2(1,1)==27,"tensor2(_i,_j) contraction1  operator error");
+	// obj1=obj1*0;  obj2=obj2*0;  obj7=obj7*0;
+	obj1(2,2,1) = 2; obj2(1,0)=4;
+	obj7(i,j,k)=obj1(i,j,l)*obj2(l,k);
+	ASSERT_MSG(obj7(2,2,0)==8,"tensor2(_i,_j) contraction1  operator error");
 
 	// // Test 3
-	// obj1(0,0,0)=32;
-	// obj4(0) = 2;
-	// obj2(i,j)=obj4(k)*obj1(k,i,j);
-	// ASSERT_MSG(obj2(0,0)==64,"tensor2(_i,_j) contraction1  operator error");
+	obj1(2,2,1) = 2; obj2(1,2)=4;
+	obj7(i,j,k)=obj2(i,l) * obj1(l,j,k);
+	ASSERT_MSG(obj7(1,2,1)==8,"tensor2(_i,_j) contraction1  operator error");
+
+
+	// // Test 4
+	obj6(2,2,2,2)=7;
+	obj4(2) = 1;
+	obj1(i,j,k) = obj4(l)*obj6(l,i,j,k);
+	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
+	ASSERT_MSG(obj1(2,2,2)==7,"tensor2(_i,_j) contraction1  operator error");
+
+
 
 
 	cout<<"Done execution. Exiting..." <<endl;
