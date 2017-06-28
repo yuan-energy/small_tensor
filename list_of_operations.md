@@ -1,6 +1,6 @@
 ## List of Supported Tensor Operations in small_tensor Library.
 
-In the following, A, B, and C are tensors and p is a scalar.
+In the following, A, B, and C are order-1 to order-4 tensors and p is a scalar.
 In addition, indices i, j, k, and l are free or dummy indices.
 
 #### Tensor Multiply/Divide by a scalar
@@ -48,7 +48,7 @@ p          = A(i)*B(i);
 A(i)       = B(i,j)*C(j);
 A(i)       = B(j)*C(i,j);
 A(i,j)     = B(i,j,k)*C(k);
-A(i,j)     = B(i,k)*C(k,j);
+A(i,j)     = B(i,k)*C(k,j); /*This is actually matrix multiplication.*/
 A(i,j)     = B(k)*C(k,i,j);
 A(i,j,k)   = B(i,j,k,l)*C(l);
 A(i,j,k)   = B(i,j,l)*C(l,k);

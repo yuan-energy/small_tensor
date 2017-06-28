@@ -32,6 +32,19 @@ This is useful is either of the following cases:
 * Since the data is kept in-place, you can save extra cache miss in the common case.
 
 
+#### APIs
+##### Declaration.
+
+```cpp
+tensor1<double,10> vec;
+tensor2<double,3,3> stress;
+tensor3<double,2,3,3> cosserat; 
+tensor4<double,3,3,3,3> stiffness;
+```
+
+##### Einstein Notations.
+All APIs for Einstein notations are [available here](list_of_operations.md)
+
 #### Development Status 
 This repository is under development. This is the basic version.
 The next steps:
