@@ -1,8 +1,15 @@
-include_header_location=\
+
+OBJS = test_tensor1.o test_tensor2.o test_tensor3.o test_tensor4.o
+CC = g++
+DEBUG = -g -DDEBUG
+CFLAGS = -Wall -std=c++11 $(DEBUG)
+LFLAGS = -Wall -std=c++11 $(DEBUG)
+
+INCLUDE_HEADER_LOCATION=\
 # -I../../
-link_lib_location=\
+LINK_LIB_LOCATION=\
 # -L../../
-link_lib_name=\
+LINK_LIB_NAME=\
 # -pthread \
 # -lblas \
 # -llapack \
@@ -11,33 +18,26 @@ link_lib_name=\
 all: compile_all run_all
 
 compile_all: test_tensor1 test_tensor2 test_tensor3 test_tensor4
-test_tensor2:
-	g++ test_tensor2.cpp -DDEBUG -o test_tensor2 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
-
-test_tensor2_by_clang:
-	clang++ test_tensor2.cpp -DDEBUG -o test_tensor2 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
-
-
 test_tensor1:
-	g++ test_tensor1.cpp -DDEBUG -o test_tensor1 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
+	$(CC) $(CFLAGS) test_tensor1.cpp -o test_tensor1.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
+test_tensor2:
+	$(CC) $(CFLAGS) test_tensor2.cpp -o test_tensor2.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 test_tensor3:
-	g++ test_tensor3.cpp -DDEBUG -o test_tensor3 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
+	$(CC) $(CFLAGS) test_tensor3.cpp -o test_tensor3.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 test_tensor4:
-	g++ test_tensor4.cpp -DDEBUG -o test_tensor4 -std=c++11 ${include_header_location} ${link_lib_location} ${link_lib_name} -g
+	$(CC) $(CFLAGS) test_tensor4.cpp -o test_tensor4.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 
 run_all: run_tensor1 run_tensor2 run_tensor3 run_tensor4
-
 run_tensor1:
-	./test_tensor1
+	./test_tensor1.bin
 run_tensor2:
-	./test_tensor2
+	./test_tensor2.bin
 run_tensor3:
-	./test_tensor3
+	./test_tensor3.bin
 run_tensor4:
-	./test_tensor4
+	./test_tensor4.bin
 clean:
-	rm -f test_tensor1
-	rm -f test_tensor2
-	rm -f test_tensor3
-	rm -f test_tensor4
-# DO NOT DELETE
+	rm -f test_tensor1.bin
+	rm -f test_tensor2.bin
+	rm -f test_tensor3.bin
+	rm -f test_tensor4.bin

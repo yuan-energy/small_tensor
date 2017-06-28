@@ -11,8 +11,8 @@ int main(int argc, char const *argv[])
 
 	Index<'i'> i;
 	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
+	// Index<'k'> k;
+	// Index<'l'> l;
 	Index<'m'> m;
 	Index<'n'> n;
 
