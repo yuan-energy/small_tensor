@@ -60,7 +60,7 @@ public:
 	inline __dat_t operator()(Index<i> i_, Index<i> j_){
 		ASSERT_MSG(__d1 == __d2, "Dimension size should be equal for dummy indices. ");
 		__dat_t ret=0;
-		for (int n1 = 0; n1 < __d1; ++n1){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			ret += (*this)(n1,n1);
 		}
         return ret;

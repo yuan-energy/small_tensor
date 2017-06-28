@@ -18,12 +18,10 @@ int main(int argc, char const *argv[])
 	tensor2<double, 3,3> obj3;
 	obj3(2,2) = 20;
 	obj1(_i) = obj3(_i,_j) * obj2(_j) ;  
-	cout<<"obj1(2) = " << obj1(2) <<endl;
 	ASSERT_MSG(obj1(2)==40,"tensor1 obj3(_i,_j) * obj2(_j) contraction 1 operator error");
 
 
 	obj1(_i) = obj2(_j) * obj3(_i,_j)  ; 
-	cout<<"obj1(2) = " << obj1(2) <<endl;
 	ASSERT_MSG(obj1(2)==40,"tensor1 obj2(_j) * obj3(_i,_j) contraction 1 operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;

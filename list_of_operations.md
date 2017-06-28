@@ -25,13 +25,7 @@ p          = A(i,i);
 A(i)       = B(i,j,j);
 A(i,j)     = B(i,j,k,k);
 ```
-<!-- A(i)  = B(j,i,j);
-A(i)       = B(j,j,i);
-A(i,j)     = B(k,k,i,j);
-A(i,j)     = B(k,i,k,j);
-A(i,j)     = B(k,i,j,k);
-A(i,j)     = B(i,k,k,j);
-A(i,j)     = B(i,k,j,k); -->
+
 #### Tensor Outer Product
 ```cpp
 A(i,j)     = B(i)*C(j);
@@ -73,7 +67,7 @@ A(i,j,k,l) = B(i,j,m,n)*C(m,n,k,l);
 ```
 
 
-The 36 operations above can be used together as well.
+The 39 operations above can be used together as well.
 
 
 

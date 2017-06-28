@@ -30,7 +30,6 @@ int main(int argc, char const *argv[])
 	tensor2<double, 3, 3> R;
 	L(0,0) = 9; R(0,0) = 2;
 	double ret = L(i,j) * R(i,j);
-	ret = L(i,j) * R(j,i);
 	ASSERT_MSG(ret==18,"expr2 tensor2 contraction error");
 
 

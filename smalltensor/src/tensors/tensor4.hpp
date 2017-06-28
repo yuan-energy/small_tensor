@@ -67,9 +67,9 @@ public:
 		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
 		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
 		ret_type ret_ij;
-		for (int N1 = 0; N1 < __d1; ++N1){
-			for (int N2 = 0; N2 < __d2; ++N2){
-				for (int n3 = 0; n3 < __d3; ++n3){
+		for (std::size_t N1 = 0; N1 < __d1; ++N1){
+			for (std::size_t N2 = 0; N2 < __d2; ++N2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
 					ret_ij(N1,N2) += (*this)(N1,N2,n3,n3);
 				}
 			}
