@@ -1,5 +1,5 @@
-#ifndef EXPR2_MINUS_SMALL_TENSOR_HPP
-#define EXPR2_MINUS_SMALL_TENSOR_HPP
+#ifndef EXPR2_SUBTRACTION_SMALL_TENSOR_HPP
+#define EXPR2_SUBTRACTION_SMALL_TENSOR_HPP
 
 
 #define A i1
@@ -8,7 +8,7 @@
 #define B i2
 #define b n2
 #define D2 d2
-#include "expr2_minus_core.hpp"
+#include "expr2_subtraction_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -24,7 +24,7 @@
 #define B i1
 #define b n1
 #define D2 d1
-#include "expr2_minus_core.hpp"
+#include "expr2_subtraction_core.hpp"
 #undef A
 #undef a
 #undef D1

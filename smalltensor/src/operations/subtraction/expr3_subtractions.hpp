@@ -1,5 +1,5 @@
-#ifndef EXPR3_MINUS_SMALL_TENSOR_HPP
-#define EXPR3_MINUS_SMALL_TENSOR_HPP
+#ifndef EXPR3_SUBTRACTION_SMALL_TENSOR_HPP
+#define EXPR3_SUBTRACTION_SMALL_TENSOR_HPP
 
 
 #define A i1
@@ -11,7 +11,7 @@
 #define C i3
 #define c n3
 #define D3 d3
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -33,7 +33,7 @@
 #define C i2
 #define c n2
 #define D3 d2
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -55,7 +55,7 @@
 #define C i3
 #define c n3
 #define D3 d3
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -77,7 +77,7 @@
 #define C i1
 #define c n1
 #define D3 d1
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -99,7 +99,7 @@
 #define C i2
 #define c n2
 #define D3 d2
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -121,7 +121,7 @@
 #define C i1
 #define c n1
 #define D3 d1
-#include "expr3_minus_core.hpp"
+#include "expr3_subtractions_core.hpp"
 #undef A
 #undef a
 #undef D1

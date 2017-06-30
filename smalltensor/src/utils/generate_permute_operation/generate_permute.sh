@@ -9,9 +9,9 @@
 # Generate the C++ template permuate operations.
 # Then include the operations in _core.hpp file.
 # [python] [script] [included-filename] [permuate_num]
-python permute.py expr4_minus_core.hpp 4
-python permute.py expr3_minus_core.hpp 3
-python permute.py expr2_minus_core.hpp 2
+python permute.py expr4_subtraction_core.hpp 4
+python permute.py expr3_subtraction_core.hpp 3
+python permute.py expr2_subtraction_core.hpp 2
 python permute.py expr4_plus_core.hpp 4
 python permute.py expr3_plus_core.hpp 3
 python permute.py expr2_plus_core.hpp 2

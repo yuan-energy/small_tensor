@@ -4,17 +4,16 @@
 using namespace std;
 int main(int argc, char const *argv[])
 {
-	tensor4<double, 3,3,3,3> obj1;
-	tensor4<double, 3,3,3,3> obj2;
-	tensor4<double, 3,3,3,3> obj3;
-	obj1(2,1,1,2) = 3.;
-	obj2(2,1,1,2) = 2.;
+	tensor2<double, 3,3> obj1;
+	tensor2<double, 3,3> obj2;
+	tensor2<double, 3,3> obj3;
+	obj1(2,2) = 3.;
+	obj2(2,2) = 2.;
 	Index<'i'> _i;
 	Index<'j'> _j;
-	Index<'k'> _k;
-	Index<'l'> _l;
-	obj3(_i,_j,_k,_l) = - obj1(_i,_j,_k,_l);
-	ASSERT_MSG(obj3(2,1,1,2)==-3,"tensor4(_i,_j,_k,_l) minus operator error");
+	obj3(_i,_j) = obj2(_i,_j) - obj1(_i,_j);
+	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
+	ASSERT_MSG(obj3(2,2)==-1,"tensor2(_i,_j) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 

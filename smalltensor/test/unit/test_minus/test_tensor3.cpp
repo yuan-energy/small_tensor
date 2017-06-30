@@ -12,9 +12,9 @@ int main(int argc, char const *argv[])
 	Index<'i'> _i;
 	Index<'j'> _j;
 	Index<'k'> _k;
-	obj3(_i,_j,_k) = obj2(_i,_j,_k) - obj1(_i,_j,_k);
+	obj3(_i,_j,_k) = - obj1(_i,_j,_k);
 	// cout<<"obj3(_i,_j,_k)="<<obj3(2,1,2)<<endl;
-	ASSERT_MSG(obj3(2,1,2)==-1,"tensor3(_i,_j,_k) minus operator error");
+	ASSERT_MSG(obj3(2,1,2)==-3,"tensor3(_i,_j,_k) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 

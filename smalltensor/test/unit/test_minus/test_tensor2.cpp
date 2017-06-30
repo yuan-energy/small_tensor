@@ -11,9 +11,9 @@ int main(int argc, char const *argv[])
 	obj2(2,2) = 2.;
 	Index<'i'> _i;
 	Index<'j'> _j;
-	obj3(_i,_j) = obj2(_i,_j) - obj1(_i,_j);
+	obj3(_i,_j) = - obj1(_i,_j);
 	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
-	ASSERT_MSG(obj3(2,2)==-1,"tensor2(_i,_j) minus operator error");
+	ASSERT_MSG(obj3(2,2)==-3,"tensor2(_i,_j) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 

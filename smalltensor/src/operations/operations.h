@@ -1,6 +1,8 @@
 #ifndef OPERATIONS_H_
 #define OPERATIONS_H_
 
+#include "./subtraction/subtractions.h"
+#include "./summation/summations.h"
 #include "./minus/minuses.h"
 #include "./plus/pluses.h"
 #include "./multiply_scalar/multiply_scalars.h"

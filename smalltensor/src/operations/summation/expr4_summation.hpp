@@ -1,5 +1,5 @@
-#ifndef EXPR4_MINUS_SMALL_TENSOR_HPP
-#define EXPR4_MINUS_SMALL_TENSOR_HPP
+#ifndef EXPR4_SUMMATION_SMALL_TENSOR_HPP
+#define EXPR4_SUMMATION_SMALL_TENSOR_HPP
 
 
 #define A i1
@@ -14,7 +14,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -42,7 +42,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -70,7 +70,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -98,7 +98,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -126,7 +126,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -154,7 +154,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -182,7 +182,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -210,7 +210,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -238,7 +238,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -266,7 +266,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -294,7 +294,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -322,7 +322,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -350,7 +350,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -378,7 +378,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -406,7 +406,7 @@
 #define D i4
 #define d n4
 #define D4 d4
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -434,7 +434,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -462,7 +462,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -490,7 +490,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -518,7 +518,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -546,7 +546,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -574,7 +574,7 @@
 #define D i3
 #define d n3
 #define D4 d3
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -602,7 +602,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -630,7 +630,7 @@
 #define D i2
 #define d n2
 #define D4 d2
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1
@@ -658,7 +658,7 @@
 #define D i1
 #define d n1
 #define D4 d1
-#include "expr4_minus_core.hpp"
+#include "expr4_summation_core.hpp"
 #undef A
 #undef a
 #undef D1

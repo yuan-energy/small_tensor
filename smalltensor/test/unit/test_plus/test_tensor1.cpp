@@ -10,10 +10,10 @@ int main(int argc, char const *argv[])
 	obj1(2) = 3.;
 	obj2(2) = 2.;
 	Index<'i'> _i;
-	obj3(_i) = obj2(_i) + obj1(_i);
-	ASSERT_MSG(obj3(2)== 5,"tensor1 obj3(_i) plus operator error");
-	ASSERT_MSG(obj2(2)== 2,"tensor1 obj2(_i) plus operator error");
-	ASSERT_MSG(obj1(2)== 3,"tensor1 obj1(_i) plus operator error");
+	obj3(_i) = + obj1(_i);
+	ASSERT_MSG(obj3(2)== 3,"tensor1 obj3(_i) minus operator error");
+	ASSERT_MSG(obj2(2)== 2,"tensor1 obj2(_i) minus operator error");
+	ASSERT_MSG(obj1(2)== 3,"tensor1 obj1(_i) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 
