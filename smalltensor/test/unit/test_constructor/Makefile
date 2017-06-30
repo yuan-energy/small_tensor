@@ -19,25 +19,25 @@ all: compile_all run_all
 
 compile_all: test_tensor1 test_tensor2 test_tensor3 test_tensor4
 test_tensor1:
-	$(CC) $(CFLAGS) test_tensor1.cpp -o test_tensor1.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
+	$(CC) $(CFLAGS) test_tensor1.cpp -o test_tensor1.out  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 test_tensor2:
-	$(CC) $(CFLAGS) test_tensor2.cpp -o test_tensor2.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
+	$(CC) $(CFLAGS) test_tensor2.cpp -o test_tensor2.out  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 test_tensor3:
-	$(CC) $(CFLAGS) test_tensor3.cpp -o test_tensor3.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
+	$(CC) $(CFLAGS) test_tensor3.cpp -o test_tensor3.out  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 test_tensor4:
-	$(CC) $(CFLAGS) test_tensor4.cpp -o test_tensor4.bin  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
+	$(CC) $(CFLAGS) test_tensor4.cpp -o test_tensor4.out  ${INCLUDE_HEADER_LOCATION} ${LINK_LIB_LOCATION} ${LINK_LIB_NAME}
 
 run_all: run_tensor1 run_tensor2 run_tensor3 run_tensor4
 run_tensor1:
-	./test_tensor1.bin
+	./test_tensor1.out
 run_tensor2:
-	./test_tensor2.bin
+	./test_tensor2.out
 run_tensor3:
-	./test_tensor3.bin
+	./test_tensor3.out
 run_tensor4:
-	./test_tensor4.bin
+	./test_tensor4.out
 clean:
-	rm -f test_tensor1.bin
-	rm -f test_tensor2.bin
-	rm -f test_tensor3.bin
-	rm -f test_tensor4.bin
+	rm -f test_tensor1.out
+	rm -f test_tensor2.out
+	rm -f test_tensor3.out
+	rm -f test_tensor4.out

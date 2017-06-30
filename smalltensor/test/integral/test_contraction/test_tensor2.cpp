@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
 	obj2(2,2) = 2.;
 	Index<'i'> i;
 	Index<'j'> j;
-	Index<'k'> k;
+	// Index<'k'> k;
 
 	// Test 1
 	obj1(2,2)= 1;

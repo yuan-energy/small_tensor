@@ -16,6 +16,9 @@ int main(int argc, char const *argv[])
 	obj3(_i,_j,_k,_l) = obj2(_i,_j,_k,_l) + obj1(_i,_j,_k,_l);
 	ASSERT_MSG(obj3(2,1,1,2)==5,"tensor4(_i,_j,_k,_l) plus operator error");
 
+	obj3(_i,_j,_k,_l) = obj2(_i,_j,_k,_l) + obj1(_k,_j,_i,_l);
+	ASSERT_MSG(obj3(2,1,1,2)==2,"tensor4(_i,_j,_k,_l) plus operator error");
+	
 	cout<<"Done execution. Exiting..." <<endl;
 
 	// Index<'i'> i;
