@@ -60,10 +60,14 @@ public:
 	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_){
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>&>(*this);
 	}
-
+	template <char i, char j, char k, char l>
+	inline expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l> const& 
+	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_)const{
+        return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>const&>(*this);
+	}
 	template <char i, char j, char k>
 	inline expr2<__dat_t, __d1, __d2, i, j> 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k> l_){
+	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k/*same*/> l_){
 		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
 		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
 		ret_type ret_ij;
@@ -75,6 +79,19 @@ public:
 			}
 		}
         return ret_ij;
+	}
+
+	inline tensor4& operator*=(__dat_t const& scalar_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					for (std::size_t n4 = 0; n4 < __d4; ++n4){
+						(*this)(n1,n2,n3,n4) *= scalar_ ;
+					}
+				}
+			}
+		}
+		return (*this);
 	}
 };
 

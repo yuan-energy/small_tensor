@@ -54,7 +54,10 @@ public:
 	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k>& operator()(Index<i> i_, Index<j> j_, Index<k> k_){
         return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>&>(*this);
 	}
-
+	template <char i, char j, char k>
+	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k> const& operator()(Index<i> i_, Index<j> j_, Index<k> k_)const{
+        return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>const&>(*this);
+	}
 	template <char i, char j>
 	inline expr1<__dat_t, __d1, i> operator()(Index<i> i_, Index<j> j_, Index<j> k_){
 		ASSERT_MSG(__d2 == __d3, "Dimension size should be equal for dummy indices. ");
@@ -67,6 +70,16 @@ public:
 			}
 		}
         return ret_i;
+	}
+	inline tensor3& operator*=(__dat_t const& scalar_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					(*this)(n1,n2,n3) *= scalar_ ;
+				}
+			}
+		}
+		return (*this);
 	}
 };
 

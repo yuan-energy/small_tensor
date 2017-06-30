@@ -55,6 +55,16 @@ public:
 	inline expr1<__dat_t, __d1, i>& operator()(Index<i> i_){
         return static_cast<expr1<__dat_t, __d1, i>&>(*this);
 	}
+	template <char i>
+	inline expr1<__dat_t, __d1, i> const& operator()(Index<i> i_)const{
+        return static_cast<expr1<__dat_t, __d1, i>const&>(*this);
+	}
+	inline tensor1& operator*=(__dat_t const& scalar_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			(*this)(n1) *= scalar_ ;
+		}
+		return (*this);
+	}
 };
 
 #endif

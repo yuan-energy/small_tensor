@@ -42,7 +42,16 @@ public:
 		    _data=nullptr;
 		}
 	}
-
+	tensor2(std::string const& other_):_data{new __dat_t[__d1*__d2]}{
+	    if (other_ == "identity")
+	    {
+	        ASSERT_MSG(__d1==__d2, "ERROR:tensor2 has different dimensions, cannot be identity.");
+	        for (std::size_t n1 = 0; n1 < __d1; ++n1)
+	        {
+	            (*this)(n1,n1) = 1;
+	        }
+	    }
+	}
 	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_){
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2, "tensor2() index out of bounds in lvalue. ");
 		return _data[ n1_ * __d2 + n2_];
@@ -56,14 +65,28 @@ public:
         return static_cast<expr2<__dat_t, __d1, __d2, i, j>&>(*this);
 	}
 
+	template <char i, char j>
+	inline expr2<__dat_t, __d1, __d2, i, j> const& operator()(Index<i> i_, Index<j> j_)const{
+        return static_cast<expr2<__dat_t, __d1, __d2, i, j>const&>(*this);
+	}
+
 	template <char i>
-	inline __dat_t operator()(Index<i> i_, Index<i> j_){
+	inline __dat_t operator()(Index<i> i_, Index<i/*same*/> j_){
 		ASSERT_MSG(__d1 == __d2, "Dimension size should be equal for dummy indices. ");
 		__dat_t ret=0;
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			ret += (*this)(n1,n1);
 		}
         return ret;
+	}
+
+	inline tensor2& operator*=(__dat_t const& scalar_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				(*this)(n1,n2) *= scalar_ ;
+			}
+		}
+		return (*this);
 	}
 };
 
