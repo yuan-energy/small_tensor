@@ -36,12 +36,7 @@ void permute(char *a, int l, int r)
 /* Driver program to test above functions */
 int main(int narg, char* argv[])
 {
-    
-    if(argv[1]=="3") {char* str = "ABC";}
-    else if(argv[1]=="4") {char* str = "ABCD";}
-    else{
-      cout<<"ERROR: Please give argument 3 or 4 for permute." <<endl;
-    }
+    char str[] = "ABC";
 
     int n = strlen(str);
     permute(str, 0, n-1);
