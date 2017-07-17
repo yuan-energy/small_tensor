@@ -8,7 +8,8 @@
 #include <cmath>
 
 typedef int nodeID;
-typedef std::map<nodeID, std::map<nodeID, double>> derivativeTable;
+
+
 
 
 

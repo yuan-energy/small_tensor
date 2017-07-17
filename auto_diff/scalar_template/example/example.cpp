@@ -25,12 +25,12 @@ T df_dx2(T x1, T x2)
 
 void example()
 {
-    ad_graph GRAPH;   
+    ad_graph<double> GRAPH;   
 
-    ad_dual x1(GRAPH, 3);
-    ad_dual x2(GRAPH, 4);
+    ad_dual<double> x1(GRAPH, 3);
+    ad_dual<double> x2(GRAPH, 4);
 
-    ad_dual y = f(x1, x2);
+    ad_dual<double> y = f(x1, x2);
     cout << "y = " << y.get_value() << endl;
 
     cout << endl;

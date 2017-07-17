@@ -14,18 +14,18 @@ T f(T x1, T x2)
 
 void example()
 {
-    ad_graph GRAPH;   
+    ad_graph<double> GRAPH;   
 
-    ad_dual v1(GRAPH, 3.);
-    ad_dual v2(GRAPH, 4.);
-    ad_dual v3(GRAPH, 5.);
-    ad_dual w1(GRAPH, 6.);
-    ad_dual w2(GRAPH, 7.);
-    ad_dual w3(GRAPH, 8.);
+    ad_dual<double> v1(GRAPH, 3.);
+    ad_dual<double> v2(GRAPH, 4.);
+    ad_dual<double> v3(GRAPH, 5.);
+    ad_dual<double> w1(GRAPH, 6.);
+    ad_dual<double> w2(GRAPH, 7.);
+    ad_dual<double> w3(GRAPH, 8.);
 
-    vector<ad_dual> v = {v1,v2,v3};
-    vector<ad_dual> w = {w1,w2,w3};
-    vector<ad_dual> ret(3);
+    vector<ad_dual<double>> v = {v1,v2,v3};
+    vector<ad_dual<double>> w = {w1,w2,w3};
+    vector<ad_dual<double>> ret(3);
 
     // auto y = f(v, w);
     for (int i = 0; i < 3; ++i){
