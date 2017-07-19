@@ -1,5 +1,3 @@
-#ifndef INCLUDE_SMALL_TENSOR_H_
-#define INCLUDE_SMALL_TENSOR_H_
+#pragma once
 	#include "../../src/app/smalltensor.h"
 	#include "../../src/utils/__utils.h"
-#endif

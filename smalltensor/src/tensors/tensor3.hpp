@@ -1,5 +1,4 @@
-#ifndef TENSOR3_HPP_
-#define TENSOR3_HPP_
+#pragma once
 #include "../utils/__utils.h"
 #include "../expressions/expressions.h"
 
@@ -83,4 +82,3 @@ public:
 	}
 };
 
-#endif
