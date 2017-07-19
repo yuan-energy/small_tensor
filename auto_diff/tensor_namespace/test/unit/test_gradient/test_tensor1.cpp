@@ -2,7 +2,6 @@
 
 #include <iostream>
 using namespace std;
-// using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
 	ad_graph<double> GRAPH;
