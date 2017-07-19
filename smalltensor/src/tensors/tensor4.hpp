@@ -13,12 +13,12 @@ public:
 	tensor4(): _data{new __dat_t[__d1*__d2*__d3*__d4]}{}
 	tensor4(tensor4 const& rhs_): _data{new __dat_t[__d1*__d2*__d3*__d4]}{
 		DEBUG_MSG("tensor4 copy constructor is called");
-		std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);
+		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2*__d3*__d4);
 	}
 	tensor4& operator=(tensor4 const& rhs_){
 		DEBUG_MSG("tensor4 copy assignment operator is called");
 		if(this != &rhs_){
-	        std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);		
+	        std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2*__d3*__d4);		
 		}
 		return *this;
 	}

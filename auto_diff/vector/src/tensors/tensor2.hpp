@@ -1,6 +1,6 @@
 #ifndef TENSOR2_HPP_
 #define TENSOR2_HPP_
-#include "../utils/__utils.h"
+#include "../../utils/__utils.h"
 #include "../expressions/expressions.h"
 
 using namespace std;
@@ -13,12 +13,13 @@ public:
 	tensor2(): _data{new __dat_t[__d1*__d2]}{}
 	tensor2(tensor2 const& rhs_): _data{new __dat_t[__d1*__d2]}{
 		DEBUG_MSG("tensor2 copy constructor is called");
-		std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2);
+		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2);
 	}
+
 	tensor2& operator=(tensor2 const& rhs_){
 		DEBUG_MSG("tensor2 copy assignment operator is called");
 		if(this != &rhs_){
-	        std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2);		
+	        std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2);		
 		}
 		return *this;
 	}
@@ -60,6 +61,7 @@ public:
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2, "tensor2() index out of bounds in rvalue. ");
 		return _data[ n1_ * __d2 + n2_];
 	}
+	
 	template <char i, char j>
 	inline expr2<__dat_t, __d1, __d2, i, j>& operator()(Index<i> i_, Index<j> j_){
         return static_cast<expr2<__dat_t, __d1, __d2, i, j>&>(*this);

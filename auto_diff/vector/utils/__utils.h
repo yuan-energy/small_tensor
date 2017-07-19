@@ -5,8 +5,9 @@
 #include <cassert> /* assert */
 #include <string> /* string */
 #include <map>
-#include <set>
 #include <cmath>
+
+typedef int nodeID;
 
 #include "__assert_msg.h"
 

@@ -1,5 +1,4 @@
-#include "../src/ad_graph.hpp"
-#include "../src/ad_dual.hpp"
+#include "../app/smalltensor.h"
 #include <iomanip>
 #include <cmath>
 
@@ -23,8 +22,36 @@ T df_dx2(T x1, T x2)
     return -1./x2 * exp(x1) + 3. * x2 * x2;
 }
 
+// void example2(){
+//     double* pA = new double[3];
+//     ad_dual<double>* pB = new ad_dual<double>[3];
+
+//     *(pA+1) = 3.8;
+//     (pB+1)->set_value(4.1) ; 
+//     cout<<"pA + 1 = " << *(pA+1) <<endl;
+//     cout<<"pB + 1 = " << (pB+1)->get_value() <<endl;
+
+//     cout<<"Memcpy: " <<endl;
+//     double* cpyA = new double[3];
+//     ad_dual<double>* cpyB = new ad_dual<double>[3];
+    
+//     std::memcpy(cpyA, pA, sizeof(double)*3);
+//     cout<<"cpyA + 1 = " << *(cpyA+1) <<endl;
+
+//     std::memcpy(cpyB, pB, sizeof(ad_dual<double>)*3 );
+//     cout<<"cpyB + 1 = " << (cpyB+1)->get_value() <<endl;
+
+
+//     delete cpyA;
+//     delete cpyB;
+//     delete pA;
+//     delete pB;
+// }
+
 void example()
 {
+
+
     ad_graph<double> GRAPH;   
 
     ad_dual<double> x1(GRAPH, 3);
@@ -55,5 +82,6 @@ void example()
 int main()
 {
     example();
+    // example2();
     return 0;
 }

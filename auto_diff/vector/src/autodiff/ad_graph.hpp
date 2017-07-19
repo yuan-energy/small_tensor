@@ -1,7 +1,7 @@
 #ifndef ad_graph_HPP_
 #define ad_graph_HPP_
 
-#include "__types.h"
+#include "../../utils/__utils.h"
 #include "ad_dual.hpp"
 
 using namespace std;
@@ -16,7 +16,7 @@ private:
 	typedef std::map<nodeID, std::map<nodeID, val_type>> derivativeTable;
 	nodeID _id_count;
 	derivativeTable _derivatives;
-	set<nodeID> _independent_variables;
+	// set<nodeID> _independent_variables;
 	friend class ad_dual<val_type> ;
 
 public:
