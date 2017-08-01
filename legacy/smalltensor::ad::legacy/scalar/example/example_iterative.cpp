@@ -52,38 +52,26 @@ void example()
     }
 }
 
-// This is a Newton iteration process to calculate the square root.
-// f(x) = sqrt(x).
-// f'(x) = 0.5 / sqrt(x).
-// If input is 33. 
-// Symbolic results should be f(33)  = 5.74456
-// Symbolic results should be f'(33) = 0.0870388
 void iterative_example()
 {
-    ad_graph GRAPH;   
-    ad_dual y_next(GRAPH, 0.)  ;
-    ad_dual input(GRAPH, 33.)  ;
-    ad_dual y_guess(GRAPH, 0.5)  ; 
+    ad_graph x1(GRAPH, 33)  ;
+    ad_graph y(GRAPH, 0)  ;
+    ad_graph x0(GRAPH, 3.5)  ;
     
-    cout << y_guess.get_value() << endl;
+    // cout << "Enter a value to be square rooted: " << endl;
+    // cin >> y;
+    // x0 = log(y);
+    cout << x0 << endl;
     
     do 
     {
-      y_next = (y_guess - (((y_guess * y_guess) - input)/(2* y_guess)));
-      y_guess = y_next;
+      x1 = (x0 - (((x0 * x0) - y)/(2* x0)));
+      x0 = x1;
       
-      cout<<"------------------------------"<<endl;
-      cout << "y_rest    = " << y_next.get_value() << endl;
-      cout << "dy_dx     = " << GRAPH.get_derivative(y_next, input) <<endl;
-    } while ((y_next.get_value() * y_next.get_value()) > input.get_value());
-
-    cout<<"------------------------------"<<endl;
-    cout<<"Symbolic y_rest= " << sqrt(input.get_value()) << endl;
-    cout<<"Symbolic dy_dx = " << 0.5*sqrt(1./input.get_value()) << endl;
-
+      cout << "x1= " << x1.get_value() << endl;
+      
+    } while ((x1 * x1) > y);
 }
-
-
 
 int main()
 {
