@@ -2,17 +2,19 @@
 
 #include <iostream>
 #include <functional>
+using namespace smalltensor::ad ;
 using namespace std;
 
-double finite_difference(function<double(double)> f, double x)
+ad_graph<double> GRAPH;
+ad_dual<double> finite_difference(function<double(double)> f, double x)
 {
-    double d = 1e-6;
+    ad_dual<double> d = 1e-6;
     return (f(x + d) - f(x - d)) / (2 * d);
 }
 
-double finite_difference(function<double(double, double)> f, double x, double y, int which)
+ad_dual<double> finite_difference(function<double(double, double)> f, double x, double y, int which)
 {
-    double d = 1e-6;
+    ad_dual<double> d = 1e-6;
     if (which==0)
         return (f(x + d, y) - f(x - d, y)) / (2 * d);
     else
@@ -24,9 +26,9 @@ double finite_difference(function<double(double, double)> f, double x, double y,
 int main(int argc, char const *argv[])
 {
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 3.);
-		ad_dual<double> b(GRAPH, 4.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 3.);
+		ad_dual<ad_dual<double>> b(GRAPH, 4.);
 		auto f = [&](auto x, auto y)->auto {
 			return 8.*x + 9.*y + 17. ;
 		};
@@ -36,9 +38,9 @@ int main(int argc, char const *argv[])
 	}
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 3.);
-		ad_dual<double> b(GRAPH, 4.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 3.);
+		ad_dual<ad_dual<double>> b(GRAPH, 4.);
 		auto f = [&](auto x, auto y)->auto {
 			return - 17. - 8.*x - 9.*y  ;
 		};
@@ -48,9 +50,9 @@ int main(int argc, char const *argv[])
 	}
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 3.);
-		ad_dual<double> b(GRAPH, 4.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 3.);
+		ad_dual<ad_dual<double>> b(GRAPH, 4.);
 		auto f = [&](auto x, auto y)-> auto {
 			return 8.*x - y * 9. + 17 ;
 		};
@@ -60,9 +62,9 @@ int main(int argc, char const *argv[])
 	}
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 3.);
-		ad_dual<double> b(GRAPH, 2.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 3.);
+		ad_dual<ad_dual<double>> b(GRAPH, 2.);
 		auto f = [&](auto x, auto y)-> auto {
 			return 5.*x * 3.* y * 2. - 30. ;
 		};
@@ -72,9 +74,9 @@ int main(int argc, char const *argv[])
 	}
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 4.);
-		ad_dual<double> b(GRAPH, 2.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 4.);
+		ad_dual<ad_dual<double>> b(GRAPH, 2.);
 		auto f = [&](auto x, auto y)-> auto {
 			return 1./ x + y / 2. + 17. ;
 		};
@@ -84,9 +86,9 @@ int main(int argc, char const *argv[])
 	}
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 4.);
-		ad_dual<double> b(GRAPH, 2.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 4.);
+		ad_dual<ad_dual<double>> b(GRAPH, 2.);
 		auto f = [&](auto x, auto y)-> auto {
 			return  2.*x / (4.* y)  + 17. ;
 		};
@@ -104,9 +106,9 @@ int main(int argc, char const *argv[])
 
 
 	{
-		ad_graph<double> GRAPH;
-		ad_dual<double> a(GRAPH, 4.);
-		ad_dual<double> b(GRAPH, 2.);
+		ad_graph<ad_dual<double>> GRAPH;
+		ad_dual<ad_dual<double>> a(GRAPH, 4.);
+		ad_dual<ad_dual<double>> b(GRAPH, 2.);
 		auto f = [&](auto x, auto y)-> auto {
 			return log(pow(x,2)) + x + exp(y) ;
 		};

@@ -2,6 +2,7 @@
 
 #include <iostream>
 using namespace std;
+using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
 	tensor3<double, 3, 3, 3> obj1;

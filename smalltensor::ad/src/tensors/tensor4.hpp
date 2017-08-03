@@ -40,6 +40,22 @@ public:
 		}
 	}
 
+	template <typename graph_type, typename scalar_type>
+	tensor4(graph_type& graph_, scalar_type value_)
+	: _data{new __dat_t[__d1*__d2*__d3*__d4]}
+	{
+		DEBUG_MSG("tensor4 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					for (std::size_t n4 = 0; n4 < __d4; ++n4){
+						(*this)(n1,n2,n3,n4) = __dat_t(graph_, value_) ; 
+					}
+				}
+			}
+		}
+	}
+
 	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_,  
 							   std::size_t n3_, std::size_t n4_){
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4,
@@ -67,11 +83,11 @@ public:
 	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k/*same*/> l_){
 		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
 		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
-		ret_type ret_ij;
+		ret_type ret_ij(*((*this)(0,0,0,0)._graph), 0.) ;
 		for (std::size_t N1 = 0; N1 < __d1; ++N1){
 			for (std::size_t N2 = 0; N2 < __d2; ++N2){
 				for (std::size_t n3 = 0; n3 < __d3; ++n3){
-					ret_ij(N1,N2) += (*this)(N1,N2,n3,n3);
+					ret_ij(N1,N2) = ret_ij(N1,N2) + (*this)(N1,N2,n3,n3);
 				}
 			}
 		}

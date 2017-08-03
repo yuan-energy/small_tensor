@@ -2,13 +2,15 @@
 
 #include <iostream>
 using namespace std;
+using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
-	tensor4<double, 3,3,3,3> obj1;
-	tensor4<double, 3,3,3,3> obj2;
-	tensor4<double, 3,3,3,3> obj3;
-	obj1(2,1,1,2) = 3.;
-	obj2(2,1,1,2) = 2.;
+ad_graph<double> GRAPH;
+	tensor4<ad_dual<double>, 3,3,3,3> obj1(GRAPH,0.);
+	tensor4<ad_dual<double>, 3,3,3,3> obj2(GRAPH,0.);
+	tensor4<ad_dual<double>, 3,3,3,3> obj3(GRAPH,0.);
+	obj1(2,1,1,2) = ad_dual<double>(GRAPH,3.);
+	obj2(2,1,1,2) = ad_dual<double>(GRAPH,2.);
 	Index<'i'> _i;
 	Index<'j'> _j;
 	Index<'k'> _k;
@@ -21,10 +23,10 @@ int main(int argc, char const *argv[])
 	// Index<'i'> i;
 	// Index<'j'> j;
 
-	// tensor1<double, 3> L;
-	// tensor1<double, 3> R;
+	// tensor1<ad_dual<double>, 3> L;
+	// tensor1<ad_dual<double>, 3> R;
 	// L(0,0) = 9; R(0,0) = 2;
-	// double ret = L(i,j) * R(i,j);
+	// ad_dual<double> ret = L(i,j) * R(i,j);
 	// ret = L(i,j) * R(j,i);
 	// ASSERT_MSG(ret==18,"expr2 tensor2 contraction error");
 

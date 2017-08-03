@@ -89,9 +89,9 @@ public:
 	template <char i>
 	inline __dat_t operator()(Index<i> i_, Index<i/*same*/> j_){
 		ASSERT_MSG(__d1 == __d2, "Dimension size should be equal for dummy indices. ");
-		__dat_t ret=0;
+		__dat_t ret(*((*this)(0,0)._graph), 0.) ;
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
-			ret += (*this)(n1,n1);
+			ret = ret + (*this)(n1,n1);
 		}
         return ret;
 	}

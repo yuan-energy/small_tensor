@@ -2,12 +2,14 @@
 
 #include <iostream>
 using namespace std;
+using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
-	tensor3<double, 3, 3, 3> obj1;
-	tensor1<double, 3> obj2;
-	obj1(1,2,1) = 3;
-	obj1(1,1,1) = 42;
+ad_graph<double> GRAPH;
+	tensor3<ad_dual<double>, 3, 3, 3> obj1(GRAPH,0.);
+	tensor1<ad_dual<double>, 3> obj2(GRAPH,0.);
+	obj1(1,2,1) = ad_dual<double>(GRAPH,3);
+	obj1(1,1,1) = ad_dual<double>(GRAPH,42);
 	Index<'i'> i;
 	Index<'j'> j;
 	obj2(i) = obj1(i,j,j);

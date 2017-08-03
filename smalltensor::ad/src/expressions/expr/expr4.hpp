@@ -22,7 +22,12 @@ public:
     	_tensor4::operator=(std::move(rhs_));
     	return (*this);
     }
-    
+    template <typename graph_type, typename scalar_type>
+    expr4(graph_type& graph_, scalar_type value_)
+    :_tensor4(graph_, value_)
+    {
+        DEBUG_MSG("expr4 constructor with Graph is called");
+    }
  inline expr4<dat_t,d1,d2,d3,d4,i1,i2,i3,i4>&
  operator=(expr4<dat_t,d1,d2,d4,d3,i1,i2,i4,i3> const& RHS_);
 

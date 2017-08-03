@@ -28,6 +28,13 @@ public:
     }
 
 
+    template <typename graph_type, typename scalar_type>
+    expr2(graph_type& graph_, scalar_type value_)
+    :_tensor2(graph_, value_)
+    {
+        DEBUG_MSG("expr2 constructor with Graph is called");
+    }
+
 };
 
 

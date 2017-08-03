@@ -2,17 +2,19 @@
 
 #include <iostream>
 using namespace std;
+using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
-	tensor3<double, 3,3,3> obj1;
-	tensor2<double, 3,3> obj2;
-	tensor2<double, 3,3> obj3;
-	tensor1<double, 3> obj4;
-	tensor2<double, 3,3> obj5;
-	tensor4<double, 3,3,3,3> obj6;
-	tensor3<double, 3,3,3> obj7;
+ad_graph<double> GRAPH;
+	tensor3<ad_dual<double>, 3,3,3> obj1(GRAPH,0.);
+	tensor2<ad_dual<double>, 3,3> obj2(GRAPH,0.);
+	tensor2<ad_dual<double>, 3,3> obj3(GRAPH,0.);
+	tensor1<ad_dual<double>, 3> obj4(GRAPH,0.);
+	tensor2<ad_dual<double>, 3,3> obj5(GRAPH,0.);
+	tensor4<ad_dual<double>, 3,3,3,3> obj6(GRAPH,0);
+	tensor3<ad_dual<double>, 3,3,3> obj7(GRAPH,0);
 
-	obj2(2,2) = 2.;
+	obj2(2,2) = ad_dual<double>(GRAPH,2.);
 	Index<'i'> i;
 	Index<'j'> j;
 	Index<'k'> k;
@@ -20,15 +22,15 @@ int main(int argc, char const *argv[])
 	Index<'m'> m;
 
 	// Test 1
-	obj6(2,2,2,2)=1;
-	obj1(2,2,0) = 3;
+	obj6(2,2,2,2)=ad_dual<double>(GRAPH,1);
+	obj1(2,2,0) = ad_dual<double>(GRAPH,3);
 	obj7(i,j,k) = 	obj6(i,j,l,m)*obj1(l,m,k);
 	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
 	ASSERT_MSG(obj7(2,2,0)==3,"tensor2(_i,_j) contraction1  operator error");
 	
 	// Test 2
-	obj6(2,0,2,1)=2;
-	obj1(2,2,0) = 4;
+	obj6(2,0,2,1)=ad_dual<double>(GRAPH,2);
+	obj1(2,2,0) = ad_dual<double>(GRAPH,4);
 	obj7(i,j,k) = 	obj1(i,l,m)*obj6(l,m,j,k);
 	ASSERT_MSG(obj7(2,2,1)==8,"tensor2(_i,_j) contraction1  operator error");
 	

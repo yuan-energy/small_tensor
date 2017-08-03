@@ -7,7 +7,7 @@ template <typename val_type,
 inline expr4<val_type,d1,d2,d3,d4,i1,i2,i3,i4> operator-(
        expr4<val_type,d1,d2,d3,d4,i1,i2,i3,i4>     const& Rijkl_){
 	typedef expr4<val_type,d1,d2,d3,d4,i1,i2,i3,i4> ret_type;
-	ret_type ret_ijkl;
+	ret_type ret_ijkl(*(Rijkl_(0,0,0,0)._graph), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		for (std::size_t n2 = 0; n2 < d2; ++n2){
 			for (std::size_t n3 = 0; n3 < d3; ++n3){

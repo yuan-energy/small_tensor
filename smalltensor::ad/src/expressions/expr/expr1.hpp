@@ -16,6 +16,13 @@ public:
     	_tensor1::operator=(std::move(rhs_));
     	return (*this);
     }
+
+    template <typename graph_type, typename scalar_type>
+    expr1(graph_type& graph_, scalar_type value_)
+    :_tensor1(graph_, value_)
+    {
+        DEBUG_MSG("expr1 constructor with Graph is called");
+    }
 };
 
 

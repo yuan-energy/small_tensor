@@ -7,7 +7,7 @@ inline expr2<val_type,d1,d2,i,j> operator*(
 	   expr1<val_type,d1,i> const& Li_, 
 	   expr1<val_type,d2,j> const& Rj_){
 	typedef expr2<val_type,d1,d2,i,j> ret_type;
-	ret_type ret_ij;
+	ret_type ret_ij(*(Li_(0)._graph), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		for (std::size_t n2 = 0; n2 < d2; ++n2)
 		{

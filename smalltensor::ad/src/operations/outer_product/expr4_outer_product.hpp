@@ -11,7 +11,7 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
 	   expr3<val_type,d1,d2,d3,i,j,k> const& Lijk_, 
 	   expr1<val_type,d4,l> const& Rl_){
 	typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
-	ret_type ret_ijkl;
+	ret_type ret_ijkl(*(Rl_(0)._graph), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		for (std::size_t n2 = 0; n2 < d2; ++n2){
 			for (std::size_t n3 = 0; n3 < d3; ++n3){
@@ -35,7 +35,7 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
 	   expr1<val_type,d1,i> const& Li_, 
 	   expr3<val_type,d2,d3,d4,j,k,l> const& Rjkl_){
 	typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
-	ret_type ret_ijkl;
+	ret_type ret_ijkl(*(Li_(0)._graph), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		for (std::size_t n2 = 0; n2 < d2; ++n2){
 			for (std::size_t n3 = 0; n3 < d3; ++n3){
@@ -59,7 +59,7 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator*(
 	   expr2<val_type,d1,d2,i,j> const& Lij_, 
 	   expr2<val_type,d3,d4,k,l> const& Rkl_){
 	typedef expr4<val_type,d1,d2,d3,d4,i,j,k,l> ret_type;
-	ret_type ret_ijkl;
+	ret_type ret_ijkl(*(Lij_(0,0)._graph), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		for (std::size_t n2 = 0; n2 < d2; ++n2){
 			for (std::size_t n3 = 0; n3 < d3; ++n3){

@@ -36,7 +36,7 @@ inline expr1<val_type,d1,i> operator*(
     typedef expr1<val_type,d1,i> ret_type;
     ret_type ret_i;
     for (std::size_t N1 = 0; N1 < d1; ++N1){
-      ret_i(N1)=0;
+      ret_i(N1)=val_type(*(Lj_(0)._graph), 0.) ;
     	for (std::size_t n2 = 0; n2 < d2; ++n2)
     	{
 	        ret_i(N1) += Lj_(n2) * Rij_(N1,n2);

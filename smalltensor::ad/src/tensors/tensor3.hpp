@@ -39,6 +39,20 @@ public:
 		}
 	}
 
+	template <typename graph_type, typename scalar_type>
+	tensor3(graph_type& graph_, scalar_type value_)
+	: _data{new __dat_t[__d1*__d2*__d3]}
+	{
+		DEBUG_MSG("tensor3 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					(*this)(n1,n2,n3) = __dat_t(graph_, value_) ; 
+				}
+			}
+		}
+	}
+
 	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_, std::size_t n3_){
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_ < __d3, "tensor3() index out of bounds in lvalue. ");
 		return _data[ n1_ * __d2 *__d3 + n2_ * __d3 + n3_];
@@ -56,14 +70,14 @@ public:
         return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>const&>(*this);
 	}
 	template <char i, char j>
-	inline expr1<__dat_t, __d1, i> operator()(Index<i> i_, Index<j> j_, Index<j> k_){
+	inline expr1<__dat_t, __d1, i> operator()(Index<i> i_, Index<j> j_, Index<j/*same*/> k_){
 		ASSERT_MSG(__d2 == __d3, "Dimension size should be equal for dummy indices. ");
 		typedef expr1<__dat_t, __d1, i> ret_type;
-		ret_type ret_i;
+		ret_type ret_i(*((*this)(0,0,0)._graph), 0.) ;
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2)
 			{
-				ret_i(n1) += (*this)(n1,n2,n2);
+				ret_i(n1) = ret_i(n1) + (*this)(n1,n2,n2);
 			}
 		}
         return ret_i;

@@ -16,7 +16,12 @@ public:
     	_tensor3::operator=(std::move(rhs_));
     	return (*this);
     }
-
+    template <typename graph_type, typename scalar_type>
+    expr3(graph_type& graph_, scalar_type value_)
+    :_tensor3(graph_, value_)
+    {
+        DEBUG_MSG("expr3 constructor with Graph is called");
+    }
     inline expr3<dat_t,d1,d2,d3,i1,i2,i3>&
     operator=(expr3<dat_t,d1,d3,d2,i1,i3,i2> const& RHS_);
 

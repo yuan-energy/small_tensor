@@ -10,6 +10,8 @@
 #include "./ad_dual_operations/ad_dual_plus.hpp"
 #include "./ad_dual_operations/ad_dual_power.hpp"
 #include "./ad_dual_operations/ad_dual_comparison.hpp"
+#include "./ad_dual_operations/ad_dual_subtraction.hpp"
+#include "./ad_dual_operations/ad_dual_summation.hpp"
 
 
 
