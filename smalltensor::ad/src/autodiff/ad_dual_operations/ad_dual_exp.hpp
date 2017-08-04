@@ -3,8 +3,8 @@
 template <typename val_type>
 ad_dual<val_type>
 exp(ad_dual<val_type> const& rhs){
-	ad_dual<val_type> out(*(rhs._graph), exp(rhs._value)) ;
-	out._graph->add_direct_derivative( out, rhs, exp(rhs._value) );
+	ad_dual<val_type> out(*(rhs._graph), std::exp(rhs._value)) ;
+	out._graph->add_direct_derivative( out, rhs, std::exp(rhs._value) );
 	return out;
 }
 
