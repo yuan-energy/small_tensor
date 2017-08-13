@@ -3,10 +3,11 @@
 #include <cstring>  /* std::memcpy, std::memmove */
 #include <cassert> /* assert */
 #include <string> /* string */
-#include <map>
+// #include <map>
+#include <unordered_map>
 #include <cmath>
 
-typedef int nodeID;
+typedef unsigned long long int nodeID;
 
 #include "__assert_msg.h"
 

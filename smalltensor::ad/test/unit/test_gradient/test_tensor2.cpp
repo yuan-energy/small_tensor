@@ -8,13 +8,8 @@ int main(int argc, char const *argv[])
 	ad_graph<double> GRAPH;
 	tensor1<ad_dual<double>, 3> obj1(GRAPH,0.);
 	tensor1<ad_dual<double>, 3> obj2(GRAPH,0.);
-	obj1(0) = ad_dual<double>(GRAPH,0.) ;
-	obj1(1) = ad_dual<double>(GRAPH,0.) ;
-	obj1(2) = ad_dual<double>(GRAPH,3.) ;
-
-	obj2(0) = ad_dual<double>(GRAPH,0.) ;
-	obj2(1) = ad_dual<double>(GRAPH,0.) ;
-	obj2(2) = ad_dual<double>(GRAPH,2.) ;
+	obj1(2).set_value(3.) ;
+	obj2(2).set_value(2.) ;
 
 	Index<'i'> _i;
 	Index<'j'> _j;
@@ -27,17 +22,6 @@ int main(int argc, char const *argv[])
 	tensor2<ad_dual<double>, 3,3> obj3(GRAPH,0.);
 	
 	obj3(2,2) = ad_dual<double>(GRAPH,20.) ;
-
-	obj3(0,2) = ad_dual<double>(GRAPH,0.) ;
-	obj3(1,2) = ad_dual<double>(GRAPH,0.) ;
-
-	obj3(0,1) = ad_dual<double>(GRAPH,0.) ;
-	obj3(1,1) = ad_dual<double>(GRAPH,0.) ;
-	obj3(2,1) = ad_dual<double>(GRAPH,0.) ;
-
-	obj3(0,0) = ad_dual<double>(GRAPH,0.) ;
-	obj3(1,0) = ad_dual<double>(GRAPH,0.) ;
-	obj3(2,0) = ad_dual<double>(GRAPH,0.) ;
 
 	tensor2<ad_dual<double>, 3,3> obj4(obj3) ;
 	obj4(2,2).set_value(0.);

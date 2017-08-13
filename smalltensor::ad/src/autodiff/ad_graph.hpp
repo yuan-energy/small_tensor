@@ -11,7 +11,7 @@ template <typename val_type>
 class ad_graph
 {
 private:
-	typedef std::map<nodeID, std::map<nodeID, val_type>> derivativeTable;
+	typedef std::unordered_map<nodeID, std::unordered_map<nodeID, val_type>> derivativeTable;
 	nodeID _id_count;
 	derivativeTable _derivatives;
 	// set<nodeID> _independent_variables;
