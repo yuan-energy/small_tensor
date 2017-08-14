@@ -11,17 +11,17 @@ ad_graph<double> GRAPH;
 	tensor4<ad_dual<double>, 3,3,3,3> obj3(GRAPH,0.);
 	obj1(2,1,1,2) = ad_dual<double>(GRAPH,3.);
 	obj2(2,1,1,2) = ad_dual<double>(GRAPH,2.);
-	Index<'i'> _i;
-	Index<'j'> _j;
-	Index<'k'> _k;
-	Index<'l'> _l;
+	Ident<'i'> _i;
+	Ident<'j'> _j;
+	Ident<'k'> _k;
+	Ident<'l'> _l;
 	obj3(_i,_j,_k,_l) = obj2(_i,_j,_k,_l) *2;
 	ASSERT_MSG(obj3(2,1,1,2)==4,"tensor4(_i,_j,_k,_l) plus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// Ident<'i'> i;
+	// Ident<'j'> j;
 
 	// tensor1<ad_dual<double>, 3> L;
 	// tensor1<ad_dual<double>, 3> R;

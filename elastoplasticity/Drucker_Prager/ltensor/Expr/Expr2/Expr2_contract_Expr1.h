@@ -31,7 +31,6 @@
 
 //#define USE_ASSERT_Expr2
 #ifdef USE_ASSERT_Expr2
-#include <assert.h>
 #endif
 
 

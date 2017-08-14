@@ -29,10 +29,7 @@
 #include "../storage/storage.h"
 #include "../meta/Metaprograms.h"
 #include "Constants.h"
-#include <cassert>
-#include <cstdarg>
-#include <string>
-#include <iostream>
+
 //base class for array/tensor implementation
 
 

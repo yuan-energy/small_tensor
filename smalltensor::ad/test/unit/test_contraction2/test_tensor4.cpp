@@ -10,12 +10,12 @@ ad_graph<double> GRAPH;
 	tensor4<ad_dual<double>,3, 3,3,3> obj2(GRAPH,0.);
 	tensor4<ad_dual<double>,3, 3,3,3> obj3(GRAPH,0.);
 
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
-	Index<'m'> m;
-	Index<'n'> n;
+	Ident<'i'> i;
+	Ident<'j'> j;
+	Ident<'k'> k;
+	Ident<'l'> l;
+	Ident<'m'> m;
+	Ident<'n'> n;
 
 	// Test 1
 	obj1(1,2,2,2) = ad_dual<double>(GRAPH,1);

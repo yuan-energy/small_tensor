@@ -30,7 +30,6 @@
 //#define CHECK_Expr1_Definitions
 //#define USE_ASSERT_Expr1
 #ifdef USE_ASSERT_Expr1
-#include <assert.h>
 #endif
 
 

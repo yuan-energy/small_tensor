@@ -11,16 +11,16 @@ ad_graph<double> GRAPH;
 	tensor2<ad_dual<double>, 3,3> obj3(GRAPH,0.);
 	obj1(2,2) = ad_dual<double>(GRAPH,3.);
 	obj2(2,2) = ad_dual<double>(GRAPH,2.);
-	Index<'i'> _i;
-	Index<'j'> _j;
+	Ident<'i'> _i;
+	Ident<'j'> _j;
 	obj3(_i,_j) = - obj1(_i,_j);
 	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
 	ASSERT_MSG(obj3(2,2)==-3,"tensor2(_i,_j) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// Ident<'i'> i;
+	// Ident<'j'> j;
 
 	// tensor1<ad_dual<double>, 3> L;
 	// tensor1<ad_dual<double>, 3> R;

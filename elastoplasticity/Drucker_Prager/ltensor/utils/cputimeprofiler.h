@@ -28,15 +28,6 @@
 
 #ifndef  MSVC
 
-#include <stdio.h>
-#include <sys/param.h>
-#include <sys/times.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <fstream>
 
 
 
@@ -92,8 +83,6 @@ public:
 
 #else
 #include <Windows.h>
-#include <iostream>
-#include <cassert>
 class cputimeprofiler
 {
 public:

@@ -39,8 +39,22 @@ public:
 		}
 	}
 
-	template <typename graph_type, typename scalar_type>
-	tensor3(graph_type& graph_, scalar_type value_)
+	template <typename val_type>
+	tensor3(ad_graph<val_type>& graph_, val_type value_)
+	: _data{new __dat_t[__d1*__d2*__d3]}
+	{
+		DEBUG_MSG("tensor3 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					(*this)(n1,n2,n3) = __dat_t(graph_, value_) ; 
+				}
+			}
+		}
+	}
+
+	template <typename val_type>
+	tensor3(ad_graph<val_type>& graph_, int value_)
 	: _data{new __dat_t[__d1*__d2*__d3]}
 	{
 		DEBUG_MSG("tensor3 constructor with Graph is called");
@@ -62,18 +76,18 @@ public:
 		return _data[ n1_ * __d2 *__d3 + n2_ * __d3 + n3_];
 	}
 	template <char i, char j, char k>
-	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k>& operator()(Index<i> i_, Index<j> j_, Index<k> k_){
+	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k>& operator()(Ident<i> i_, Ident<j> j_, Ident<k> k_){
         return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>&>(*this);
 	}
 	template <char i, char j, char k>
-	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k> const& operator()(Index<i> i_, Index<j> j_, Index<k> k_)const{
+	inline expr3<__dat_t, __d1, __d2, __d3, i, j, k> const& operator()(Ident<i> i_, Ident<j> j_, Ident<k> k_)const{
         return static_cast<expr3<__dat_t, __d1, __d2, __d3, i, j, k>const&>(*this);
 	}
 	template <char i, char j>
-	inline expr1<__dat_t, __d1, i> operator()(Index<i> i_, Index<j> j_, Index<j/*same*/> k_){
+	inline expr1<__dat_t, __d1, i> operator()(Ident<i> i_, Ident<j> j_, Ident<j/*same*/> k_){
 		ASSERT_MSG(__d2 == __d3, "Dimension size should be equal for dummy indices. ");
 		typedef expr1<__dat_t, __d1, i> ret_type;
-		ret_type ret_i(*((*this)(0,0,0)._graph), 0.) ;
+		ret_type ret_i(*((*this)(0,0,0).get_graph()), 0.) ;
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2)
 			{

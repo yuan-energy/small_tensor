@@ -13,8 +13,20 @@ public:
 		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2);
 	}
 
-	template <typename graph_type, typename scalar_type>
-	tensor2(graph_type& graph_, scalar_type value_)
+	template <typename val_type>
+	tensor2(ad_graph<val_type>& graph_, val_type value_)
+	: _data{new __dat_t[__d1*__d2]}
+	{
+		DEBUG_MSG("tensor2 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				(*this)(n1,n2) = __dat_t(graph_, value_) ; 
+			}
+		}
+	}
+
+	template <typename val_type>
+	tensor2(ad_graph<val_type>& graph_, int value_)
 	: _data{new __dat_t[__d1*__d2]}
 	{
 		DEBUG_MSG("tensor2 constructor with Graph is called");
@@ -67,6 +79,19 @@ public:
 	        }
 	    }
 	}
+
+	// template <typename val_type>
+	// tensor2( ad_graph<val_type> & graph_, std::string const& other_)
+	// :_data{new __dat_t[__d1*__d2]}
+	// {
+	//     if (other_ == "identity"){
+	//         ASSERT_MSG(__d1==__d2, "ERROR:tensor2 has different dimensions, cannot be identity.");
+	//         for (std::size_t n1 = 0; n1 < __d1; ++n1){
+	//             (*this)(n1,n1) = __dat_t(graph_, 1) ;  ;
+	//         }
+	//     }
+	// }
+
 	inline __dat_t& operator()(std::size_t n1_, std::size_t n2_){
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2, "tensor2() index out of bounds in lvalue. ");
 		return _data[ n1_ * __d2 + n2_];
@@ -77,19 +102,19 @@ public:
 	}
 	
 	template <char i, char j>
-	inline expr2<__dat_t, __d1, __d2, i, j>& operator()(Index<i> i_, Index<j> j_){
+	inline expr2<__dat_t, __d1, __d2, i, j>& operator()(Ident<i> i_, Ident<j> j_){
         return static_cast<expr2<__dat_t, __d1, __d2, i, j>&>(*this);
 	}
 
 	template <char i, char j>
-	inline expr2<__dat_t, __d1, __d2, i, j> const& operator()(Index<i> i_, Index<j> j_)const{
+	inline expr2<__dat_t, __d1, __d2, i, j> const& operator()(Ident<i> i_, Ident<j> j_)const{
         return static_cast<expr2<__dat_t, __d1, __d2, i, j>const&>(*this);
 	}
 
 	template <char i>
-	inline __dat_t operator()(Index<i> i_, Index<i/*same*/> j_){
+	inline __dat_t operator()(Ident<i> i_, Ident<i/*same*/> j_){
 		ASSERT_MSG(__d1 == __d2, "Dimension size should be equal for dummy indices. ");
-		__dat_t ret(*((*this)(0,0)._graph), 0.) ;
+		__dat_t ret((*this)(0,0).get_graph(), 0.) ;
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			ret = ret + (*this)(n1,n1);
 		}
@@ -104,5 +129,42 @@ public:
 		}
 		return (*this);
 	}
+
+	// template <typename val_type>
+	// ad_graph<val_type>* get_graph() const{
+	// 	return (*this)(0,0).get_graph();
+	// }
+
+
+	friend std::ostream& operator<<(std::ostream & os, tensor2 const& v ){
+		os<<std::endl<<"tensor2=[\n" ;
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				os<<v(n1,n2) << "\t" ;
+			}
+			os<<"\n";
+		}
+		os<<"]" << std::endl;
+		return os;
+	}
+
 };
 
+
+// friend std::ostream & operator<< (std::ostream & os, const Expr2 & v)
+// {
+// 	int n1;
+// 	int n2;
+// 	os << std::endl << "[" << std::endl;
+// 	for (n1 = 0; n1 < v.get_dim1(); ++n1)
+// 	{
+// 		for (n2 = 0; n2 < v.get_dim2(); ++n2)
+// 		{
+// 			os << v(n1,n2) << " ";
+// 		}
+// 		os << std::endl;
+// 	}
+// 	os << "]" << std::endl;
+
+// 	return os;
+// }

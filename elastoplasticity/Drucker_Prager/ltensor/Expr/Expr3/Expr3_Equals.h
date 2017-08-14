@@ -29,7 +29,6 @@
 //#define CHECK_Expr3_Definitions
 //#define USE_ASSERT_Expr3
 #ifdef USE_ASSERT_Expr3
-#include <assert.h>
 #endif
 
 

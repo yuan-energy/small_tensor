@@ -12,8 +12,8 @@ int main(int argc, char const *argv[])
 
 	obj2(2) = ad_dual<double>(GRAPH,2.) ;
 
-	Index<'i'> _i;
-	Index<'j'> _j;
+	Ident<'i'> _i;
+	Ident<'j'> _j;
 	ad_dual<double> ret1 = obj2(_i) * obj1(_i);
 
 	ASSERT_MSG(ret1.get_value()==6,"tensor1 obj3(_i) contraction 1 operator error");

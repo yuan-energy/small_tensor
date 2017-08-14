@@ -20,6 +20,10 @@ private:
 public:
 	ad_graph():_id_count{0}{}
 
+	void clear(){
+		_derivatives.clear();
+		_id_count=0;
+	}
 
 	val_type 
 	get_derivative(ad_dual<val_type> const& of, ad_dual<val_type> const& wrt){

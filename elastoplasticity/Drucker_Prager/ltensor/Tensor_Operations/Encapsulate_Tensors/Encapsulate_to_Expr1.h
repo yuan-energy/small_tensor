@@ -28,7 +28,6 @@
 
 //#define USE_ASSERT_Encapsulate
 #ifdef USE_ASSERT_Encapsulate
-#include <assert.h>
 #endif
 
 ///////////////////////////////////////////////////////////////////////

@@ -31,13 +31,8 @@
 	assert(n<get_dim1());	\
 	assert(n>=0);
 
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <sstream>
 
-#include <vector>
+
 
 #include "../base/Array_base.h"
 #include "../meta/Metaprograms.h"

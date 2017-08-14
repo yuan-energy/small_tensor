@@ -7,7 +7,7 @@ inline expr1<val_type,d1,i> operator/(
        expr1<val_type,d1,i> const& Li_, 
        scalar_type          const& scalar_){
 	typedef expr1<val_type,d1,i> ret_type;
-	ret_type ret_i(*(Li_(0)._graph), 0.) ;
+	ret_type ret_i(*(Li_(0).get_graph()), 0.) ;
 	for (std::size_t n1 = 0; n1 < d1; ++n1){
 		ret_i(n1) = Li_(n1) / scalar_;
 	}

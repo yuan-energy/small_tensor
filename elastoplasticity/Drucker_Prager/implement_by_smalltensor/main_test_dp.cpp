@@ -1,11 +1,12 @@
-#include "../ltensor/LTensor.h"
+// #include "../../../smalltensor::ad/app/smalltensor.h"
 #include "dp.h"
+#include "../ltensor/LTensor.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <math.h>
 using namespace std;
-
+// using namespace smalltensor::ad;
 int main(int argc, char const *argv[])
 {
 	Index<'i'> i;
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[])
 	auto theMaterial = new dp(material_constants, _initial_confine) ; 
 
 
-	DTensor2 input_strain(3,3,0.);
+	DTensor2 input_strain;
 	input_strain *= 0. ;
 	double max_strain = 0.005;
 	int Nstep = 100;
@@ -36,8 +37,8 @@ int main(int argc, char const *argv[])
 	input_strain(1,0) = input_strain(0,1);
 
 	ofstream fout("strain_stress.txt");
-	DTensor2 stress_ret(3,3,0.);
-	DTensor2 strain_ret(3,3,0.);
+	DTensor2 stress_ret;
+	DTensor2 strain_ret;
 
 
 	// **************************************************************

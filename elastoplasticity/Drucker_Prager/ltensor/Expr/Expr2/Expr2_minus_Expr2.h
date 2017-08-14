@@ -30,7 +30,6 @@
 
 
 #ifdef USE_ASSERT_Expr2
-#include <assert.h>
 #endif
 
 #include "./Expr2.h"

@@ -28,7 +28,6 @@
 
 
 #ifdef USE_ASSERT_Expr3
-#include <assert.h>
 #endif
 
 

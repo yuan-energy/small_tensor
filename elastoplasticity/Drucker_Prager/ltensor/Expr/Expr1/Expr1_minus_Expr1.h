@@ -32,7 +32,6 @@
 //#define CHECK_Expr1_minus_Expr1
 //#define USE_ASSERT_Expr1
 #ifdef USE_ASSERT_Expr1
-#include <assert.h>
 #endif
 
 #include "./Expr1.h"

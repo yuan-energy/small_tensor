@@ -31,7 +31,6 @@
 //#define CHECK_minus_Expr1
 //#define USE_ASSERT_Expr1
 #ifdef USE_ASSERT_Expr1
-#include <assert.h>
 #endif
 
 #define ExprAi   Expr1<A,T,i>

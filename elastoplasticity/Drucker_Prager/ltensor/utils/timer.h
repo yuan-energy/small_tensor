@@ -27,7 +27,6 @@
 
 #ifndef MSVC
 
-#include <sys/time.h>
 
 class HRTimer {
 

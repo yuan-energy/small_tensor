@@ -27,7 +27,6 @@
 #define METAPROGRAMS_H_INCLUDED
 #include "../static/sVector.h"
 #include "../base/Array_base.h"
-#include <cstdlib>
 
 template <class T,int rank>
 class sVector;

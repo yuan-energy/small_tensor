@@ -25,7 +25,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef F_EXPR1
 #define F_EXPR1
-#include <assert.h>
 
 template < class A, class T>
 class F_Expr1

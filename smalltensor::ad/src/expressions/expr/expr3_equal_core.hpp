@@ -1,4 +1,3 @@
-#pragma once
 template <typename val_type, 
           std::size_t d1, std::size_t d2, 
           std::size_t d3, 

@@ -40,8 +40,24 @@ public:
 		}
 	}
 
-	template <typename graph_type, typename scalar_type>
-	tensor4(graph_type& graph_, scalar_type value_)
+	template <typename val_type>
+	tensor4(ad_graph<val_type>& graph_, val_type value_)
+	: _data{new __dat_t[__d1*__d2*__d3*__d4]}
+	{
+		DEBUG_MSG("tensor4 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					for (std::size_t n4 = 0; n4 < __d4; ++n4){
+						(*this)(n1,n2,n3,n4) = __dat_t(graph_, value_) ; 
+					}
+				}
+			}
+		}
+	}
+
+	template <typename val_type>
+	tensor4(ad_graph<val_type>& graph_, int value_)
 	: _data{new __dat_t[__d1*__d2*__d3*__d4]}
 	{
 		DEBUG_MSG("tensor4 constructor with Graph is called");
@@ -70,20 +86,20 @@ public:
 	}
 	template <char i, char j, char k, char l>
 	inline expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>& 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_){
+	operator()(Ident<i> i_, Ident<j> j_, Ident<k> k_, Ident<l> l_){
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>&>(*this);
 	}
 	template <char i, char j, char k, char l>
 	inline expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l> const& 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_)const{
+	operator()(Ident<i> i_, Ident<j> j_, Ident<k> k_, Ident<l> l_)const{
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>const&>(*this);
 	}
 	template <char i, char j, char k>
 	inline expr2<__dat_t, __d1, __d2, i, j> 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k/*same*/> l_){
+	operator()(Ident<i> i_, Ident<j> j_, Ident<k> k_, Ident<k/*same*/> l_){
 		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
 		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
-		ret_type ret_ij(*((*this)(0,0,0,0)._graph), 0.) ;
+		ret_type ret_ij(*((*this)(0,0,0,0).get_graph()), 0.) ;
 		for (std::size_t N1 = 0; N1 < __d1; ++N1){
 			for (std::size_t N2 = 0; N2 < __d2; ++N2){
 				for (std::size_t n3 = 0; n3 < __d3; ++n3){

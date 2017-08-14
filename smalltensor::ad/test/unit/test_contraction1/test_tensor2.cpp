@@ -13,9 +13,9 @@ int main(int argc, char const *argv[])
 	tensor2<ad_dual<double>, 3,3> obj5(GRAPH,0.)  ;
 
 	obj2(2,2) = ad_dual<double>(GRAPH, 2.);
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
+	Ident<'i'> i;
+	Ident<'j'> j;
+	Ident<'k'> k;
 
 	// // Test 1
 	obj1(2,2,2)= ad_dual<double>(GRAPH,1) ;

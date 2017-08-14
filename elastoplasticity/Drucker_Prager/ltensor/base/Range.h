@@ -26,7 +26,6 @@
 #ifndef RANGE_H_INCLUDED
 #define RANGE_H_INCLUDED
 #include "../static/sVector.h"
-#include <cmath>
 
 //template only valid for integer types
 

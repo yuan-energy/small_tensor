@@ -28,7 +28,6 @@
 
 
 #ifdef USE_ASSERT_Expr4
-#include <assert.h>
 #endif
 
 /*! \brief A class that represents an expression

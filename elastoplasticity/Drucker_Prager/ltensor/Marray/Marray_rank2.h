@@ -29,7 +29,6 @@
 
 //#define USE_ASSERT_Marray
 #ifdef USE_ASSERT_Marray
-#include <assert.h>
 #endif
 
 #define CHECK										\
@@ -40,12 +39,6 @@
 //#define CHECK_Marray_rank2
 
 
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <string>
-#include <sstream>
 #include "../algorithms/algorithms.h"
 
 #include "../Tensor_Operations/Tensor_Operations.h"

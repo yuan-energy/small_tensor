@@ -10,8 +10,8 @@ ad_graph<double> GRAPH;
 	tensor1<ad_dual<double>, 3> obj2(GRAPH,0.);
 	obj1(1,2,1) = ad_dual<double>(GRAPH,3);
 	obj1(1,1,1) = ad_dual<double>(GRAPH,42);
-	Index<'i'> i;
-	Index<'j'> j;
+	Ident<'i'> i;
+	Ident<'j'> j;
 	obj2(i) = obj1(i,j,j);
 	ASSERT_MSG(obj2(1)==42,"tensor3(i,j,j) condense tensor error");
 

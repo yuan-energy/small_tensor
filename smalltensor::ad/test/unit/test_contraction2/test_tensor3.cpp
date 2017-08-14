@@ -15,11 +15,11 @@ ad_graph<double> GRAPH;
 	tensor3<ad_dual<double>, 3,3,3> obj7(GRAPH,0);
 
 	obj2(2,2) = ad_dual<double>(GRAPH,2.);
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
-	Index<'m'> m;
+	Ident<'i'> i;
+	Ident<'j'> j;
+	Ident<'k'> k;
+	Ident<'l'> l;
+	Ident<'m'> m;
 
 	// Test 1
 	obj6(2,2,2,2)=ad_dual<double>(GRAPH,1);

@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
-#include<iomanip>
+#include <iomanip>
 #include <string>
 
 using namespace std;

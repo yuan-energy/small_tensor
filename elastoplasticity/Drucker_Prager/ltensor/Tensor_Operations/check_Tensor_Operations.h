@@ -28,7 +28,6 @@
 //
 //#define USE_ASSERT_Tensor_Operations
 //#ifdef USE_ASSERT_Tensor_Operations
-//#include <assert.h>
 //#endif
 
 #endif

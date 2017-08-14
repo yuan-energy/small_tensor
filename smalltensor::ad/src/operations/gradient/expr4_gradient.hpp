@@ -10,8 +10,8 @@
 //     ret_type ret_ij;
 //     for (std::size_t N1 = 0; N1 < d1; ++N1){
 //       for (std::size_t N2 = 0; N2 < d2; ++N2){
-//         // ret_ij(N1,N2) = val_type(*(Rj_(0)._graph), 0.) ;
-//         ret_ij(N1,N2) = val_type(*(Rj_(0)._graph),
+//         // ret_ij(N1,N2) = val_type(*(Rj_(0).get_graph()), 0.) ;
+//         ret_ij(N1,N2) = val_type(*(Rj_(0).get_graph()),
 //                             Rj_(0)._graph->get_derivative( Li_(N1) , Rj_(N2) ) ); 
 //       }
 //     }
@@ -34,7 +34,7 @@ inline expr4<val_type,d1,d2,d3,d4,i,j,k,l> operator/(
       for (std::size_t N2 = 0; N2 < d2; ++N2){
         for (std::size_t N3 = 0; N3 < d3; ++N3){
           for (std::size_t N4 = 0; N4 < d4; ++N4){
-            ret_ijkl(N1,N2,N3,N4) = val_type(*(Rkl_(0,0)._graph),
+            ret_ijkl(N1,N2,N3,N4) = val_type(*(Rkl_(0,0).get_graph()),
                             Rkl_(0,0)._graph->get_derivative(Lij_(N1,N2), Rkl_(N3,N4)));
           }
         }

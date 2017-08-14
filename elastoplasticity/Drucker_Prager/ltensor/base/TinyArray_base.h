@@ -27,10 +27,6 @@
 #define TINYARRAY_BASE_H_INCLUDED
 
 #include "../meta/Metaprograms.h"
-#include <cstdarg>
-#include <string>
-#include <iostream>
-#include <cassert>
 //base class for array/tensor implementation
 
 #define CHECK assert(data!=NULL)

@@ -1,10 +1,11 @@
-// #include "../ltensor/LTensor.h"
+#include "../ltensor/LTensor.h"
 #include "../../../smalltensor::ad/app/smalltensor.h"
 #include <stdio.h>
+#include <vector>
 #include <iostream>
 #include <math.h>
 using namespace std;
-
+using namespace smalltensor::ad;
 
 typedef std::vector<double> DVEC;
 
@@ -19,38 +20,39 @@ class dp
 public:
 	dp(DVEC constants_prop, double initial_confine);
 
-	int setStrainIncr(stresstensor const& strain_incr);
+	int setStrainIncr(DTensor2 const& strain_incr);
 
-	double yield_surface(stresstensor const& dev_stress, double pressure) ;
-	double yield_surface(stresstensor const& stress);
-	stresstensor const& getCommitStress()  const ; 
-	stresstensor const& getCommitStrain()  const ; 
-	stresstensor const& getCommitStrainPlastic()  const ; 
-	stifftensor const& getTangentTensor()  const ; 
+	ad_dual<double> yield_surface(stresstensor const& dev_stress, ad_dual<double> pressure) ;
+	ad_dual<double> yield_surface(stresstensor const& stress);
+	DTensor2 getCommitStress()  const ; 
+	DTensor2 getCommitStrain()  const ; 
+	DTensor2 getCommitStrainPlastic()  const ; 
+	DTensor4 getTangentTensor()  const ; 
 
 	void CommitState();
 	// ~dp();
 private:
 	int return2smooth(stresstensor const& strain_trial, bool& valid);
-	int return2apex(stresstensor const& strain_trial, double p_trial);
+	int return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial);
 	stresstensor getDev(stresstensor const& strain);
-	double getJ2(stresstensor const& dev_stress);
-	int compute_stiffness_return2smooth(double dlambda, stresstensor const& strain_trial);
+	ad_dual<double> getJ2(stresstensor const& dev_stress);
+	int compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial);
 	int compute_stiffness_return2apex();
-	double backward_zbrentstress(const stresstensor& start_stress,
-	                        const stresstensor& end_stress,
-	                        double x1, double x2, double tol) ; 
+	// ad_dual<double> backward_zbrentstress(const stresstensor& start_stress,
+	//                         const stresstensor& end_stress,
+	//                         ad_dual<double> x1, ad_dual<double> x2, ad_dual<double> tol) ; 
 private:
+	ad_graph<double> _GRAPH;
 	double _shear_modulus;
 	double _vol_K;
 	double _eta;
 	double _eta_bar;
 	double _cohesion;
 	double _initial_confine;
-	double _intersection_factor;
+	// ad_dual<double> _intersection_factor;
 
 	stresstensor _stress_dev_iter;
-	double _p_iter ; 
+	ad_dual<double> _p_iter ; 
 	stresstensor _commit_stress ; 
 
 	stresstensor _strain_iter;
@@ -59,16 +61,28 @@ private:
 	stresstensor _strain_plastic_iter;
 	stresstensor _commit_strain_plastic; 
 
-	Index<'i'> _i;
-	Index<'j'> _j;
-	Index<'k'> _k;
-	Index<'l'> _l;
+	smalltensor::ad::Ident<'i'> _i;
+	smalltensor::ad::Ident<'j'> _j;
+	smalltensor::ad::Ident<'k'> _k;
+	smalltensor::ad::Ident<'l'> _l;
 	stifftensor _Stiffness;
 	stifftensor _Eelastic;
 
 	stresstensor _test_strain_incr;
 	stresstensor _test_stress_trial;
 
-	static stresstensor kronecker_delta;
+	stresstensor kronecker_delta;
 	
 };
+// _intersection_factor = 0.; 
+// _stress_dev_iter = DTensor2(3,3,0.) ; 
+// _commit_stress = DTensor2(3,3,0.) ; 
+// _strain_iter  = DTensor2(3,3,0.) ; 
+// _commit_strain = DTensor2(3,3,0.) ; 
+// _strain_plastic_iter = DTensor2(3,3,0.) ; 
+// _commit_strain_plastic = DTensor2(3,3,0.) ; 
+// _Stiffness = DTensor4(3,3,3,3,0.) ; 
+// _Eelastic  = DTensor4(3,3,3,3,0.) ; 
+// _test_strain_incr = DTensor2(3,3,0.) ; 
+// _test_stress_trial = DTensor2(3,3,0.) ; 
+// _p_iter = - _initial_confine ; 

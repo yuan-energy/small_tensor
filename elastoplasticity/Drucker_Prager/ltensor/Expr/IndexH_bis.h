@@ -26,7 +26,6 @@
 #ifndef Index_BIS_H
 #define Index_BIS_H
 
-#include <iostream>
 #include "../Marray/Marray_rank1.h"
 #include "Index.h"
 

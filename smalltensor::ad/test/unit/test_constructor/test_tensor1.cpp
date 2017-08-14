@@ -6,7 +6,7 @@ using namespace smalltensor::ad ;
 int main(int argc, char const *argv[])
 {
 	ad_graph<double> GRAPH;
-	tensor1<ad_dual<double>, 3> obj1;
+	tensor1<ad_dual<double>, 3> obj1(GRAPH,0.) ;
 
 	obj1(2) = ad_dual<double>(GRAPH,3) ;
 	ASSERT_MSG(obj1(2).get_value() == 3,"tensor1(n1) assignment error");
@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
 	tensor1<ad_dual<double>, 3> obj2(obj1) ;
 	ASSERT_MSG(obj2(2).get_value() == 3,"obj2(n1) copy constructor error");
 
-	tensor1<ad_dual<double>, 3> obj3;
+	tensor1<ad_dual<double>, 3> obj3(GRAPH,0.) ;
 	obj3 = obj1;
 	ASSERT_MSG(obj3(2).get_value() ==3,"obj3(n1) copy assignment operator error");
 
@@ -25,8 +25,8 @@ int main(int argc, char const *argv[])
 	obj5 = std::move(obj2);
 	ASSERT_MSG(obj5(2).get_value() ==3,"obj5(n1) move assignment operator error");
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// Ident<'i'> i;
+	// Ident<'j'> j;
 
 	// tensor1<ad_dual<double>, 3> L;
 	// tensor1<ad_dual<double>, 3> R;

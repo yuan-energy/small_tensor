@@ -13,8 +13,18 @@ public:
 		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1);
 	}
 	
-	template <typename graph_type, typename scalar_type>
-	tensor1(graph_type& graph_, scalar_type value_)
+	template <typename val_type>
+	tensor1(ad_graph<val_type>& graph_, val_type value_)
+	: _data{new __dat_t[__d1]}
+	{
+		DEBUG_MSG("tensor1 constructor with Graph is called");
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			_data[n1] = __dat_t(graph_, value_) ; 
+		}
+	}
+
+	template <typename val_type>
+	tensor1(ad_graph<val_type>& graph_, int value_)
 	: _data{new __dat_t[__d1]}
 	{
 		DEBUG_MSG("tensor1 constructor with Graph is called");
@@ -68,12 +78,12 @@ public:
 	}
 	
 	template <char i>
-	inline expr1<__dat_t, __d1, i>& operator()(Index<i> i_){
+	inline expr1<__dat_t, __d1, i>& operator()(Ident<i> i_){
         return static_cast<expr1<__dat_t, __d1, i>&>(*this);
 	}
 
 	template <char i>
-	inline expr1<__dat_t, __d1, i> const& operator()(Index<i> i_)const{
+	inline expr1<__dat_t, __d1, i> const& operator()(Ident<i> i_)const{
         return static_cast<expr1<__dat_t, __d1, i>const&>(*this);
 	}
 

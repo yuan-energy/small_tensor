@@ -15,10 +15,10 @@ int main(int argc, char const *argv[])
 	tensor3<ad_dual<double>, 3,3,3> obj7(GRAPH,0.);
 
 	obj2(2,2) = ad_dual<double>(GRAPH,2.);
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
+	Ident<'i'> i;
+	Ident<'j'> j;
+	Ident<'k'> k;
+	Ident<'l'> l;
 
 	// Test 1
 	obj6(2,2,2,2)=ad_dual<double>(GRAPH,1);

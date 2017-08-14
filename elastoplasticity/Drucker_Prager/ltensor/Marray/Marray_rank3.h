@@ -29,15 +29,12 @@
 
 //#define USE_ASSERT_Marray
 #ifdef USE_ASSERT_Marray
-#include <assert.h>
 #endif
 
 #define CHECK										\
 	assert( (n1<get_dim1())&& (n2<get_dim2()) && (n3<get_dim3()) );	\
 	assert( (n1>=0) && (n2>=0) && (n3>=0) );
 
-#include <algorithm>
-#include <iostream>
 
 
 template < class A, class T, char i > class Expr1;

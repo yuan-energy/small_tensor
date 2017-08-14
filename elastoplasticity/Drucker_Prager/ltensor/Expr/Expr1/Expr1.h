@@ -30,7 +30,6 @@
 
 //#define USE_ASSERT_Expr1
 #ifdef USE_ASSERT_Expr1
-#include <assert.h>
 #endif
 /*! \brief A class that represents an expression
 *

@@ -34,7 +34,6 @@
 //#define CHECK_Expr2_plus_Expr2
 
 #ifdef USE_ASSERT_Expr2
-#include <assert.h>
 #endif
 
 #include "./Expr2.h"

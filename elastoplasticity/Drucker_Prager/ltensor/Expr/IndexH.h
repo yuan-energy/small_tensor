@@ -26,7 +26,6 @@
 #ifndef IndexH_H
 #define IndexH_H
 
-#include <iostream>
 #include "../Marray/Marray_rank1.h"
 
 template <char i>

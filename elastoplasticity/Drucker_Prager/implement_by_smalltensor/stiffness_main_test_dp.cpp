@@ -1,11 +1,12 @@
+// #include "../../../smalltensor::ad/app/smalltensor.h"
 #include "../ltensor/LTensor.h"
 #include "dp.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <math.h>
-using namespace std;
-
+// using namespace std;
+// using namespace LTensor;
 int main(int argc, char const *argv[])
 {
 	Index<'i'> _i;
@@ -26,30 +27,25 @@ int main(int argc, char const *argv[])
 							_eta_bar, 
 							_cohesion
 							}; 
-
 	auto theMaterial = new dp(material_constants, _initial_confine) ; 
 
-
-	DTensor2 input_strain(3,3,0.);
+	DTensor2 input_strain(3,3,0.) ;
 	input_strain *= 0. ;
 	double max_strain = 0.1;
 	int Nstep = 100;
 	input_strain(0,1) = max_strain / Nstep ;
 	input_strain(1,0) = input_strain(0,1);
-
 	ofstream fout("strain_stress.txt");
-	DTensor2 stress_ret(3,3,0.);
-	DTensor2 strain_ret(3,3,0.);
-
+	DTensor2 stress_ret(3,3,0.) ;
+	DTensor2 strain_ret(3,3,0.) ;
 
 	// **************************************************************
 	// Write the initial state
 	// **************************************************************
 	stress_ret = theMaterial->getCommitStress();
 	strain_ret = theMaterial->getCommitStrain();
-	cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-
+	std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
+	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 	// **************************************************************
 	// Loading
 	// **************************************************************
@@ -66,7 +62,6 @@ int main(int argc, char const *argv[])
 	auto stress_integrate = prev_stress ; 
 	auto stress_multiply = prev_stress ; 
 	auto diff = prev_stress ; 
-
 	for (int step = 0; step < Nstep; ++step)
 	{
 		prev_stress = theMaterial->getCommitStress();
@@ -75,19 +70,19 @@ int main(int argc, char const *argv[])
 		theMaterial->CommitState();
 		stress_ret = theMaterial->getCommitStress();
 		strain_ret = theMaterial->getCommitStrain();
-		cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+		std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
+		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 
 		stress_integrate(_i,_j) = stress_ret(_i,_j) - prev_stress(_i,_j);
 		stress_multiply(_i,_j) = stiffness(_i,_j,_k,_l) * input_strain(_k,_l) ; 
 		diff(_i,_j) = stress_multiply(_i,_j) - stress_integrate(_i,_j) ; 
-		cout<<"*******************************************************\n";
-		cout<<"Step Number = " << step <<endl;
-		cout<<"diff stress = " << diff <<endl;
-		cout<<"-------------------------------------------------------\n";
-		cout<<"stress_multiply = " << stress_multiply <<endl;
-		cout<<"stress_integrate= " << stress_integrate <<endl;
-		cout<<"*******************************************************\n";
+		std::cout<<"*******************************************************\n";
+		std::cout<<"Step Number = " << step <<std::endl;
+		std::cout<<"diff stress = " << diff <<std::endl;
+		std::cout<<"-------------------------------------------------------\n";
+		std::cout<<"stress_multiply = " << stress_multiply <<std::endl;
+		std::cout<<"stress_integrate= " << stress_integrate <<std::endl;
+		std::cout<<"*******************************************************\n";
 	}
 
 
@@ -97,7 +92,7 @@ int main(int argc, char const *argv[])
 		// **************************************************************
 		// Un-Loading
 		// **************************************************************
-		cout<<" Un-Loading! ~~~~~~~~~~~~~~~~~~~" <<endl;
+		std::cout<<" Un-Loading! ~~~~~~~~~~~~~~~~~~~" <<std::endl;
 		input_strain(_i,_j) = -1. * input_strain(_i,_j);
 		for (int step = 0; step < 1 * Nstep + 1 ; ++step)
 		{
@@ -108,25 +103,25 @@ int main(int argc, char const *argv[])
 			theMaterial->CommitState();
 			stress_ret = theMaterial->getCommitStress();
 			strain_ret = theMaterial->getCommitStrain();
-			cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-			fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+			std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
+			fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 
 			stress_integrate(_i,_j) = stress_ret(_i,_j) - prev_stress(_i,_j);
 			stress_multiply(_i,_j) = stiffness(_i,_j,_k,_l) * input_strain(_k,_l) ; 
 			diff(_i,_j) = stress_multiply(_i,_j) - stress_integrate(_i,_j) ; 
-			cout<<"*******************************************************\n";
-			cout<<"Step Number = " << step <<endl;
-			cout<<"diff stress = " << diff <<endl;
-			cout<<"-------------------------------------------------------\n";
-			cout<<"stress_multiply = " << stress_multiply <<endl;
-			cout<<"stress_integrate= " << stress_integrate <<endl;
-			cout<<"*******************************************************\n";
+			std::cout<<"*******************************************************\n";
+			std::cout<<"Step Number = " << step <<std::endl;
+			std::cout<<"diff stress = " << diff <<std::endl;
+			std::cout<<"-------------------------------------------------------\n";
+			std::cout<<"stress_multiply = " << stress_multiply <<std::endl;
+			std::cout<<"stress_integrate= " << stress_integrate <<std::endl;
+			std::cout<<"*******************************************************\n";
 		}
 
 		// // **************************************************************
 		// // Re-Loading
 		// // **************************************************************
-		// cout<<" Re-Loading! ~~~~~~~~~~~~~~~~~~~" <<endl;
+		// std::cout<<" Re-Loading! ~~~~~~~~~~~~~~~~~~~" <<std::endl;
 		// input_strain(_i,_j) = -1. * input_strain(_i,_j);
 		// for (int step = 0; step < 2 * Nstep; ++step)
 		// {
@@ -136,15 +131,15 @@ int main(int argc, char const *argv[])
 		// 	theMaterial->CommitState();
 		// 	stress_ret = theMaterial->getCommitStress();
 		// 	strain_ret = theMaterial->getCommitStrain();
-		// 	cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-		// 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+		// 	std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
+		// 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 			
 		// 	stress_integrate(_i,_j) = stress_ret(_i,_j) - prev_stress(_i,_j);
 		// 	auto stiffness = theMaterial->getTangentTensor();
 		// 	stress_multiply(_i,_j) = stiffness(_i,_j,_k,_l) * input_strain(_k,_l) ; 
 		// 	diff(_i,_j) = stress_multiply(_i,_j) - stress_integrate(_i,_j) ; 
-		// 	cout<<"Step Number = " << step <<endl;
-		// 	cout<<"diff stress = " << diff <<endl;
+		// 	std::cout<<"Step Number = " << step <<std::endl;
+		// 	std::cout<<"diff stress = " << diff <<std::endl;
 
 		// }
 	}
