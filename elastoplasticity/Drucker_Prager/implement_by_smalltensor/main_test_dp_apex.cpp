@@ -1,12 +1,11 @@
-// #include "../../../smalltensor::ad/app/smalltensor.h"
-#include "dp.h"
 #include "../ltensor/LTensor.h"
+#include "dp.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <math.h>
 using namespace std;
-// using namespace smalltensor::ad;
+
 int main(int argc, char const *argv[])
 {
 	Index<'i'> i;
@@ -25,22 +24,22 @@ int main(int argc, char const *argv[])
 							_eta_bar, 
 							_cohesion
 							}; 
-// cout<<"debug stepppp 1 \n " ;
+
 	auto theMaterial = new dp(material_constants, _initial_confine) ; 
 
-// cout<<"debug stepppp 2 \n " ;
-	DTensor2 input_strain(3,3,0.) ;
+
+	DTensor2 input_strain(3,3,0.);
 	input_strain *= 0. ;
 	double max_strain = 0.005;
 	int Nstep = 100;
 	input_strain(0,1) = max_strain / Nstep ;
 	input_strain(1,0) = input_strain(0,1);
-// cout<<"debug stepppp 3 \n " ;
-	ofstream fout("strain_stress.txt");
-	DTensor2 stress_ret(3,3,0.) ;
-	DTensor2 strain_ret(3,3,0.) ;
 
-// cout<<"debug stepppp 4 \n " ;
+	ofstream fout("strain_stress.txt");
+	DTensor2 stress_ret(3,3,0.);
+	DTensor2 strain_ret(3,3,0.);
+
+
 	// **************************************************************
 	// Write the initial state
 	// **************************************************************
@@ -48,7 +47,7 @@ int main(int argc, char const *argv[])
 	strain_ret = theMaterial->getCommitStrain();
 	cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-// cout<<"debug stepppp 5 \n " ;
+
 	// **************************************************************
 	// Loading
 	// **************************************************************
@@ -62,7 +61,45 @@ int main(int argc, char const *argv[])
 		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
 	}
 
-	int Nloop = 3 ; 
+	// **************************************************************
+	// Volumetric loading
+	// **************************************************************
+	cout<<"************* Volumetric loading ************" <<endl;
+	max_strain = 0.01 ; 
+	Nstep = 100 ; 
+	input_strain(0,0) = max_strain/Nstep; 
+	input_strain(1,1) = max_strain/Nstep; 
+	input_strain(2,2) = max_strain/Nstep; 
+	for (int step = 0; step < Nstep; ++step)
+	{
+		theMaterial->setStrainIncr(input_strain); 
+		theMaterial->CommitState();
+		stress_ret = theMaterial->getCommitStress();
+		strain_ret = theMaterial->getCommitStrain();
+		cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+	}
+
+	// **************************************************************
+	// Volumetric loading
+	// **************************************************************
+	cout<<"************* Volumetric unloading ************" <<endl;
+	// input_strain(i,j) = -1. * input_strain(i,j);
+	input_strain(0,0) = 0. * max_strain/Nstep; 
+	input_strain(1,1) = 0. * max_strain/Nstep; 
+	input_strain(2,2) = 0. * max_strain/Nstep; 
+
+	for (int step = 0; step < Nstep; ++step)
+	{
+		theMaterial->setStrainIncr(input_strain); 
+		theMaterial->CommitState();
+		stress_ret = theMaterial->getCommitStress();
+		strain_ret = theMaterial->getCommitStrain();
+		cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
+	}
+
+	int Nloop = 2 ; 
 	for (int loop = 0; loop < Nloop; ++loop)
 	{
 		// **************************************************************

@@ -85,7 +85,7 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 							+ 2 * _shear_modulus * strain_incr_dev(_i,_j) ; 
 	ad_dual<double> p_trial = _p_iter + _vol_K * strain_plastic_incr_vol ; 
 	ad_dual<double> yield_surface_val = yield_surface(stress_trial_dev , p_trial) ;
-	cout<< "---> yield_surface_val = " << yield_surface_val  << endl;
+	// cout<< "---> yield_surface_val = " << yield_surface_val  << endl;
 	_stress_dev_iter = stress_trial_dev ; 
 	_p_iter = p_trial ; 
 	stresstensor stress_trial;
@@ -119,11 +119,11 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 		}
 	}
 
-	cerr<<"--->>> debug step 6 \n " ;
+	// cerr<<"--->>> debug step 6 \n " ;
 	_d_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j) - _commit_stress(_i,_j) ;
-	cerr<<"--->>> debug step 7 \n " ;
+	// cerr<<"--->>> debug step 7 \n " ;
 	_Stiffness(_i,_j,_k,_l) = _d_stress(_i,_j) / _d_strain(_k,_l) ; 
-	cerr<<"--->>> debug step 8 \n " ;
+	// cerr<<"--->>> debug step 8 \n " ;
 
 	// test
 	// stresstensor stress_multiply;
@@ -180,11 +180,11 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 
 		double grad = - _shear_modulus - _vol_K * _eta * _eta_bar ; 
 		dlambda = dlambda - residual / grad ; 
-		cout<<"---->>> debug step 1 \n " ;
+		// cout<<"---->>> debug step 1 \n " ;
 		residual = sqrt_J2_stress_trial_dev - _shear_modulus * dlambda
 					+ _eta * (p_trial - _vol_K * _eta_bar * dlambda) - _cohesion;
 	}
-	cout<<"---->>>> iter = " << iter <<endl;
+	// cout<<"---->>>> iter = " << iter <<endl;
 	if( iter >= RETURN2SMOOTH_MAXITER )
 	{
 		cerr<< "ERROR: dp::return2smooth iter >= RETURN2SMOOTH_MAXITER" <<endl;
@@ -192,11 +192,11 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 		return -1;
 	}
 
-	cout<<"---->>> debug step 2 \n " ;
+	// cout<<"---->>> debug step 2 \n " ;
 	ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
-	cout<<"---->>> debug step 3 \n " ;
+	// cout<<"---->>> debug step 3 \n " ;
 	_stress_dev_iter(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
-	cout<<"---->>> debug step 4 \n " ;
+	// cout<<"---->>> debug step 4 \n " ;
 	_p_iter = p_trial - _vol_K * _eta_bar * dlambda ; 
 
 	valid = false;
@@ -210,7 +210,7 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 									_p_iter / 3. / _vol_K * kronecker_delta(_i,_j)
 								) ; 
 	}
-	cout<<"---->>> debug step 5 \n " ;
+	// cout<<"---->>> debug step 5 \n " ;
 
 	// // After Return Check:
 	// cout<< "=========================================================\n";
@@ -287,7 +287,7 @@ void dp::CommitState(){
 
 DTensor2 dp::getCommitStress() const {
 	// cout<<"_commit_stress="<<_commit_stress<<endl;
-	DTensor2 commit_stress(3,3);
+	static DTensor2 commit_stress(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
 			commit_stress(ii,jj) = _commit_stress(ii,jj).get_value() ;
@@ -296,7 +296,7 @@ DTensor2 dp::getCommitStress() const {
 	return commit_stress;  
 }
 DTensor2 dp::getCommitStrain() const {
-	DTensor2 commit_strain(3,3);
+	static DTensor2 commit_strain(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
 			commit_strain(ii,jj) = _commit_strain(ii,jj).get_value() ;
@@ -305,7 +305,7 @@ DTensor2 dp::getCommitStrain() const {
 	return commit_strain;  
 }
 DTensor2 dp::getCommitStrainPlastic() const {
-	DTensor2 commit_strain_plastic(3,3);
+	static DTensor2 commit_strain_plastic(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
 			commit_strain_plastic(ii,jj) = _commit_strain_plastic(ii,jj).get_value() ;
@@ -314,7 +314,7 @@ DTensor2 dp::getCommitStrainPlastic() const {
 	return commit_strain_plastic;  
 }
 DTensor4 dp::getTangentTensor() const {
-	DTensor4 Stiffness(3,3,3,3);
+	static DTensor4 Stiffness(3,3,3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj) {
 			for (int kk = 0; kk < 3; ++kk) {
