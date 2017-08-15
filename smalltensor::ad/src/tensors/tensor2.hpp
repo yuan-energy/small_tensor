@@ -122,10 +122,11 @@ public:
         return ret;
 	}
 
-	inline tensor2& operator*=(int const& scalar_){
+	template<typename scalar_type>
+	inline tensor2& operator*=(scalar_type const& scalar_){
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2){
-				(*this)(n1,n2) *= scalar_ ;
+				(*this)(n1,n2) = (*this)(n1,n2) * scalar_ ;
 			}
 		}
 		return (*this);

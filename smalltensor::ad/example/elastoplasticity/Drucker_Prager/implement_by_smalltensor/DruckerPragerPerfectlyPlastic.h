@@ -7,7 +7,6 @@
 using namespace std;
 using namespace smalltensor::ad;
 
-typedef std::vector<double> DVEC;
 
 #define RETURN2SMOOTH_TOLERANCE 1E-10
 #define RETURN2SMOOTH_MAXITER 20
@@ -15,28 +14,45 @@ typedef std::vector<double> DVEC;
 #define RETURN2APEX_MAXITER 20
 #define ZBRENT_TOLERANCE 1E-10
 #define ZBRENT_MAXITER 20
-class dp
+class DruckerPragerPerfectlyPlastic
 {
 public:
-	dp(DVEC constants_prop, double initial_confine);
+	DruckerPragerPerfectlyPlastic(std::vector<double> const& constants_prop, double initial_confine);
 
-	int setStrainIncr(DTensor2 const& strain_incr);
+	int setTrialStrainIncr(DTensor2 const& strain_incr);
 
 	ad_dual<double> yield_surface(stresstensor const& dev_stress, ad_dual<double> pressure) ;
 	ad_dual<double> yield_surface(stresstensor const& stress);
-	DTensor2 getCommitStress()  const ; 
-	DTensor2 getCommitStrain()  const ; 
-	DTensor2 getCommitStrainPlastic()  const ; 
-	DTensor4 getTangentTensor()  const ; 
+	DTensor2 const& getStressTensor()  const ; 
+	DTensor2 const& getStrainTensor()  const ; 
+	DTensor2 const& getStrainPlasticTensor()  const ; 
+	DTensor4 const& getTangentTensor()  const ; 
+	const char *getClassType( void ) const{return "DruckerPragerPerfectlyPlastic";};
+	const char *getType( void ) const{return "DruckerPragerPerfectlyPlastic";};
+	int getObjectSize(){return sizeof(*this);};
 
-	void CommitState();
-	void reset_computational_graph();
-	// ~dp();
+	void Print( ostream &s, int flag = 0 );
+	DruckerPragerPerfectlyPlastic *getCopy( void );
+
+	void commitState();
+	void revertToLastCommit();
+	void revertToStart();
+
+	// virtual ~DruckerPragerPerfectlyPlastic();
 private:
+	void reset_computational_graph();
 	int return2smooth(stresstensor const& strain_trial, bool& valid);
 	int return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial);
 	stresstensor getDev(stresstensor const& strain);
 	ad_dual<double> getJ2(stresstensor const& dev_stress);
+
+	double get_shear_modulus() const;
+	double get_vol_K() const;
+	double get_eta() const;
+	double get_eta_bar() const;
+	double get_cohesion() const;
+	double get_initial_confine() const;
+
 	// int compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial);
 	// int compute_stiffness_return2apex();
 	// ad_dual<double> backward_zbrentstress(const stresstensor& start_stress,
@@ -54,6 +70,7 @@ private:
 
 	stresstensor _stress_dev_iter;
 	ad_dual<double> _p_iter ; 
+	stresstensor _stress_iter;
 	stresstensor _commit_stress ; 
 
 	stresstensor _strain_iter;
@@ -62,20 +79,17 @@ private:
 	stresstensor _strain_plastic_iter;
 	stresstensor _commit_strain_plastic; 
 
-	smalltensor::ad::Ident<'i'> _i;
-	smalltensor::ad::Ident<'j'> _j;
-	smalltensor::ad::Ident<'k'> _k;
-	smalltensor::ad::Ident<'l'> _l;
 	stifftensor _Stiffness;
 	stifftensor _Eelastic;
-
-	stresstensor _test_strain_incr;
-	stresstensor _test_stress_trial;
 
 	stresstensor kronecker_delta;
 	stresstensor _d_strain;
 	stresstensor _d_stress;
-	
+
+	smalltensor::ad::Ident<'i'> _i;
+	smalltensor::ad::Ident<'j'> _j;
+	smalltensor::ad::Ident<'k'> _k;
+	smalltensor::ad::Ident<'l'> _l;	
 };
 // _intersection_factor = 0.; 
 // _stress_dev_iter = DTensor2(3,3,0.) ; 

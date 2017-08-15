@@ -1,6 +1,6 @@
 // #include "../../../smalltensor::ad/app/smalltensor.h"
 #include <LTensor.h>
-#include "dp.h"
+#include "DruckerPragerPerfectlyPlastic.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -21,13 +21,13 @@ int main(int argc, char const *argv[])
 	double _eta_bar         = 0.2  ;
 	double _cohesion        = 100  ;
 	double _initial_confine = 330000 ;
-	DVEC material_constants{_shear_modulus, 
+	std::vector<double> material_constants{_shear_modulus, 
 							_vol_K, 
 							_eta, 
 							_eta_bar, 
 							_cohesion
 							}; 
-	auto theMaterial = new dp(material_constants, _initial_confine) ; 
+	auto theMaterial = new DruckerPragerPerfectlyPlastic(material_constants, _initial_confine) ; 
 
 	DTensor2 input_strain(3,3,0.) ;
 	input_strain *= 0. ;
@@ -42,8 +42,8 @@ int main(int argc, char const *argv[])
 	// **************************************************************
 	// Write the initial state
 	// **************************************************************
-	stress_ret = theMaterial->getCommitStress();
-	strain_ret = theMaterial->getCommitStrain();
+	stress_ret = theMaterial->getStressTensor();
+	strain_ret = theMaterial->getStrainTensor();
 	std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 	// **************************************************************
@@ -58,18 +58,18 @@ int main(int argc, char const *argv[])
 	input_strain(2,0) =  input_strain(0,2);
 	input_strain(2,1) =  input_strain(1,2);
 	// =========
-	auto prev_stress = theMaterial->getCommitStress();
+	auto prev_stress = theMaterial->getStressTensor();
 	auto stress_integrate = prev_stress ; 
 	auto stress_multiply = prev_stress ; 
 	auto diff = prev_stress ; 
 	for (int step = 0; step < 3; ++step)
 	{
-		prev_stress = theMaterial->getCommitStress();
+		prev_stress = theMaterial->getStressTensor();
 		auto stiffness = theMaterial->getTangentTensor();
-		theMaterial->setStrainIncr(input_strain); 
-		theMaterial->CommitState();
-		stress_ret = theMaterial->getCommitStress();
-		strain_ret = theMaterial->getCommitStrain();
+		theMaterial->setTrialStrainIncr(input_strain); 
+		theMaterial->commitState();
+		stress_ret = theMaterial->getStressTensor();
+		strain_ret = theMaterial->getStrainTensor();
 		std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 		fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 
@@ -98,13 +98,13 @@ int main(int argc, char const *argv[])
 		input_strain(_i,_j) = -1. * input_strain(_i,_j);
 		for (int step = 0; step < 1 * Nstep + 1 ; ++step)
 		{
-			prev_stress = theMaterial->getCommitStress();
+			prev_stress = theMaterial->getStressTensor();
 			auto stiffness = theMaterial->getTangentTensor();
 
-			theMaterial->setStrainIncr(input_strain); 
-			theMaterial->CommitState();
-			stress_ret = theMaterial->getCommitStress();
-			strain_ret = theMaterial->getCommitStrain();
+			theMaterial->setTrialStrainIncr(input_strain); 
+			theMaterial->commitState();
+			stress_ret = theMaterial->getStressTensor();
+			strain_ret = theMaterial->getStrainTensor();
 			std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 			fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 
@@ -127,12 +127,12 @@ int main(int argc, char const *argv[])
 		// input_strain(_i,_j) = -1. * input_strain(_i,_j);
 		// for (int step = 0; step < 2 * Nstep; ++step)
 		// {
-		// 	prev_stress = theMaterial->getCommitStress();
+		// 	prev_stress = theMaterial->getStressTensor();
 
-		// 	theMaterial->setStrainIncr(input_strain); 
-		// 	theMaterial->CommitState();
-		// 	stress_ret = theMaterial->getCommitStress();
-		// 	strain_ret = theMaterial->getCommitStrain();
+		// 	theMaterial->setTrialStrainIncr(input_strain); 
+		// 	theMaterial->commitState();
+		// 	stress_ret = theMaterial->getStressTensor();
+		// 	strain_ret = theMaterial->getStrainTensor();
 		// 	std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 		// 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
 			

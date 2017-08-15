@@ -96,11 +96,13 @@ public:
 		}
         return ret_i;
 	}
-	inline tensor3& operator*=(__dat_t const& scalar_){
+
+	template<typename scalar_type>
+	inline tensor3& operator*=(scalar_type const& scalar_){
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2){
 				for (std::size_t n3 = 0; n3 < __d3; ++n3){
-					(*this)(n1,n2,n3) *= scalar_ ;
+					(*this)(n1,n2,n3) = (*this)(n1,n2,n3) * scalar_ ;
 				}
 			}
 		}

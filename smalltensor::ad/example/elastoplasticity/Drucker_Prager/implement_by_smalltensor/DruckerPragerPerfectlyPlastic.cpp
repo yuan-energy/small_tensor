@@ -1,9 +1,11 @@
-#include "dp.h"
+#include "DruckerPragerPerfectlyPlastic.h"
 
 using namespace smalltensor::ad;
-// stresstensor dp::kronecker_delta("identity");
+// stresstensor DruckerPragerPerfectlyPlastic::kronecker_delta("identity");
 
-dp::dp(DVEC constants_prop, double initial_confine)
+DruckerPragerPerfectlyPlastic
+::DruckerPragerPerfectlyPlastic
+(std::vector<double> const& constants_prop, double initial_confine)
 {
 	_shear_modulus   = constants_prop[0] ;
 	_vol_K           = constants_prop[1] ;
@@ -36,7 +38,7 @@ dp::dp(DVEC constants_prop, double initial_confine)
 	_Eelastic = _Stiffness ;
 } 
 
-void dp::reset_computational_graph(){
+void DruckerPragerPerfectlyPlastic::reset_computational_graph(){
 	_GRAPH.clear() ;
 
 	_d_strain.reset_graph(_GRAPH);
@@ -49,15 +51,13 @@ void dp::reset_computational_graph(){
 	_commit_strain.reset_graph(_GRAPH);
 	_strain_plastic_iter.reset_graph(_GRAPH);
 	_commit_strain_plastic.reset_graph(_GRAPH);
-	_test_strain_incr.reset_graph(_GRAPH);
-	_test_stress_trial.reset_graph(_GRAPH);
 	kronecker_delta.reset_graph(_GRAPH);
 
 	_Stiffness.reset_graph(_GRAPH);
 	_Eelastic.reset_graph(_GRAPH);
 }
 
-int dp::setStrainIncr(DTensor2 const& strain_incr_){
+int DruckerPragerPerfectlyPlastic::setTrialStrainIncr(DTensor2 const& strain_incr_){
 	reset_computational_graph();
 	
 	for (int ii = 0; ii < 3; ++ii)	{
@@ -91,6 +91,7 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 	if (yield_surface_val <= 0.0)
 	{
 		cout<<"elastic!!\n" <<endl;
+		_stress_iter = stress_trial;
 		_d_stress(_i,_j) = stress_trial(_i,_j) - _commit_stress(_i,_j) ;
 		_Stiffness(_i,_j,_k,_l) = _d_stress(_i,_j) / _d_strain(_k,_l) ; 
 		return 0 ;
@@ -112,7 +113,9 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 		}
 	}
 
-	_d_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j) - _commit_stress(_i,_j) ;
+	_stress_iter(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j);
+
+	_d_stress(_i,_j) = _stress_iter(_i,_j) - _commit_stress(_i,_j) ;
 	_Stiffness(_i,_j,_k,_l) = _d_stress(_i,_j) / _d_strain(_k,_l) ; 
 
 	// test
@@ -138,24 +141,22 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 	// // 		}
 	// // 	}
 	// // }
-	// _test_strain_incr = _d_strain;
-	// _test_stress_trial = stress_trial;
 	return 0;
 }
 
 
 
-ad_dual<double> dp::yield_surface(stresstensor const& dev_stress, ad_dual<double> pressure) {
+ad_dual<double> DruckerPragerPerfectlyPlastic::yield_surface(stresstensor const& dev_stress, ad_dual<double> pressure) {
 	return sqrt(getJ2(dev_stress)) + _eta * pressure - _cohesion ;
 }
 
-ad_dual<double> dp::yield_surface(stresstensor const& stress){
+ad_dual<double> DruckerPragerPerfectlyPlastic::yield_surface(stresstensor const& stress){
 	ad_dual<double> pressure = stress(0,0) / 3. + stress(1,1) / 3.  + stress(2,2)/3. ;
 	stresstensor stress_dev = getDev(stress);
 	return yield_surface(stress_dev, pressure) ;
 }
 
-int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
+int DruckerPragerPerfectlyPlastic::return2smooth(stresstensor const& strain_trial, bool& valid){
 	stresstensor stress_trial_dev = _stress_dev_iter ; 
 	ad_dual<double> p_trial = _p_iter ; 
 	ad_dual<double> dlambda = ad_dual<double>(_GRAPH, 0.);
@@ -175,7 +176,7 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 	
 	if( iter >= RETURN2SMOOTH_MAXITER )
 	{
-		cerr<< "ERROR: dp::return2smooth iter >= RETURN2SMOOTH_MAXITER" <<endl;
+		cerr<< "ERROR: DruckerPragerPerfectlyPlastic::return2smooth iter >= RETURN2SMOOTH_MAXITER" <<endl;
 		cerr<< "residual = " << residual <<endl;
 		return -1;
 	}
@@ -183,6 +184,8 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 	ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
 	_stress_dev_iter(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
 	_p_iter = p_trial - _vol_K * _eta_bar * dlambda ; 
+
+	
 
 	valid = false;
 	if (ratio < 1.0)
@@ -217,7 +220,7 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 
 
 
-int dp::return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial){
+int DruckerPragerPerfectlyPlastic::return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial){
 	ad_dual<double> strain_plastic_incr_vol=ad_dual<double>(*(p_trial._graph), 0.); 
 	ad_dual<double> residual =  _cohesion / _eta_bar - p_trial  ; 
 	int iter{0};
@@ -234,7 +237,7 @@ int dp::return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial){
 	}
 	if( iter > RETURN2APEX_MAXITER )
 	{
-		cerr<< "ERROR: dp::return2apex iter > RETURN2APEX_MAXITER" <<endl;
+		cerr<< "ERROR: DruckerPragerPerfectlyPlastic::return2apex iter > RETURN2APEX_MAXITER" <<endl;
 		return -1;
 	}
 
@@ -258,19 +261,33 @@ int dp::return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial){
 	return 0; 
 }
 
-void dp::CommitState(){
+void DruckerPragerPerfectlyPlastic::commitState(){
 	// stresstensor d_stress(_GRAPH,0.);
 	// stresstensor d_strain(_GRAPH,0.);
 	// d_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j) - _commit_stress(_i,_j) ;
 	// d_strain(_i,_j) = _strain_iter(_i,_j) - _commit_strain(_i,_j);
 	// _Stiffness(_i,_j,_k,_l) = d_stress(_i,_j) / d_strain(_k,_l) ; 
-
-	_commit_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j);
+	_commit_stress = _stress_iter ;
 	_commit_strain = _strain_iter ; 
 	_commit_strain_plastic = _strain_plastic_iter ; 
 }
 
-DTensor2 dp::getCommitStress() const {
+void DruckerPragerPerfectlyPlastic::revertToLastCommit(){
+	_stress_iter = _commit_stress ;
+	_strain_iter = _commit_strain ; 
+	_strain_plastic_iter = _commit_strain_plastic ; 
+}
+
+void DruckerPragerPerfectlyPlastic::revertToStart(){
+	_stress_iter(_i,_j) = -_initial_confine * kronecker_delta(_i,_j) ;
+	_strain_iter *= 0  ; 
+	_strain_plastic_iter *= 0  ; 
+	_commit_stress(_i,_j) = -_initial_confine * kronecker_delta(_i,_j) ;
+	_commit_strain *= 0 ;
+	_commit_strain_plastic *= 0 ;
+}
+
+DTensor2 const& DruckerPragerPerfectlyPlastic::getStressTensor() const {
 	// cout<<"_commit_stress="<<_commit_stress<<endl;
 	static DTensor2 commit_stress(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
@@ -280,7 +297,7 @@ DTensor2 dp::getCommitStress() const {
 	}
 	return commit_stress;  
 }
-DTensor2 dp::getCommitStrain() const {
+DTensor2 const& DruckerPragerPerfectlyPlastic::getStrainTensor() const {
 	static DTensor2 commit_strain(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
@@ -289,7 +306,7 @@ DTensor2 dp::getCommitStrain() const {
 	}
 	return commit_strain;  
 }
-DTensor2 dp::getCommitStrainPlastic() const {
+DTensor2 const& DruckerPragerPerfectlyPlastic::getStrainPlasticTensor() const {
 	static DTensor2 commit_strain_plastic(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
@@ -298,7 +315,7 @@ DTensor2 dp::getCommitStrainPlastic() const {
 	}
 	return commit_strain_plastic;  
 }
-DTensor4 dp::getTangentTensor() const {
+DTensor4 const& DruckerPragerPerfectlyPlastic::getTangentTensor() const {
 	static DTensor4 Stiffness(3,3,3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj) {
@@ -314,18 +331,18 @@ DTensor4 dp::getTangentTensor() const {
 
 
 // Helper
-stresstensor dp::getDev(stresstensor const& strain){
+stresstensor DruckerPragerPerfectlyPlastic::getDev(stresstensor const& strain){
 	ad_dual<double> vol = strain(0,0)+strain(1,1)+strain(2,2) ;
 	// ad_dual<double> vol = strain(_i,_i) ;
 	stresstensor dev_strain;
 	dev_strain(_i,_j) = strain(_i,_j) - vol/3. * kronecker_delta(_i,_j);
 	return dev_strain;
 }
-ad_dual<double> dp::getJ2(stresstensor const& dev_stress){
+ad_dual<double> DruckerPragerPerfectlyPlastic::getJ2(stresstensor const& dev_stress){
 	return 0.5 * dev_stress(_i,_j) * dev_stress(_i,_j) ;
 }
 
-// int dp::compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial){
+// int DruckerPragerPerfectlyPlastic::compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial){
 // 	stresstensor strain_trial_dev = getDev(strain_trial) ; 
 // 	ad_dual<double> norm_dev = sqrt( strain_trial_dev(_k,_l) * strain_trial_dev(_k,_l) ) ;
 // 	cout<<">>> dlambda = " << dlambda<< endl;
@@ -424,8 +441,8 @@ ad_dual<double> dp::getJ2(stresstensor const& dev_stress){
 // 	return 0;
 // }
 
-// int dp::compute_stiffness_return2apex(){
-// 	cout<<"dp::compute_stiffness_return2apex " <<endl;
+// int DruckerPragerPerfectlyPlastic::compute_stiffness_return2apex(){
+// 	cout<<"DruckerPragerPerfectlyPlastic::compute_stiffness_return2apex " <<endl;
 // 	// _Stiffness = stifftensor(3,3,3,3,0.);
 // 	// if(_intersection_factor > 0 ){
 // 	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
@@ -435,7 +452,7 @@ ad_dual<double> dp::getJ2(stresstensor const& dev_stress){
 // }
 
 
-// double dp::backward_zbrentstress(const stresstensor& start_stress,
+// double DruckerPragerPerfectlyPlastic::backward_zbrentstress(const stresstensor& start_stress,
 //                         const stresstensor& end_stress,
 //                         double x1, double x2, double tol)
 //     {
@@ -571,3 +588,37 @@ ad_dual<double> dp::getJ2(stresstensor const& dev_stress){
 
 //         return 0.0;
 //     }
+
+
+
+void DruckerPragerPerfectlyPlastic::Print( ostream &s, int flag){
+	s << "DruckerPragerPerfectlyPlastic::" << endl;
+	// s << "\t Tag  : " << this->getTag() << endl;
+	s << "\t shear_modulus   : " << this->get_shear_modulus()   << endl;
+	s << "\t vol_K           : " << this->get_vol_K()           << endl;
+	s << "\t eta             : " << this->get_eta()             << endl;
+	s << "\t eta_bar         : " << this->get_eta_bar()         << endl;
+	s << "\t cohesion        : " << this->get_cohesion()        << endl;
+	s << "\t initial_confine : " << this->get_initial_confine() << endl;
+}
+DruckerPragerPerfectlyPlastic *DruckerPragerPerfectlyPlastic::getCopy( void ){
+	vector<double> material_constants = {
+		this->get_shear_modulus()
+		,this->get_vol_K()
+		,this->get_eta()
+		,this->get_eta_bar()
+		,this->get_cohesion()
+	};
+
+	DruckerPragerPerfectlyPlastic* tmp = new DruckerPragerPerfectlyPlastic(
+		material_constants
+		,this->get_initial_confine()
+		);
+}
+
+double DruckerPragerPerfectlyPlastic::get_shear_modulus()   const{return _shear_modulus;   }
+double DruckerPragerPerfectlyPlastic::get_vol_K()           const{return _vol_K;           }
+double DruckerPragerPerfectlyPlastic::get_eta()             const{return _eta;             }
+double DruckerPragerPerfectlyPlastic::get_eta_bar()         const{return _eta_bar;         }
+double DruckerPragerPerfectlyPlastic::get_cohesion()        const{return _cohesion;        }
+double DruckerPragerPerfectlyPlastic::get_initial_confine() const{return _initial_confine; }

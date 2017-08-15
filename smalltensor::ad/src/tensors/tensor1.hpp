@@ -87,9 +87,10 @@ public:
         return static_cast<expr1<__dat_t, __d1, i>const&>(*this);
 	}
 
-	inline tensor1& operator*=(__dat_t const& scalar_){
+	template<typename scalar_type>
+	inline tensor1& operator*=(scalar_type const& scalar_){
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
-			(*this)(n1) *= scalar_ ;
+			(*this)(n1) = (*this)(n1) * scalar_ ;
 		}
 		return (*this);
 	}
