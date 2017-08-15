@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
 	auto stress_integrate = prev_stress ; 
 	auto stress_multiply = prev_stress ; 
 	auto diff = prev_stress ; 
-	for (int step = 0; step < 3; ++step)
+	for (int step = 0; step < Nstep; ++step)
 	{
 		prev_stress = theMaterial->getCommitStress();
 		auto stiffness = theMaterial->getTangentTensor();

@@ -3,7 +3,7 @@ apex_stiffness_compile: dp.cpp apex_stiffness_main_test_dp.cpp
 
 stiffness_compile:   dp.cpp stiffness_main_test_dp.cpp
 	# g++ stiffness_main_test_dp.cpp dp.cpp -lm -std=c++11 -g -o test_dp  -Wall -DDEBUG
-	g++ stiffness_main_test_dp.cpp dp.cpp -lm -std=c++11 -g -o test_dp  -Wall 
+	g++ stiffness_main_test_dp.cpp dp.cpp -lm -std=c++11 -g -o test_dp  -Wall -O3
 
 apex_compile:  dp.cpp main_test_dp_apex.cpp
 	g++ main_test_dp_apex.cpp dp.cpp -lm -std=c++11 -g -o test_dp -O3

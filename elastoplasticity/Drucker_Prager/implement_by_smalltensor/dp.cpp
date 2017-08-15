@@ -172,6 +172,7 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 		residual = sqrt_J2_stress_trial_dev - _shear_modulus * dlambda
 					+ _eta * (p_trial - _vol_K * _eta_bar * dlambda) - _cohesion;
 	}
+	
 	if( iter >= RETURN2SMOOTH_MAXITER )
 	{
 		cerr<< "ERROR: dp::return2smooth iter >= RETURN2SMOOTH_MAXITER" <<endl;
