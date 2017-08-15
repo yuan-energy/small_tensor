@@ -62,12 +62,12 @@ int main(int argc, char const *argv[])
 	auto stress_integrate = prev_stress ; 
 	auto stress_multiply = prev_stress ; 
 	auto diff = prev_stress ; 
-	for (int step = 0; step < Nstep; ++step)
+	for (int step = 0; step < 3; ++step)
 	{
 		prev_stress = theMaterial->getCommitStress();
+		auto stiffness = theMaterial->getTangentTensor();
 		theMaterial->setStrainIncr(input_strain); 
 		theMaterial->CommitState();
-		auto stiffness = theMaterial->getTangentTensor();
 		stress_ret = theMaterial->getCommitStress();
 		strain_ret = theMaterial->getCommitStrain();
 		std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
@@ -88,7 +88,7 @@ int main(int argc, char const *argv[])
 	}
 
 
-	int Nloop = 1 ; 
+	int Nloop = 0 ; 
 	for (int loop = 0; loop < Nloop; ++loop)
 	{
 		// **************************************************************

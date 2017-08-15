@@ -37,8 +37,8 @@ private:
 	int return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial);
 	stresstensor getDev(stresstensor const& strain);
 	ad_dual<double> getJ2(stresstensor const& dev_stress);
-	int compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial);
-	int compute_stiffness_return2apex();
+	// int compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial);
+	// int compute_stiffness_return2apex();
 	// ad_dual<double> backward_zbrentstress(const stresstensor& start_stress,
 	//                         const stresstensor& end_stress,
 	//                         ad_dual<double> x1, ad_dual<double> x2, ad_dual<double> tol) ; 

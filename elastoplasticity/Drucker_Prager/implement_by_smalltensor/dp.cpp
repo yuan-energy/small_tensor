@@ -38,7 +38,6 @@ dp::dp(DVEC constants_prop, double initial_confine)
 
 void dp::reset_computational_graph(){
 	_GRAPH.clear() ;
-	// _commit_strain.reset_graph(_GRAPH);
 
 	_d_strain.reset_graph(_GRAPH);
 	_d_stress.reset_graph(_GRAPH);
@@ -61,7 +60,6 @@ void dp::reset_computational_graph(){
 int dp::setStrainIncr(DTensor2 const& strain_incr_){
 	reset_computational_graph();
 	
-	
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{
 			_d_strain(ii,jj).set_value(strain_incr_(ii,jj));
@@ -74,12 +72,7 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 	strain_incr_dev = getDev(_d_strain);
 	ad_dual<double> strain_plastic_incr_vol = _d_strain(_i,_i);
 	stresstensor stress_trial_dev;
-
-
 	_stress_dev_iter = getDev(_commit_stress);
-
-
-
 	_p_iter = 1./3. * _commit_stress(_i,_i);
 	stress_trial_dev(_i,_j) = _stress_dev_iter(_i,_j) 
 							+ 2 * _shear_modulus * strain_incr_dev(_i,_j) ; 
@@ -119,11 +112,8 @@ int dp::setStrainIncr(DTensor2 const& strain_incr_){
 		}
 	}
 
-	// cerr<<"--->>> debug step 6 \n " ;
 	_d_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j) - _commit_stress(_i,_j) ;
-	// cerr<<"--->>> debug step 7 \n " ;
 	_Stiffness(_i,_j,_k,_l) = _d_stress(_i,_j) / _d_strain(_k,_l) ; 
-	// cerr<<"--->>> debug step 8 \n " ;
 
 	// test
 	// stresstensor stress_multiply;
@@ -177,14 +167,11 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 		iter < RETURN2SMOOTH_MAXITER )
 	{
 		iter++;
-
 		double grad = - _shear_modulus - _vol_K * _eta * _eta_bar ; 
 		dlambda = dlambda - residual / grad ; 
-		// cout<<"---->>> debug step 1 \n " ;
 		residual = sqrt_J2_stress_trial_dev - _shear_modulus * dlambda
 					+ _eta * (p_trial - _vol_K * _eta_bar * dlambda) - _cohesion;
 	}
-	// cout<<"---->>>> iter = " << iter <<endl;
 	if( iter >= RETURN2SMOOTH_MAXITER )
 	{
 		cerr<< "ERROR: dp::return2smooth iter >= RETURN2SMOOTH_MAXITER" <<endl;
@@ -192,11 +179,8 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 		return -1;
 	}
 
-	// cout<<"---->>> debug step 2 \n " ;
 	ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
-	// cout<<"---->>> debug step 3 \n " ;
 	_stress_dev_iter(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
-	// cout<<"---->>> debug step 4 \n " ;
 	_p_iter = p_trial - _vol_K * _eta_bar * dlambda ; 
 
 	valid = false;
@@ -210,7 +194,6 @@ int dp::return2smooth(stresstensor const& strain_trial, bool& valid){
 									_p_iter / 3. / _vol_K * kronecker_delta(_i,_j)
 								) ; 
 	}
-	// cout<<"---->>> debug step 5 \n " ;
 
 	// // After Return Check:
 	// cout<< "=========================================================\n";
@@ -269,7 +252,8 @@ int dp::return2apex(stresstensor const& strain_trial, ad_dual<double> p_trial){
 								+
 								_p_iter / 3. / _vol_K * kronecker_delta(_i,_j)
 							) ; 
-	compute_stiffness_return2apex();
+
+	// compute_stiffness_return2apex();
 	return 0; 
 }
 
@@ -340,118 +324,114 @@ ad_dual<double> dp::getJ2(stresstensor const& dev_stress){
 	return 0.5 * dev_stress(_i,_j) * dev_stress(_i,_j) ;
 }
 
-int dp::compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial){
-	stresstensor strain_trial_dev = getDev(strain_trial) ; 
-	ad_dual<double> norm_dev = sqrt( strain_trial_dev(_k,_l) * strain_trial_dev(_k,_l) ) ;
-	cout<<">>> dlambda = " << dlambda<< endl;
-	cout<<">>> strain_trial = " << strain_trial<< endl;
+// int dp::compute_stiffness_return2smooth(ad_dual<double> dlambda, stresstensor const& strain_trial){
+// 	stresstensor strain_trial_dev = getDev(strain_trial) ; 
+// 	ad_dual<double> norm_dev = sqrt( strain_trial_dev(_k,_l) * strain_trial_dev(_k,_l) ) ;
+// 	cout<<">>> dlambda = " << dlambda<< endl;
+// 	cout<<">>> strain_trial = " << strain_trial<< endl;
+
+
+// 	if(norm_dev<1E-10){
+// 		cout<<"!!!!norm_dev="<<norm_dev<<endl;
+// 		return 0;
+// 	}
+// 	// ad_dual<double> strain_trial_vol = (strain_trial(0,0)+strain_trial(1,1)+strain_trial(2,2))/3. ; 
+// 	double con_A = 1. / (_shear_modulus + _vol_K * _eta * _eta_bar) ; 
+// 	stresstensor con_D;
+// 	// con_D(_i,_j) = copysign(1.0, _test_stress_trial(_k,_l)*strain_trial(_k,_l)) * strain_trial_dev(_i,_j) / norm_dev ; 
+// 	con_D(_i,_j) = strain_trial_dev(_i,_j) / norm_dev ; 
+// 	// cout<<">>> con_D = " << con_D<< endl;
 
 
 
-
-
-
-	if(norm_dev<1E-10){
-		cout<<"!!!!norm_dev="<<norm_dev<<endl;
-		return 0;
-	}
-	// ad_dual<double> strain_trial_vol = (strain_trial(0,0)+strain_trial(1,1)+strain_trial(2,2))/3. ; 
-	double con_A = 1. / (_shear_modulus + _vol_K * _eta * _eta_bar) ; 
-	stresstensor con_D;
-	// con_D(_i,_j) = copysign(1.0, _test_stress_trial(_k,_l)*strain_trial(_k,_l)) * strain_trial_dev(_i,_j) / norm_dev ; 
-	con_D(_i,_j) = strain_trial_dev(_i,_j) / norm_dev ; 
-	// cout<<">>> con_D = " << con_D<< endl;
-
-
-
-	// _Stiffness(_i,_j,_k,_l) = 
-	// 			  2. * _shear_modulus * ( 1. - dlambda / sqrt(2.) / norm_dev ) 
-	// 				 * (kronecker_delta(_i,_k) * kronecker_delta(_j,_l) + (-1./3.)  * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) )
-	// 			+ 2. * _shear_modulus * ( dlambda / sqrt(2.) / norm_dev - _shear_modulus * con_A )
-	// 				 * con_D(_i,_j) * con_D(_k,_l) 
-	// 			+ (-1.) * sqrt(2.) * _shear_modulus * con_A * _vol_K * (_eta * con_D(_i,_j) * kronecker_delta(_k,_l) + _eta_bar * kronecker_delta(_i,_j) * con_D(_k,_l) )
-	// 			+ _vol_K * (1. - _vol_K * _eta * _eta_bar * con_A ) * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) ; 
+// 	// _Stiffness(_i,_j,_k,_l) = 
+// 	// 			  2. * _shear_modulus * ( 1. - dlambda / sqrt(2.) / norm_dev ) 
+// 	// 				 * (kronecker_delta(_i,_k) * kronecker_delta(_j,_l) + (-1./3.)  * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) )
+// 	// 			+ 2. * _shear_modulus * ( dlambda / sqrt(2.) / norm_dev - _shear_modulus * con_A )
+// 	// 				 * con_D(_i,_j) * con_D(_k,_l) 
+// 	// 			+ (-1.) * sqrt(2.) * _shear_modulus * con_A * _vol_K * (_eta * con_D(_i,_j) * kronecker_delta(_k,_l) + _eta_bar * kronecker_delta(_i,_j) * con_D(_k,_l) )
+// 	// 			+ _vol_K * (1. - _vol_K * _eta * _eta_bar * con_A ) * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) ; 
 
 
 	
-	// stresstensor unit_strain;
-	// std::vector<stresstensor>  d_strains( 9, unit_strain ) ;
-	// std::vector<stresstensor>  d_stress( 9, unit_strain ) ;
+// 	// stresstensor unit_strain;
+// 	// std::vector<stresstensor>  d_strains( 9, unit_strain ) ;
+// 	// std::vector<stresstensor>  d_stress( 9, unit_strain ) ;
 
-	// for (int i = 0; i < 3; ++i)	{
-	// 	for (int j = 0; j < 3; ++j) {
-	// 		(d_strains[i*3+j])(i,j) = 1. ; 
-	// 	}
-	// }
-
-
-	// // stresstensor stress_trial_dev(3,3,0.);
-	// // stress_trial_dev = getDev(_test_stress_trial);
-	// // ad_dual<double> sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
-	// // ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
-	// // _stress_dev_iter(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
-	// // _p_iter = p_trial - _vol_K * _eta_bar * dlambda ; 
+// 	// for (int i = 0; i < 3; ++i)	{
+// 	// 	for (int j = 0; j < 3; ++j) {
+// 	// 		(d_strains[i*3+j])(i,j) = 1. ; 
+// 	// 	}
+// 	// }
 
 
+// 	// // stresstensor stress_trial_dev(3,3,0.);
+// 	// // stress_trial_dev = getDev(_test_stress_trial);
+// 	// // ad_dual<double> sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
+// 	// // ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
+// 	// // _stress_dev_iter(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
+// 	// // _p_iter = p_trial - _vol_K * _eta_bar * dlambda ; 
 
 
-	// for (int i = 0; i < 9; ++i){
-	// 	stresstensor pre_stress_dev(3,3,0.);
-	// 	stresstensor stress_trial_dev(3,3,0.);
-	// 	stresstensor stres_s(3,3,0.);
-	// 	pre_stress_dev = getDev(_commit_stress);
-	// 	stress_trial_dev(_i,_j) = pre_stress_dev(_i,_j) 
-	// 							+ 2 * _shear_modulus * (d_strains[i])(_i,_j) ; 
-	// 	ad_dual<double> sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
-	// 	if(sqrt_J2_stress_trial_dev==0){
-	// 		cerr<< "sqrt_J2_stress_trial_dev==0 ! " <<endl;
-	// 		return -1;
-	// 	}
-	// 	ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
-	// 	stres_s(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
-	// 	ad_dual<double> p_trial = 1./3. * _commit_stress(_i,_i);
-	// 	ad_dual<double> strain_plastic_incr_vol = (d_strains[i])(_i,_i);
-	// 	p_trial = p_trial + _vol_K * strain_plastic_incr_vol ; 
-	// 	ad_dual<double> p_ite_r = p_trial - _vol_K * _eta_bar * dlambda ;
 
-	// 	(d_stress[i])(_i,_j) = stres_s(_i,_j) + p_ite_r * kronecker_delta(_i,_j) ;
-	// 	(d_stress[i])(_i,_j) = (d_stress[i])(_i,_j) - _commit_stress(_i,_j);
-	// }
+
+// 	// for (int i = 0; i < 9; ++i){
+// 	// 	stresstensor pre_stress_dev(3,3,0.);
+// 	// 	stresstensor stress_trial_dev(3,3,0.);
+// 	// 	stresstensor stres_s(3,3,0.);
+// 	// 	pre_stress_dev = getDev(_commit_stress);
+// 	// 	stress_trial_dev(_i,_j) = pre_stress_dev(_i,_j) 
+// 	// 							+ 2 * _shear_modulus * (d_strains[i])(_i,_j) ; 
+// 	// 	ad_dual<double> sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
+// 	// 	if(sqrt_J2_stress_trial_dev==0){
+// 	// 		cerr<< "sqrt_J2_stress_trial_dev==0 ! " <<endl;
+// 	// 		return -1;
+// 	// 	}
+// 	// 	ad_dual<double> ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
+// 	// 	stres_s(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
+// 	// 	ad_dual<double> p_trial = 1./3. * _commit_stress(_i,_i);
+// 	// 	ad_dual<double> strain_plastic_incr_vol = (d_strains[i])(_i,_i);
+// 	// 	p_trial = p_trial + _vol_K * strain_plastic_incr_vol ; 
+// 	// 	ad_dual<double> p_ite_r = p_trial - _vol_K * _eta_bar * dlambda ;
+
+// 	// 	(d_stress[i])(_i,_j) = stres_s(_i,_j) + p_ite_r * kronecker_delta(_i,_j) ;
+// 	// 	(d_stress[i])(_i,_j) = (d_stress[i])(_i,_j) - _commit_stress(_i,_j);
+// 	// }
 	
-	// // cout<<"(d_stress[i])= " << (d_stress[0]) <<endl;
+// 	// // cout<<"(d_stress[i])= " << (d_stress[0]) <<endl;
 
-	// // stifftensor new_Stiffness(3,3,3,3,0.) ; 
-	// for (int i = 0; i < 3; ++i){
-	// 	for (int j = 0; j < 3; ++j){
-	// 		_Stiffness(_i,_j,i,j) = (d_stress[i*3+j])(_i,_j) ;
-	// 	}
-	// }
+// 	// // stifftensor new_Stiffness(3,3,3,3,0.) ; 
+// 	// for (int i = 0; i < 3; ++i){
+// 	// 	for (int j = 0; j < 3; ++j){
+// 	// 		_Stiffness(_i,_j,i,j) = (d_stress[i*3+j])(_i,_j) ;
+// 	// 	}
+// 	// }
 
-	// // _Stiffness(_i,_j,_k,_l) = 
-	// // 		_vol_K * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) + _shear_modulus * 
-	// // 		(
-	// // 			kronecker_delta(_i,_k)*kronecker_delta(_j,_l) + kronecker_delta(_i,_l) * kronecker_delta(_j,_k) 
-	// // 			+ (-1.) * 
-	// // 			2./3. * kronecker_delta(_i,_j) * kronecker_delta(_k,_l)
-	// // 		);
-	// // static bool first_time = true;
-	// if(_intersection_factor > 0 ){
-	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
-	// 	// first_time = false;
-	// }
+// 	// // _Stiffness(_i,_j,_k,_l) = 
+// 	// // 		_vol_K * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) + _shear_modulus * 
+// 	// // 		(
+// 	// // 			kronecker_delta(_i,_k)*kronecker_delta(_j,_l) + kronecker_delta(_i,_l) * kronecker_delta(_j,_k) 
+// 	// // 			+ (-1.) * 
+// 	// // 			2./3. * kronecker_delta(_i,_j) * kronecker_delta(_k,_l)
+// 	// // 		);
+// 	// // static bool first_time = true;
+// 	// if(_intersection_factor > 0 ){
+// 	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
+// 	// 	// first_time = false;
+// 	// }
 
-	return 0;
-}
+// 	return 0;
+// }
 
-int dp::compute_stiffness_return2apex(){
-	cout<<"dp::compute_stiffness_return2apex " <<endl;
-	// _Stiffness = stifftensor(3,3,3,3,0.);
-	// if(_intersection_factor > 0 ){
-	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
-	// 	// first_time = false;
-	// }
-	return 0;
-}
+// int dp::compute_stiffness_return2apex(){
+// 	cout<<"dp::compute_stiffness_return2apex " <<endl;
+// 	// _Stiffness = stifftensor(3,3,3,3,0.);
+// 	// if(_intersection_factor > 0 ){
+// 	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
+// 	// 	// first_time = false;
+// 	// }
+// 	return 0;
+// }
 
 
 // double dp::backward_zbrentstress(const stresstensor& start_stress,

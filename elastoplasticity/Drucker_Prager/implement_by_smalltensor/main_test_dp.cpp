@@ -25,22 +25,18 @@ int main(int argc, char const *argv[])
 							_eta_bar, 
 							_cohesion
 							}; 
-// cout<<"debug stepppp 1 \n " ;
 	auto theMaterial = new dp(material_constants, _initial_confine) ; 
 
-// cout<<"debug stepppp 2 \n " ;
 	DTensor2 input_strain(3,3,0.) ;
 	input_strain *= 0. ;
 	double max_strain = 0.005;
 	int Nstep = 100;
 	input_strain(0,1) = max_strain / Nstep ;
 	input_strain(1,0) = input_strain(0,1);
-// cout<<"debug stepppp 3 \n " ;
 	ofstream fout("strain_stress.txt");
 	DTensor2 stress_ret(3,3,0.) ;
 	DTensor2 strain_ret(3,3,0.) ;
 
-// cout<<"debug stepppp 4 \n " ;
 	// **************************************************************
 	// Write the initial state
 	// **************************************************************
@@ -48,7 +44,6 @@ int main(int argc, char const *argv[])
 	strain_ret = theMaterial->getCommitStrain();
 	cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
 	fout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<endl;
-// cout<<"debug stepppp 5 \n " ;
 	// **************************************************************
 	// Loading
 	// **************************************************************
