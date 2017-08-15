@@ -87,6 +87,8 @@ int main(int argc, char const *argv[])
 		cout<<"-------------------------------------------------------\n";
 		cout<<"stress_multiply = " << stress_multiply <<endl;
 		cout<<"stress_integrate= " << stress_integrate <<endl;
+		// cout<<"stress_ret      = " << stress_ret       <<std::endl;
+		// cout<<"prev_stress     = " << prev_stress       <<std::endl;
 		cout<<"*******************************************************\n";
 	}
 

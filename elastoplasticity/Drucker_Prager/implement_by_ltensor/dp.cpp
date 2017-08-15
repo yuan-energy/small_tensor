@@ -52,13 +52,18 @@ int dp::setStrainIncr(DTensor2 const& strain_incr){
 	strain_incr_dev = getDev(strain_incr);
 	double strain_plastic_incr_vol = strain_incr(_i,_i);
 	DTensor2 stress_trial_dev(3,3,0.);
+
+
 	_stress_dev_iter = getDev(_commit_stress);
+
+
+
 	_p_iter = 1./3. * _commit_stress(_i,_i);
 	stress_trial_dev(_i,_j) = _stress_dev_iter(_i,_j) 
 							+ 2 * _shear_modulus * strain_incr_dev(_i,_j) ; 
 	double p_trial = _p_iter + _vol_K * strain_plastic_incr_vol ; 
 	double yield_surface_val = yield_surface(stress_trial_dev , p_trial) ;
-	// cout<< "yield_surface_val = " << yield_surface_val  << endl;
+	cout<< "---> yield_surface_val = " << yield_surface_val  << endl;
 	_stress_dev_iter = stress_trial_dev ; 
 	_p_iter = p_trial ; 
 	DTensor2 stress_trial(3,3,0.);
@@ -67,6 +72,7 @@ int dp::setStrainIncr(DTensor2 const& strain_incr){
 	                        stress_trial,
 	                        0.0, 1.0, ZBRENT_TOLERANCE) ;
 
+	
 
 	if (yield_surface_val <= 0.0)
 	{
@@ -237,11 +243,16 @@ int dp::return2apex(DTensor2 const& strain_trial, double p_trial){
 
 void dp::CommitState(){
 	_commit_stress(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j);
+	// cout<<"kronecker_delta ="<<kronecker_delta<<endl;
+	cout<<"_stress_dev_iter="<<_stress_dev_iter<<endl;
 	_commit_strain = _strain_iter ; 
 	_commit_strain_plastic = _strain_plastic_iter ; 
 }
 
-DTensor2 const& dp::getCommitStress() const {return _commit_stress;  }
+DTensor2 const& dp::getCommitStress() const {
+	// cout<<"_commit_stress="<<_commit_stress<<endl;
+	return _commit_stress;  
+}
 DTensor2 const& dp::getCommitStrain() const {return _commit_strain;  }
 DTensor2 const& dp::getCommitStrainPlastic() const {return _commit_strain_plastic;  }
 DTensor4 const& dp::getTangentTensor() const {return _Stiffness; }
@@ -276,8 +287,9 @@ int dp::compute_stiffness_return2smooth(double dlambda, DTensor2 const& strain_t
 	double strain_trial_vol = strain_trial(_i,_i) ; 
 	double con_A = 1. / (_shear_modulus + _vol_K * _eta * _eta_bar) ; 
 	DTensor2 con_D(3,3,0.) ;
-	con_D(_i,_j) = copysign(1.0, _test_stress_trial(_k,_l)*strain_trial(_k,_l)) * strain_trial_dev(_i,_j) / norm_dev ; 
-	cout<<">>> con_D = " << con_D<< endl;
+	// con_D(_i,_j) = copysign(1.0, _test_stress_trial(_k,_l)*strain_trial(_k,_l)) * strain_trial_dev(_i,_j) / norm_dev ; 
+	con_D(_i,_j) = strain_trial_dev(_i,_j) / norm_dev ; 
+	// cout<<">>> con_D = " << con_D<< endl;
 
 
 
@@ -291,15 +303,15 @@ int dp::compute_stiffness_return2smooth(double dlambda, DTensor2 const& strain_t
 
 
 
-	DTensor2 unit_strain(3,3,0.);
-	std::vector<DTensor2>  d_strains( 9, unit_strain ) ;
-	std::vector<DTensor2>  d_stress( 9, unit_strain ) ;
+	// DTensor2 unit_strain(3,3,0.);
+	// std::vector<DTensor2>  d_strains( 9, unit_strain ) ;
+	// std::vector<DTensor2>  d_stress( 9, unit_strain ) ;
 
-	for (int i = 0; i < 3; ++i)	{
-		for (int j = 0; j < 3; ++j) {
-			(d_strains[i*3+j])(i,j) = 1. ; 
-		}
-	}
+	// for (int i = 0; i < 3; ++i)	{
+	// 	for (int j = 0; j < 3; ++j) {
+	// 		(d_strains[i*3+j])(i,j) = 1. ; 
+	// 	}
+	// }
 
 
 	// DTensor2 stress_trial_dev(3,3,0.);
@@ -312,50 +324,50 @@ int dp::compute_stiffness_return2smooth(double dlambda, DTensor2 const& strain_t
 
 
 
-	for (int i = 0; i < 9; ++i){
-		DTensor2 pre_stress_dev(3,3,0.);
-		DTensor2 stress_trial_dev(3,3,0.);
-		DTensor2 stres_s(3,3,0.);
-		pre_stress_dev = getDev(_commit_stress);
-		stress_trial_dev(_i,_j) = pre_stress_dev(_i,_j) 
-								+ 2 * _shear_modulus * (d_strains[i])(_i,_j) ; 
-		double sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
-		if(sqrt_J2_stress_trial_dev==0){
-			cerr<< "sqrt_J2_stress_trial_dev==0 ! " <<endl;
-			return -1;
-		}
-		double ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
-		stres_s(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
-		double p_trial = 1./3. * _commit_stress(_i,_i);
-		double strain_plastic_incr_vol = (d_strains[i])(_i,_i);
-		p_trial = p_trial + _vol_K * strain_plastic_incr_vol ; 
-		double p_ite_r = p_trial - _vol_K * _eta_bar * dlambda ;
+	// for (int i = 0; i < 9; ++i){
+	// 	DTensor2 pre_stress_dev(3,3,0.);
+	// 	DTensor2 stress_trial_dev(3,3,0.);
+	// 	DTensor2 stres_s(3,3,0.);
+	// 	pre_stress_dev = getDev(_commit_stress);
+	// 	stress_trial_dev(_i,_j) = pre_stress_dev(_i,_j) 
+	// 							+ 2 * _shear_modulus * (d_strains[i])(_i,_j) ; 
+	// 	double sqrt_J2_stress_trial_dev = sqrt(getJ2(stress_trial_dev)) ; 
+	// 	if(sqrt_J2_stress_trial_dev==0){
+	// 		cerr<< "sqrt_J2_stress_trial_dev==0 ! " <<endl;
+	// 		return -1;
+	// 	}
+	// 	double ratio = _shear_modulus * dlambda / sqrt_J2_stress_trial_dev ; 
+	// 	stres_s(_i,_j) = (1. - ratio) * stress_trial_dev(_i,_j) ; 
+	// 	double p_trial = 1./3. * _commit_stress(_i,_i);
+	// 	double strain_plastic_incr_vol = (d_strains[i])(_i,_i);
+	// 	p_trial = p_trial + _vol_K * strain_plastic_incr_vol ; 
+	// 	double p_ite_r = p_trial - _vol_K * _eta_bar * dlambda ;
 
-		(d_stress[i])(_i,_j) = stres_s(_i,_j) + p_ite_r * kronecker_delta(_i,_j) ;
-		(d_stress[i])(_i,_j) = (d_stress[i])(_i,_j) - _commit_stress(_i,_j);
-	}
+	// 	(d_stress[i])(_i,_j) = stres_s(_i,_j) + p_ite_r * kronecker_delta(_i,_j) ;
+	// 	(d_stress[i])(_i,_j) = (d_stress[i])(_i,_j) - _commit_stress(_i,_j);
+	// }
 	
-	// cout<<"(d_stress[i])= " << (d_stress[0]) <<endl;
+	// // cout<<"(d_stress[i])= " << (d_stress[0]) <<endl;
 
-	// DTensor4 new_Stiffness(3,3,3,3,0.) ; 
-	for (int i = 0; i < 3; ++i){
-		for (int j = 0; j < 3; ++j){
-			_Stiffness(_i,_j,i,j) = (d_stress[i*3+j])(_i,_j) ;
-		}
-	}
+	// // DTensor4 new_Stiffness(3,3,3,3,0.) ; 
+	// for (int i = 0; i < 3; ++i){
+	// 	for (int j = 0; j < 3; ++j){
+	// 		_Stiffness(_i,_j,i,j) = (d_stress[i*3+j])(_i,_j) ;
+	// 	}
+	// }
 
-	// _Stiffness(_i,_j,_k,_l) = 
-	// 		_vol_K * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) + _shear_modulus * 
-	// 		(
-	// 			kronecker_delta(_i,_k)*kronecker_delta(_j,_l) + kronecker_delta(_i,_l) * kronecker_delta(_j,_k) 
-	// 			+ (-1.) * 
-	// 			2./3. * kronecker_delta(_i,_j) * kronecker_delta(_k,_l)
-	// 		);
-	// static bool first_time = true;
-	if(_intersection_factor > 0 ){
-		_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
-		// first_time = false;
-	}
+	// // _Stiffness(_i,_j,_k,_l) = 
+	// // 		_vol_K * kronecker_delta(_i,_j) * kronecker_delta(_k,_l) + _shear_modulus * 
+	// // 		(
+	// // 			kronecker_delta(_i,_k)*kronecker_delta(_j,_l) + kronecker_delta(_i,_l) * kronecker_delta(_j,_k) 
+	// // 			+ (-1.) * 
+	// // 			2./3. * kronecker_delta(_i,_j) * kronecker_delta(_k,_l)
+	// // 		);
+	// // static bool first_time = true;
+	// if(_intersection_factor > 0 ){
+	// 	_Stiffness(_i,_j,_k,_l) = _intersection_factor * _Eelastic(_i,_j,_k,_l) + (1.-_intersection_factor) * _Stiffness(_i,_j,_k,_l);
+	// 	// first_time = false;
+	// }
 
 	return 0;
 }

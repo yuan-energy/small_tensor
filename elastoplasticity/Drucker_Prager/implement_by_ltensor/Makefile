@@ -9,8 +9,9 @@ stiffness_compile:   dp.cpp stiffness_main_test_dp.cpp
 compile: dp.cpp main_test_dp.cpp
 	g++ main_test_dp.cpp dp.cpp -lm -std=c++11 -g -o test_dp
 
-# run:
-# 	script -c "./test_dp" log
+run: 
+	g++ stiffness_main_test_dp.cpp dp.cpp -lm -std=c++11 -g -o test_dp
+	script -c "./test_dp" log
 
 # valgrind:
 # 	valgrind ./test_dp

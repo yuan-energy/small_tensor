@@ -63,17 +63,15 @@ public:
 	void set_value(val_type const& val_) { _value=val_; }
 
 	ad_graph<val_type>* get_graph() const{
-		// if(_graph == nullptr){
-		// 	std::cerr<<"AD Usage ERROR!!! The dual-node does not have a graph! \n";
-		// 	std::cerr<<"AD Usage ERROR!!! dual-node ID = "<<_id<<", value = "<<_value<<"\n";
-		// }
+		if(_graph == nullptr){
+			std::cerr<<"AD Usage ERROR!!! The dual-node does not have a graph! \n";
+			std::cerr<<"AD Usage ERROR!!! dual-node ID = "<<_id<<", value = "<<_value<<"\n";
+		}
 		return _graph;
 	}
-	void set_graph(ad_graph<val_type> const* graph_) const{
-		// if(_graph != nullptr){
-		// 	std::cerr<<"AD Usage WARNING!!!: Replaced the Computational Graph of Dual-nodes. \n";
-		// }
-		_graph = graph_ ;
+	void reset_graph(ad_graph<val_type>& graph_){
+		_graph = &graph_ ;
+		_id = _graph->_id_count++;
 	}
 
 	ad_dual& operator=(val_type& v){
@@ -83,7 +81,8 @@ public:
 
 
 	friend std::ostream& operator<<(std::ostream & os, ad_dual const& v ){
-		os<<"{dual_value="<< v._value << ",\t dual_ID="<<v._id <<std::endl;
+		os << v._value <<" " ;
+		// os<<"{dual_value="<< v._value << ", dual_ID="<<v._id <<"}"<<std::endl;
 		return os;
 	}
 };

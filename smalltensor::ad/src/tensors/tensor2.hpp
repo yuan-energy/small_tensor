@@ -11,6 +11,7 @@ public:
 	tensor2(tensor2 const& rhs_): _data{new __dat_t[__d1*__d2]}{
 		DEBUG_MSG("tensor2 copy constructor is called");
 		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2);
+		DEBUG_MSG("tensor2 copy constructor is Done! ");
 	}
 
 	template <typename val_type>
@@ -121,7 +122,7 @@ public:
         return ret;
 	}
 
-	inline tensor2& operator*=(__dat_t const& scalar_){
+	inline tensor2& operator*=(int const& scalar_){
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2){
 				(*this)(n1,n2) *= scalar_ ;
@@ -135,6 +136,14 @@ public:
 	// 	return (*this)(0,0).get_graph();
 	// }
 
+	template <typename val_type>
+	void reset_graph(ad_graph<val_type>& graph_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				(*this)(n1,n2).reset_graph(graph_) ;
+			}
+		}
+	}
 
 	friend std::ostream& operator<<(std::ostream & os, tensor2 const& v ){
 		os<<std::endl<<"tensor2=[\n" ;

@@ -9,11 +9,11 @@ using namespace smalltensor::ad;
 
 typedef std::vector<double> DVEC;
 
-#define RETURN2SMOOTH_TOLERANCE 1E-12
+#define RETURN2SMOOTH_TOLERANCE 1E-10
 #define RETURN2SMOOTH_MAXITER 20
-#define RETURN2APEX_TOLERANCE 1E-12
+#define RETURN2APEX_TOLERANCE 1E-10
 #define RETURN2APEX_MAXITER 20
-#define ZBRENT_TOLERANCE 1E-12
+#define ZBRENT_TOLERANCE 1E-10
 #define ZBRENT_MAXITER 20
 class dp
 {
@@ -30,6 +30,7 @@ public:
 	DTensor4 getTangentTensor()  const ; 
 
 	void CommitState();
+	void reset_computational_graph();
 	// ~dp();
 private:
 	int return2smooth(stresstensor const& strain_trial, bool& valid);
@@ -72,6 +73,8 @@ private:
 	stresstensor _test_stress_trial;
 
 	stresstensor kronecker_delta;
+	stresstensor _d_strain;
+	stresstensor _d_stress;
 	
 };
 // _intersection_factor = 0.; 

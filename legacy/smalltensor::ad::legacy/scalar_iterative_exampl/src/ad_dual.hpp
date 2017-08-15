@@ -16,6 +16,37 @@ public:
 	ad_dual(ad_graph& graph_ , double value);
 	// ~ad_dual();
 
+	ad_dual(ad_dual & rhs_)
+	: _id(rhs_.get_ID())
+	, _value(rhs_.get_value())
+	, _graph(rhs_.get_graph())
+	{
+	}
+	
+	ad_dual(ad_dual && rhs_)
+	: _id(std::move(rhs_.get_ID()))
+	, _value(std::move(rhs_.get_value()))
+	, _graph(rhs_.get_graph())
+	{
+	}
+
+	ad_dual& operator=(ad_dual& rhs_){
+		_id = rhs_.get_ID();
+		_value = rhs_.get_value();
+		_graph = rhs_.get_graph();
+		return (*this);
+	}
+
+	ad_dual operator=(ad_dual&& rhs_){
+		_id = rhs_.get_ID();
+		_value = rhs_.get_value();
+		_graph = rhs_.get_graph();
+		return (*this);
+	}
+
+	nodeID get_ID() const { return _id; }
+	ad_graph* get_graph() const{return _graph;}
+
 	double get_value() const { return _value; }
 
 

@@ -110,6 +110,19 @@ public:
         return ret_ij;
 	}
 
+	template <typename val_type>
+	void reset_graph(ad_graph<val_type>& graph_){
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n2 = 0; n2 < __d2; ++n2){
+				for (std::size_t n3 = 0; n3 < __d3; ++n3){
+					for (std::size_t n4 = 0; n4 < __d4; ++n4){
+						(*this)(n1,n2,n3,n4).reset_graph(graph_) ;
+					}
+				}
+			}
+		}
+	}
+
 	inline tensor4& operator*=(__dat_t const& scalar_){
 		for (std::size_t n1 = 0; n1 < __d1; ++n1){
 			for (std::size_t n2 = 0; n2 < __d2; ++n2){
