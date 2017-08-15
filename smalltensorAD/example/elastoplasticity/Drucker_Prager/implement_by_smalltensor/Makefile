@@ -46,5 +46,5 @@ plot:
 	python plot.py
 
 clean:
-	-rm test_dp
-	-rm strain_stress.txt
+	-rm -f test_dp.out
+	-rm -f strain_stress.txt
