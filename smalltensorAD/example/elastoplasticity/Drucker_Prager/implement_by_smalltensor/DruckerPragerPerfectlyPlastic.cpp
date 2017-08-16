@@ -7,6 +7,7 @@ DruckerPragerPerfectlyPlastic
 ::DruckerPragerPerfectlyPlastic
 (std::vector<double> const& constants_prop, double initial_confine)
 {
+	reset_computational_graph();
 	_shear_modulus   = constants_prop[0] ;
 	_vol_K           = constants_prop[1] ;
 	_eta             = constants_prop[2] ;
@@ -309,7 +310,7 @@ DTensor2 const& DruckerPragerPerfectlyPlastic::getStrainTensor() const {
 	}
 	return commit_strain;  
 }
-DTensor2 const& DruckerPragerPerfectlyPlastic::getStrainPlasticTensor() const {
+DTensor2 const& DruckerPragerPerfectlyPlastic::getPlasticStrainTensor() const {
 	static DTensor2 commit_strain_plastic(3,3);
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj)		{

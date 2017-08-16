@@ -30,7 +30,7 @@ public:
 	ad_dual<double> yield_surface(ADtensor2 const& stress);
 	DTensor2 const& getStressTensor()  const ; 
 	DTensor2 const& getStrainTensor()  const ; 
-	DTensor2 const& getStrainPlasticTensor()  const ; 
+	DTensor2 const& getPlasticStrainTensor()  const ; 
 	DTensor4 const& getTangentTensor()  ; 
 	const char *getClassType( void ) const{return "DruckerPragerPerfectlyPlastic";};
 	const char *getType( void ) const{return "DruckerPragerPerfectlyPlastic";};
