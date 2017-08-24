@@ -36,7 +36,7 @@ DruckerPragerPerfectlyPlastic
 				+ (-1.) * 
 				2./3. * kronecker_delta(_i,_j) * kronecker_delta(_k,_l)
 			);
-	_Eelastic = _Stiffness ;
+	_Eelastic(_i,_j,_k,_l) = _Stiffness(_i,_j,_k,_l) ;
 } 
 
 void DruckerPragerPerfectlyPlastic::reset_computational_graph(){
@@ -84,9 +84,19 @@ int DruckerPragerPerfectlyPlastic::setTrialStrainIncr(DTensor2 const& strain_inc
 	_p_iter = p_trial ; 
 	ADtensor2 stress_trial;
 	stress_trial(_i,_j) = _stress_dev_iter(_i,_j) + _p_iter * kronecker_delta(_i,_j) ; 
-	// _intersection_factor = backward_zbrentstress(_commit_stress,
-	//                         stress_trial,
-	//                         0.0, 1.0, ZBRENT_TOLERANCE) ;
+
+	DTensor2 start_stress(3,3,0.);
+	DTensor2 end_stress(3,3,0.);
+	for(int i=0; i<3; ++i){
+		for (int j = 0; j < 3; ++j)		{
+			start_stress(i,j) = _commit_stress(i,j).get_value() ;
+			end_stress(i,j) = stress_trial(i,j).get_value() ;
+		}
+	}
+	_intersection_factor = backward_zbrentstress(start_stress,
+	                        end_stress,
+	                        0.0, 1.0, ZBRENT_TOLERANCE) ;
+	cout<<"_intersection_factor = " << _intersection_factor <<endl;
 
 
 	if (yield_surface_val <= 0.0)
@@ -118,6 +128,10 @@ int DruckerPragerPerfectlyPlastic::setTrialStrainIncr(DTensor2 const& strain_inc
 
 	_d_stress(_i,_j) = _stress_iter(_i,_j) - _commit_stress(_i,_j) ;
 	_Stiffness(_i,_j,_k,_l) = _d_stress(_i,_j) / _d_strain(_k,_l) ; 
+
+
+
+
 
 	// test
 	// ADtensor2 stress_multiply;
@@ -155,6 +169,27 @@ ad_dual<double> DruckerPragerPerfectlyPlastic::yield_surface(ADtensor2 const& st
 	ad_dual<double> pressure = stress(0,0) / 3. + stress(1,1) / 3.  + stress(2,2)/3. ;
 	ADtensor2 stress_dev = getDev(stress);
 	return yield_surface(stress_dev, pressure) ;
+}
+
+double DruckerPragerPerfectlyPlastic::ltensor_yield_surface(DTensor2 const& stress){
+	double pressure = stress(0,0) / 3. + stress(1,1) / 3.  + stress(2,2)/3. ;
+	DTensor2 stress_dev = ltensor_getDev(stress);
+	return ltensor_yield_surface(stress_dev, pressure) ;
+}
+
+double DruckerPragerPerfectlyPlastic::ltensor_yield_surface(DTensor2 const& dev_stress, double pressure) {
+	return sqrt(ltensor_getJ2(dev_stress)) + _eta * pressure - _cohesion ;
+}
+
+DTensor2 DruckerPragerPerfectlyPlastic::ltensor_getDev(DTensor2 const& strain){
+	double vol = strain(0,0)+strain(1,1)+strain(2,2) ;
+	DTensor2 dev_strain(3,3,0.);
+	DTensor2 kronecker_delta_(3,3,"identity");
+	dev_strain(i_,j_) = strain(i_,j_) - vol/3. * kronecker_delta_(i_,j_);
+	return dev_strain;
+}	
+double DruckerPragerPerfectlyPlastic::ltensor_getJ2(DTensor2 const& dev_stress){
+	return 0.5 * dev_stress(i_,j_) * dev_stress(i_,j_) ;
 }
 
 int DruckerPragerPerfectlyPlastic::return2smooth(ADtensor2 const& strain_trial, bool& valid){
@@ -321,14 +356,23 @@ DTensor2 const& DruckerPragerPerfectlyPlastic::getPlasticStrainTensor() const {
 }
 DTensor4 const& DruckerPragerPerfectlyPlastic::getTangentTensor() {
 	static DTensor4 Stiffness(3,3,3,3);
+	static DTensor4 Elastic(3,3,3,3);
+	// cout<<"inside getTangentTensor _Eelastic=  " << _Eelastic <<endl;
 	for (int ii = 0; ii < 3; ++ii)	{
 		for (int jj = 0; jj < 3; ++jj) {
 			for (int kk = 0; kk < 3; ++kk) {
 				for (int ll = 0; ll < 3; ++ll) {
 					Stiffness(ii,jj,kk,ll) = _Stiffness(ii,jj,kk,ll).get_value() ;
+					Elastic(ii,jj,kk,ll) = _Eelastic(ii,jj,kk,ll).get_value() ;
 				}
 			}
 		}
+	}
+
+	if(_intersection_factor > 0 && _intersection_factor <1){
+		cout<< " _intersection_factor =" << _intersection_factor << endl;
+		Stiffness(i_,j_,k_,l_) = (1.-_intersection_factor) * Stiffness(i_,j_,k_,l_) 
+					+ _intersection_factor * Elastic(i_,j_,k_,l_);
 	}
 	return Stiffness; 
 }
@@ -456,142 +500,138 @@ ad_dual<double> DruckerPragerPerfectlyPlastic::getJ2(ADtensor2 const& dev_stress
 // }
 
 
-// double DruckerPragerPerfectlyPlastic::backward_zbrentstress(const stresstensor& start_stress,
-//                         const stresstensor& end_stress,
-//                         double x1, double x2, double tol)
-//     {
+double DruckerPragerPerfectlyPlastic::backward_zbrentstress(const DTensor2& start_stress,
+                        const DTensor2& end_stress,
+                        double x1, double x2, double tol)
+    {
 
-//         double EPS = numeric_limits<double>::epsilon();
+        double EPS = numeric_limits<double>::epsilon();
 
-//         int iter;
-//         double a = x1;
-//         double b = x2;
-//         double c = 0.0;
-//         double d = 0.0;
-//         double e = 0.0;
-//         double min1 = 0.0;
-//         double min2 = 0.0;
-//         double fc = 0.0;
-//         double p = 0.0;
-//         double q = 0.0;
-//         double r = 0.0;
-//         double s = 0.0;
-//         double tol1 = 0.0;
-//         double xm = 0.0;
+        int iter;
+        double a = x1;
+        double b = x2;
+        double c = 0.0;
+        double d = 0.0;
+        double e = 0.0;
+        double min1 = 0.0;
+        double min2 = 0.0;
+        double fc = 0.0;
+        double p = 0.0;
+        double q = 0.0;
+        double r = 0.0;
+        double s = 0.0;
+        double tol1 = 0.0;
+        double xm = 0.0;
 
-//         // ad_dual<double> fa = func(start_stress, end_stress, *ptr_material_parameter, a);
-//         // ad_dual<double> fb = func(start_stress, end_stress, *ptr_material_parameter, b);
-
-//         static ADtensor2 sigma_a;
-//         static ADtensor2 sigma_b;
-
-//         sigma_a(_i, _j) = start_stress(_i, _j) * (1 - a)  + end_stress(_i, _j) * a;
-//         sigma_b(_i, _j) = start_stress(_i, _j) * (1 - b)  + end_stress(_i, _j) * b;
-
-//         double fa = yield_surface(sigma_a);
-//         double fb = yield_surface(sigma_b);
-
-//         // cout << "   brent fa = " << fa << " fb = " << fb << endl;
+        // ad_dual<double> fa = func(start_stress, end_stress, *ptr_material_parameter, a);
+        // ad_dual<double> fb = func(start_stress, end_stress, *ptr_material_parameter, b);
+        static DTensor2 sigma_a(3,3,0.) ;
+        static DTensor2 sigma_b(3,3,0.) ;
+        sigma_a(i_, j_) = start_stress(i_, j_) * (1 - a)  + end_stress(i_, j_) * a;
+        sigma_b(i_, j_) = start_stress(i_, j_) * (1 - b)  + end_stress(i_, j_) * b;
+        double fa = ltensor_yield_surface(sigma_a);
+        double fb = ltensor_yield_surface(sigma_b);
+        // cout << "   brent fa = " << fa << " fb = " << fb << endl;
 
 
-//         if ( (fb * fa) > 0.0)
-//         {
-//         	return -1E-12;
-//             // std::cout << "\a\n Root must be bracketed in ZBRENTstress " << std::endl;
-//             // exit(1);
-//         }
+        if ( (fb * fa) > 0.0)
+        {
+        	return -1E-12;
+            // std::cout << "\a\n Root must be bracketed in ZBRENTstress " << std::endl;
+            // exit(1);
+        }
 
-//         fc = fb;
+        fc = fb;
 
-//         for ( iter = 1; iter <= ZBRENT_MAXITER; iter++ )
-//         {
-//             if ( (fb * fc) > 0.0)
-//             {
-//                 c = a;
-//                 fc = fa;
-//                 e = d = b - a;
-//             }
+        for ( iter = 1; iter <= ZBRENT_MAXITER; iter++ )
+        {
+            if ( (fb * fc) > 0.0)
+            {
+                c = a;
+                fc = fa;
+                e = d = b - a;
+            }
 
-//             if ( fabs(fc) < fabs(fb) )
-//             {
-//                 a = b;
-//                 b = c;
-//                 c = a;
-//                 fa = fb;
-//                 fb = fc;
-//                 fc = fa;
-//             }
+            if ( fabs(fc) < fabs(fb) )
+            {
+                a = b;
+                b = c;
+                c = a;
+                fa = fb;
+                fb = fc;
+                fc = fa;
+            }
 
-//             tol1 = 2.0 * EPS * fabs(b) + 0.5 * tol;
-//             xm = 0.5 * (c - b);
+            tol1 = 2.0 * EPS * fabs(b) + 0.5 * tol;
+            xm = 0.5 * (c - b);
 
-//             if ( fabs(xm) <= tol1 || fb == 0.0 )
-//             {
-//                 return b;
-//             }
+            if ( fabs(xm) <= tol1 || fb == 0.0 )
+            {
+                return b;
+            }
 
-//             if ( fabs(e) >= tol1 && fabs(fa) > fabs(fb) )
-//             {
-//                 s = fb / fa;
+            if ( fabs(e) >= tol1 && fabs(fa) > fabs(fb) )
+            {
+                s = fb / fa;
 
-//                 if (a == c)
-//                 {
-//                     p = 2.0 * xm * s;
-//                     q = 1.0 - s;
-//                 }
-//                 else
-//                 {
-//                     q = fa / fc;
-//                     r = fb / fc;
-//                     p = s * ( 2.0 * xm * q * (q - r) - (b - a) * (r - 1.0) );
-//                     q = (q - 1.0) * (r - 1.0) * (s - 1.0);
-//                 }
+                if (a == c)
+                {
+                    p = 2.0 * xm * s;
+                    q = 1.0 - s;
+                }
+                else
+                {
+                    q = fa / fc;
+                    r = fb / fc;
+                    p = s * ( 2.0 * xm * q * (q - r) - (b - a) * (r - 1.0) );
+                    q = (q - 1.0) * (r - 1.0) * (s - 1.0);
+                }
 
-//                 if (p > 0.0)
-//                 {
-//                     q = -q;
-//                 }
+                if (p > 0.0)
+                {
+                    q = -q;
+                }
 
-//                 p = fabs(p);
-//                 min1 = 3.0 * xm * q - fabs(tol1 * q);
-//                 min2 = fabs(e * q);
+                p = fabs(p);
+                min1 = 3.0 * xm * q - fabs(tol1 * q);
+                min2 = fabs(e * q);
 
-//                 if (2.0 * p < (min1 < min2 ? min1 : min2))
-//                 {
-//                     e = d;
-//                     d = p / q;
-//                 }
-//                 else
-//                 {
-//                     d = xm;
-//                     e = d;
-//                 }
-//             }
-//             else
-//             {
-//                 d = xm;
-//                 e = d;
-//             }
+                if (2.0 * p < (min1 < min2 ? min1 : min2))
+                {
+                    e = d;
+                    d = p / q;
+                }
+                else
+                {
+                    d = xm;
+                    e = d;
+                }
+            }
+            else
+            {
+                d = xm;
+                e = d;
+            }
 
-//             a = b;
-//             fa = fb;
+            a = b;
+            fa = fb;
 
-//             if (fabs(d) > tol1)
-//             {
-//                 b += d;
-//             }
-//             else
-//             {
-//                 b += (xm > 0.0 ? fabs(tol1) : -fabs(tol1));
-//             }
+            if (fabs(d) > tol1)
+            {
+                b += d;
+            }
+            else
+            {
+                b += (xm > 0.0 ? fabs(tol1) : -fabs(tol1));
+            }
 
-//             // fb = func(start_stress, end_stress, *ptr_material_parameter, b);
-//             sigma_b(_i, _j) = start_stress(_i, _j) * (1 - b)  + end_stress(_i, _j) * b;
-//             fb = yield_surface(sigma_b);
-//         }
+            // fb = func(start_stress, end_stress, *ptr_material_parameter, b);
+            sigma_b(i_, j_) = start_stress(i_, j_) * (1 - b)  + end_stress(i_, j_) * b;
+            fb = ltensor_yield_surface(sigma_b);
+        }
 
-//         return 0.0;
-//     }
+        return 0.0;
+    }
 
 
 

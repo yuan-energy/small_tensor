@@ -65,9 +65,9 @@ int main(int argc, char const *argv[])
 	for (int step = 0; step < 3; ++step)
 	{
 		prev_stress = theMaterial->getStressTensor();
-		auto stiffness = theMaterial->getTangentTensor();
 		theMaterial->setTrialStrainIncr(input_strain); 
 		theMaterial->commitState();
+		auto stiffness = theMaterial->getTangentTensor();
 		stress_ret = theMaterial->getStressTensor();
 		strain_ret = theMaterial->getStrainTensor();
 		std::cout<< strain_ret(0,1) <<"\t" << stress_ret(0,1) <<std::endl;
@@ -80,6 +80,8 @@ int main(int argc, char const *argv[])
 		std::cout<<"Step Number = " << step <<std::endl;
 		std::cout<<"diff stress = " << diff <<std::endl;
 		std::cout<<"-------------------------------------------------------\n";
+		// std::cout<<"stiffness       = " << stiffness <<std::endl;
+		// std::cout<<"input_strain    = " << input_strain <<std::endl;
 		std::cout<<"stress_multiply = " << stress_multiply <<std::endl;
 		std::cout<<"stress_integrate= " << stress_integrate <<std::endl;
 		// std::cout<<"stress_ret      = " << stress_ret       <<std::endl;

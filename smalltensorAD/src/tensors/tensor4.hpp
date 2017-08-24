@@ -10,12 +10,12 @@ public:
 	tensor4(): _data{new __dat_t[__d1*__d2*__d3*__d4]}{}
 	tensor4(tensor4 const& rhs_): _data{new __dat_t[__d1*__d2*__d3*__d4]}{
 		DEBUG_MSG("tensor4 copy constructor is called");
-		std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);
+		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2*__d3*__d4);
 	}
 	tensor4& operator=(tensor4 const& rhs_){
 		DEBUG_MSG("tensor4 copy assignment operator is called");
 		if(this != &rhs_){
-	        std::memcpy(_data, rhs_._data, sizeof(_data)*__d1*__d2*__d3*__d4);		
+	        std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2*__d3*__d4);		
 		}
 		return *this;
 	}
@@ -135,6 +135,23 @@ public:
 			}
 		}
 		return (*this);
+	}
+
+	friend std::ostream& operator<<(std::ostream & os, tensor4 const& v ){
+		os << "tensor4 = [ \n" ; 
+		for (std::size_t n1 = 0; n1 < __d1; ++n1){
+			for (std::size_t n3 = 0; n3 < __d3; ++n3){
+				for (std::size_t n2 = 0; n2 < __d2; ++n2){
+					for (std::size_t n4 = 0; n4 < __d4; ++n4){
+						os << v(n1,n2,n3,n4).get_value() <<"\t" ;
+					}
+					os << "\t";
+				}
+				os<<"\n";
+			}
+		}
+		os<<"\n ] \n" ;
+		return os;
 	}
 };
 

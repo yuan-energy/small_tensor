@@ -60,9 +60,13 @@ private:
 
 	// int compute_stiffness_return2smooth(ad_dual<double> dlambda, ADtensor2 const& strain_trial);
 	// int compute_stiffness_return2apex();
-	// ad_dual<double> backward_zbrentstress(const stresstensor& start_stress,
-	//                         const stresstensor& end_stress,
-	//                         ad_dual<double> x1, ad_dual<double> x2, ad_dual<double> tol) ; 
+	double ltensor_yield_surface(DTensor2 const& stress);
+	double ltensor_yield_surface(DTensor2 const& dev_stress, double pressure) ;
+	DTensor2 ltensor_getDev(DTensor2 const& strain);
+	double ltensor_getJ2(DTensor2 const& dev_stress);
+	double backward_zbrentstress(const DTensor2& start_stress,
+	                        const DTensor2& end_stress,
+	                        double x1, double x2, double tol) ; 
 private:
 	ad_graph<double> _GRAPH;
 	double _shear_modulus;
@@ -71,7 +75,6 @@ private:
 	double _eta_bar;
 	double _cohesion;
 	double _initial_confine;
-	// ad_dual<double> _intersection_factor;
 
 	ADtensor2 _stress_dev_iter;
 	ad_dual<double> _p_iter ; 
@@ -95,6 +98,12 @@ private:
 	smalltensor::ad::Ident<'j'> _j;
 	smalltensor::ad::Ident<'k'> _k;
 	smalltensor::ad::Ident<'l'> _l;	
+
+	double _intersection_factor;
+	Index<'i'> i_;
+	Index<'j'> j_;
+	Index<'k'> k_;
+	Index<'l'> l_;	
 };
 // _intersection_factor = 0.; 
 // _stress_dev_iter = DTensor2(3,3,0.) ; 
