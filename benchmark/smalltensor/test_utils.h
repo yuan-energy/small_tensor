@@ -1,10 +1,11 @@
-#include "ltensor/LTensor.h"
 #include <chrono>
 #include <iostream>
+#include <fstream>
 
 Index<'I'> I;
 Index<'J'> J;
 Index<'K'> K;
+
 
 void write_to_file(int m, int n, int k , double duration, std::string const& prefix=""){
 	std::cerr << " m n k = " << m << ", " << n << ", " << k << "\n" ; 
@@ -17,26 +18,13 @@ void write_to_file(int m, int n, int k , double duration, std::string const& pre
 	myfile.close(); 
 }
 
-void initi_tensor(FTensor2& t, int Nrow, int Ncol, int start=0){
-	for (int i = 0; i < Nrow; ++i)	{
-		for (int j = 0; j < Ncol; ++j){
-			t(i,j) = start++ ; 
-		}
-	}
-}
-void initi_tensor(DTensor2& t, int Nrow, int Ncol, int start=0){
-	for (int i = 0; i < Nrow; ++i)	{
-		for (int j = 0; j < Ncol; ++j){
-			t(i,j) = start++ ; 
-		}
-	}
-}
-void Test_Contraction_float(int m, int n, int k ){
-	FTensor2 a(m,n,0.0) ; 
-	FTensor2 b(n,k,0.0) ; 
-	FTensor2 c(m,k,0.0) ; 
-	initi_tensor(a, m, n, 0) ;
-	initi_tensor(b, n, k, 1) ;
+
+
+template<size_t m, size_t n, size_t k>
+void Test_Contraction_float(){
+	tensor2<float,m,n> a ; 
+	tensor2<float,n,k> b ; 
+	tensor2<float,m,k> c ; 
 	size_t Nrepeat = 10'000'000 ; 
 	auto start = std::chrono::system_clock::now();
 	for (int i = 0; i < Nrepeat; ++i)	{
@@ -52,12 +40,14 @@ void Test_Contraction_float(int m, int n, int k ){
 	// 	;
 	write_to_file(m,n,k, duration, "float_") ; 
 }
-void Test_Contraction_double(int m, int n, int k ){
-	DTensor2 a(m,n,0.0) ; 
-	DTensor2 b(n,k,0.0) ; 
-	DTensor2 c(m,k,0.0) ; 
-	initi_tensor(a, m, n, 0) ;
-	initi_tensor(b, n, k, 1) ;
+
+
+
+template<size_t m, size_t n, size_t k>
+void Test_Contraction_double(){
+	tensor2<double,m,n> a ; 
+	tensor2<double,n,k> b ; 
+	tensor2<double,m,k> c ; 
 	size_t Nrepeat = 10'000'000 ; 
 	auto start = std::chrono::system_clock::now();
 	for (int i = 0; i < Nrepeat; ++i)	{
@@ -71,20 +61,6 @@ void Test_Contraction_double(int m, int n, int k ){
 	// 	<< c(1,0) << " " << c(1,1) << " " << c(1,2) << "\n"
 	// 	<< c(2,0) << " " << c(2,1) << " " << c(2,2) << "\n"
 	// 	;
-	write_to_file(m,n,k,duration,"double_") ; 
+	write_to_file(m,n,k, duration, "float_") ; 
 }
 
-
-int main(int argc, char const *argv[])
-{
-
-	Test_Contraction_float(3,3,3) ; 
-	Test_Contraction_float(8,3,3) ; 
-	Test_Contraction_float(27,3,3) ; 
-	Test_Contraction_double(3,3,3) ; 
-	Test_Contraction_double(8,3,3) ; 
-	Test_Contraction_double(27,3,3) ; 
-
-
-	return 0;
-}
