@@ -26,13 +26,6 @@ int main(int argc, char const *argv[])
 	
 	// Test 2
 	obj3(1,1)=9; obj5(1,1) = 3;
-
-	size_t Nrepeat = 10'000'000 ; 
-	for (int i = 0; i < Nrepeat; ++i)	{
-		obj2(i,j)=obj3(i,k)*obj5(k,j);
-		
-	}
-	
 	obj2(i,j)=obj3(i,k)*obj5(k,j);
 	ASSERT_MSG(obj2(1,1)==27,"tensor2(_i,_j) contraction1  operator error");
 
