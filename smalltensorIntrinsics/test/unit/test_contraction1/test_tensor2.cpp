@@ -13,6 +13,10 @@ int main(int argc, char const *argv[])
 	tensor2<float, 8,3> obj6;
 	tensor2<float, 8,3> obj7;
 
+	tensor2<float, 2,2> obj8;
+	tensor2<float, 2,2> obj9;
+	tensor2<float, 2,2> obj10;
+
 	obj2(2,2) = 2.;
 	Index<'i'> i;
 	Index<'j'> j;
@@ -37,6 +41,17 @@ int main(int argc, char const *argv[])
 
 	// Test 4
 	obj7(i,j) = obj6(i,k) * obj3(k,j) ; 
+
+	// Test 5
+	obj8(0,0) = 1 ; obj8(0,1) = 2 ; 
+	obj8(1,0) = 3 ; obj8(1,1) = 4 ; 
+	obj9(0,0) = 11 ; obj9(0,1) = 12 ; 
+	obj9(1,0) = 13 ; obj9(1,1) = 14 ; 
+	obj10(i,j) = obj8(i,k) * obj9(k,j) ; 
+	ASSERT_MSG(obj10(0,0)==37,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(obj10(0,1)==40,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(obj10(1,0)==85,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(obj10(1,1)==92,"tensor2(_i,_j) contraction1  operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 

@@ -25,8 +25,17 @@ ST_ALWAYS_INLINE __m128 _mm_load3_ul_ps(const float *value) {
 
 
 
-template<typename T, size_t M, size_t K, size_t N>
-void _matmul(const float * ST_RESTRICT a, const float * ST_RESTRICT b, float * ST_RESTRICT out) ; 
+template<typename T, size_t M, size_t N, size_t K>
+void _matmul(const T * ST_RESTRICT a, const T * ST_RESTRICT b, T * ST_RESTRICT out) {
+    memset(out, 0, sizeof(T)*M*K) ; 
+    for (std::size_t N1 = 0; N1 < M; ++N1){
+      for (std::size_t N2 = 0; N2 < K; ++N2){
+        for (std::size_t n3 = 0; n3 < N; ++n3){
+          out[N1*K+N2] += a[N1*N+n3] * b[n3*K+N2];
+        }
+      }
+    }
+}
 
 template<>
 ST_ALWAYS_INLINE
