@@ -86,5 +86,19 @@ public:
 		}
 		return (*this);
 	}
+
+	
+
 };
 
+template <typename __dat_t, std::size_t __d1, std::size_t __d2>
+std::ostream &operator<<(std::ostream &output, const tensor2<__dat_t, __d1,__d2> &v) {
+	output << "\n" ; 
+	for (size_t i = 0; i < __d1; ++i) {
+		for (size_t j = 0; j < __d2; ++j) {
+  			output << v(i,j) << " " ; 
+		}
+		output << "\n" ; 
+	}
+  return output;
+}

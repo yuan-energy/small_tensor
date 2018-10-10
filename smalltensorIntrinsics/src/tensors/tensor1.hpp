@@ -7,10 +7,12 @@ template <typename __dat_t, std::size_t __d1>
 class tensor1
 {
 public:
-	__dat_t* __restrict__ _data;
+	__dat_t ST_ALIGN32 _data[__d1] ;
 
-	tensor1(): _data{new __dat_t[__d1]}{}
-	tensor1(tensor1 const& rhs_): _data{new __dat_t[__d1]}{
+	tensor1(){
+		memset(_data, 0, sizeof(__dat_t)*__d1);
+	}
+	tensor1(tensor1 const& rhs_){
 		DEBUG_MSG("tensor1 copy constructor is called");
 		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1);
 	}
@@ -21,9 +23,7 @@ public:
 		}
 		return *this;
 	}
-    tensor1(tensor1&& rhs_) noexcept    
-    : _data{new __dat_t[__d1]}
-    {
+    tensor1(tensor1 && rhs_) noexcept {
     	std::swap(_data, rhs_._data);
     	DEBUG_MSG("tensor1 move constructor is called");
 
@@ -36,10 +36,6 @@ public:
     	return *this;
     }
 	~tensor1(){
-		if (_data!=nullptr){
-		    delete[] _data;
-		    _data=nullptr;
-		}
 	}
 
 	ST_ALWAYS_INLINE __dat_t& operator()(std::size_t n1_){
@@ -65,4 +61,14 @@ public:
 		return (*this);
 	}
 };
+
+
+template <typename __dat_t, std::size_t __d1>
+std::ostream &operator<<(std::ostream &output, const tensor1<__dat_t, __d1> &v) {
+	output << "\n" ; 
+	for (size_t i = 0; i < __d1; ++i) {
+		output << v(i) << " " ; 
+	}
+  	return output;
+}
 

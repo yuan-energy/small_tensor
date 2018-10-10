@@ -7,10 +7,12 @@ template <typename __dat_t, std::size_t __d1, std::size_t __d2, std::size_t __d3
 class tensor3
 {
 public:
-	__dat_t* __restrict__ _data;
+	__dat_t ST_ALIGN32 _data[__d1*__d2*__d3] ;
 
-	tensor3(): _data{new __dat_t[__d1*__d2*__d3]}{}
-	tensor3(tensor3 const& rhs_): _data{new __dat_t[__d1*__d2*__d3]}{
+	tensor3(){
+		memset(_data, 0, sizeof(__dat_t)*__d1*__d2*__d3) ; 
+	}
+	tensor3(tensor3 const& rhs_){
 		DEBUG_MSG("tensor3 copy constructor is called");
 		std::memcpy(_data, rhs_._data, sizeof(__dat_t)*__d1*__d2*__d3);
 	}
@@ -22,7 +24,6 @@ public:
 		return *this;
 	}
     tensor3(tensor3&& rhs_) noexcept
-    : _data{new __dat_t[__d1*__d2*__d3]}
     {
     	std::swap(_data, rhs_._data);
     	DEBUG_MSG("tensor3 move constructor is called");
@@ -35,10 +36,6 @@ public:
     	return *this;
     }
 	~tensor3(){
-		if (_data!=nullptr){
-		    delete[] _data;
-		    _data=nullptr;
-		}
 	}
 
 	ST_ALWAYS_INLINE __dat_t& operator()(std::size_t n1_, std::size_t n2_, std::size_t n3_){
