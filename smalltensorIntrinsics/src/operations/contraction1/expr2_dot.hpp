@@ -29,7 +29,7 @@ ST_ALWAYS_INLINE expr2<val_type,d1,d2,i,j> operator* (
     typedef expr2<val_type,d1,d2,i,j> ret_type;
     ret_type ret_ij;
 
-    _matmul<val_type,d1,d2,d3>( Lik_._data, Rkj_._data, ret_ij._data) ; 
+    _mat_mul<val_type,d1,d2,d3>( Lik_._data, Rkj_._data, ret_ij._data) ; 
 
     return ret_ij;
 }
