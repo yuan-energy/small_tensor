@@ -21,5 +21,13 @@ ST_ALWAYS_INLINE __m128 _mm_load3_ul_ps(const float *value) {
     return _mm_shuffle_ps(xy, z, _MM_SHUFFLE(2, 0, 2, 0));
 }
 
+ST_ALWAYS_INLINE __m128 _mm_shift_1_ps(__m128 a) {
+    return _mm_castsi128_ps(_mm_slli_si128(_mm_castps_si128(a), 4));
+}
+
+
+
+
+
 
 #endif
