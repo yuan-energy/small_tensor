@@ -61,6 +61,6 @@ void Test_Contraction_double(){
 	// 	<< c(1,0) << " " << c(1,1) << " " << c(1,2) << "\n"
 	// 	<< c(2,0) << " " << c(2,1) << " " << c(2,2) << "\n"
 	// 	;
-	write_to_file(m,n,k, duration, "float_") ; 
+	write_to_file(m,n,k, duration, "double_") ; 
 }
 

@@ -81,9 +81,11 @@ int main()
 
   Test_Contraction_float(3,3,3) ; 
   Test_Contraction_float(8,3,3) ; 
+  Test_Contraction_float(20,3,3) ; 
   Test_Contraction_float(27,3,3) ; 
   Test_Contraction_double(3,3,3) ; 
   Test_Contraction_double(8,3,3) ; 
+  Test_Contraction_double(20,3,3) ; 
   Test_Contraction_double(27,3,3) ; 
 
   libxsmm_finalize();
