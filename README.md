@@ -2,6 +2,8 @@
 
 This is a small tensor library which supports full Einstein notations. 
 
+The implementation is based on explicit SIMD intrinsics function for the bare-metal performance.
+
 #### Small Tensor without heap memory in Runtime. 
 Simple usage example for 3 by 3 matrix:
 ```cpp
@@ -11,7 +13,6 @@ This is useful is either of the following cases:
 
 * Avoid the malloc in the runtime.
 * Since the data is kept in-place, you can save extra cache miss in the common case.
-
 
 
 #### Why this library might be useful to you
@@ -53,12 +54,10 @@ A(i,j) = B(i,k) * C(k,j) ;
 
 All APIs for Einstein notations are [available here](list_of_operations.md)
 
-#### Development Status and Future Work.
-This repository is under development. This is the basic version.
-The ultimate goal is to make this library like PETSc but in the small tensor field.
-The next steps:
+##### Performance
 
-* Asynchronous computation Future/Promise or Concunrrent Queue.
-* Batch the small tensors.
-* Enable GPUs.
-* Use fewer multiplication by PCA for isotropic tensors.
+<!-- ![p1]() -->
+<img src="./benchmark/unit/performance3x3x3.jpg" alt="drawing" width="400"/>
+<img src="./benchmark/unit/performance8x3x3.jpg" alt="drawing" width="400"/>
+<img src="./benchmark/unit/performance20x3x3.jpg" alt="drawing" width="400"/>
+<img src="./benchmark/unit/performance27x3x3.jpg" alt="drawing" width="400"/>
