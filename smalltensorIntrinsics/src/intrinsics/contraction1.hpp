@@ -1,5 +1,5 @@
-#ifndef SMALL_TENSOR_INTRINSICS_CONTRACTION_H_
-#define SMALL_TENSOR_INTRINSICS_CONTRACTION_H_
+#ifndef SMALL_TENSOR_INTRINSICS_CONTRACTION1_H_
+#define SMALL_TENSOR_INTRINSICS_CONTRACTION1_H_
 
 
 #include "intrinsics_ext.hpp"
@@ -8,7 +8,7 @@
 
 template<typename T, size_t M, size_t K, size_t N>
 ST_ALWAYS_INLINE
-void _mat_mul(const T * ST_RESTRICT a, const T * ST_RESTRICT b, T * ST_RESTRICT out) {
+void _contraction_1(const T * ST_RESTRICT a, const T * ST_RESTRICT b, T * ST_RESTRICT out) {
     // memset(out, 0, sizeof(T)*M*K) ; 
     // std::cerr << " M = " << M << std::endl ;
     // std::cerr << " K = " << K << std::endl ;
@@ -22,16 +22,19 @@ void _mat_mul(const T * ST_RESTRICT a, const T * ST_RESTRICT b, T * ST_RESTRICT 
     }
 }
 
+
+#ifdef __AVX__
+
 template<>
 ST_ALWAYS_INLINE
-void _mat_mul<float,3,3,3>(const float * ST_RESTRICT a, const float * ST_RESTRICT b, float * ST_RESTRICT out) {
+void _contraction_1<float,3,3,3>(const float * ST_RESTRICT a, const float * ST_RESTRICT b, float * ST_RESTRICT out) {
 
     // Arithmetic: 27 scalar mul + 18 scalar add
     // Intrinsics: 9 AVX mul + 6 AVX add
 
-    __m128 b_row0 = _mm_load3_al_ps(b);
-    __m128 b_row1 = _mm_load3_ul_ps(b+3);
-    __m128 b_row2 = _mm_load3_ul_ps(b+6);
+    __m128 b_row0 = _st_mm_load3_al_ps(b);
+    __m128 b_row1 = _st_mm_load3_ul_ps(b+3);
+    __m128 b_row2 = _st_mm_load3_ul_ps(b+6);
 
     {
         __m128 ai0 = _mm_set1_ps(a[0]);
@@ -73,11 +76,11 @@ void _mat_mul<float,3,3,3>(const float * ST_RESTRICT a, const float * ST_RESTRIC
 
 template<>
 ST_ALWAYS_INLINE
-void _mat_mul<double,3,3,3>(const double * ST_RESTRICT a, const double * ST_RESTRICT b, double * ST_RESTRICT out) {
+void _contraction_1<double,3,3,3>(const double * ST_RESTRICT a, const double * ST_RESTRICT b, double * ST_RESTRICT out) {
 
-    __m256d b_row0 = _mm256_load3_al_pd(b);
-    __m256d b_row1 = _mm256_load3_ul_pd(b+3);
-    __m256d b_row2 = _mm256_load3_ul_pd(b+6);
+    __m256d b_row0 = _st_mm256_load3_al_pd(b);
+    __m256d b_row1 = _st_mm256_load3_ul_pd(b+3);
+    __m256d b_row2 = _st_mm256_load3_ul_pd(b+6);
 
     {
         __m256d ai0 = _mm256_set1_pd(a[0]);
@@ -111,9 +114,12 @@ void _mat_mul<double,3,3,3>(const double * ST_RESTRICT a, const double * ST_REST
         ai2 = _mm256_mul_pd(ai2,b_row2);
         _mm256_storeu_pd(out+6,_mm256_add_pd(ai0,_mm256_add_pd(ai1,ai2)));
     }
-
-
 }
 
 
-#endif
+#endif // __AVX__
+
+
+#endif // SMALL_TENSOR_INTRINSICS_CONTRACTION1_H_
+
+

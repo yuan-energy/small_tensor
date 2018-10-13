@@ -2,7 +2,7 @@
 OBJS = test_tensor1.o test_tensor2.o test_tensor3.o test_tensor4.o
 CC = g++
 DEBUG = -g -DDEBUG
-CFLAGS = -Wall -std=c++11 $(DEBUG)
+CFLAGS = -Wall -std=c++11 -march=native $(DEBUG)
 LFLAGS = -Wall -std=c++11 $(DEBUG)
 
 INCLUDE_HEADER_LOCATION=\

@@ -33,7 +33,7 @@ ST_ALWAYS_INLINE expr2<val_type,d1,d2,i,j> operator* (
     // std::cerr << " Rkj_   = " << Rkj_ << std::endl ;
     // std::cerr << " ret_ij = " << ret_ij << std::endl ;
     
-    _mat_mul<val_type,d1,d2,d3>( Lik_._data, Rkj_._data, ret_ij._data) ; 
+    _contraction_1<val_type,d1,d2,d3>( Lik_._data, Rkj_._data, ret_ij._data) ; 
 
     return ret_ij;
 }
