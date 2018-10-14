@@ -1,5 +1,7 @@
 #pragma once
 
+namespace smalltensor{
+
 template <typename val_type, std::size_t d1, std::size_t d2, char i1, char i2>
 ST_ALWAYS_INLINE expr2<val_type,d1,d2,i1,i2> operator+(
        expr2<val_type,d1,d2,i1,i2> const& Rij_){
@@ -16,3 +18,5 @@ ST_ALWAYS_INLINE expr2<val_type,d1,d2,i1,i2> operator+(
 
 
 
+} // namespace smalltensor{
+	

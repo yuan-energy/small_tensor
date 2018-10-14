@@ -4,7 +4,7 @@
 
 #include "intrinsics_ext.hpp"
 
-
+namespace smalltensor{
 
 template<typename T, size_t M, size_t K, size_t N>
 ST_ALWAYS_INLINE
@@ -118,6 +118,8 @@ void _contraction_1<double,3,3,3>(const double * ST_RESTRICT a, const double * S
 
 
 #endif // __AVX__
+
+} // namespace smalltensor
 
 
 #endif // SMALL_TENSOR_INTRINSICS_CONTRACTION1_H_

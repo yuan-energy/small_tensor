@@ -1,5 +1,8 @@
 #pragma once
 
+namespace smalltensor{
+    
+
 template <typename dat_t, std::size_t d1, std::size_t d2> class tensor2;
 template<typename dat_t, std::size_t d1, std::size_t d2, char i1, char i2>
 class expr2: public tensor2<dat_t, d1, d2>
@@ -10,11 +13,11 @@ public:
     expr2(expr2 const& rhs_):_tensor2(rhs_){};
     expr2& operator=(expr2 const& rhs_){
         _tensor2::operator=(rhs_);
-    	return (*this);
+        return (*this);
     }
     expr2 operator=(expr2&& rhs_) noexcept{
         _tensor2::operator=(std::move(rhs_));
-    	return (*this);
+        return (*this);
     }
 
     ST_ALWAYS_INLINE expr2<dat_t,d1,d2,i1,i2>& 
@@ -34,3 +37,4 @@ public:
 
 
 
+}

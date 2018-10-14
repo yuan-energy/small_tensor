@@ -1,5 +1,6 @@
 #pragma once
 
+namespace smalltensor{
 
 #define A i1
 #define a n1
@@ -673,3 +674,4 @@
 
 
 
+} // namespace smalltensor{

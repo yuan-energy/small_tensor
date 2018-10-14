@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace smalltensor{
+
 template <typename val_type, std::size_t d1, std::size_t d2, std::size_t d3, 
           char i, char j, char k>
 ST_ALWAYS_INLINE expr2<val_type,d1,d2,i,j> operator* (
@@ -59,3 +61,4 @@ ST_ALWAYS_INLINE expr2<val_type,d1,d2,i,j> operator* (
 }
 
 
+}

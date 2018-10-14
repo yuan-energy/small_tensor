@@ -5,6 +5,8 @@
 #include <x86intrin.h>
 #include "../../utils/__utils.h"
 
+namespace smalltensor{
+
 #ifdef __AVX__
 
 ST_ALWAYS_INLINE __m128 _st_mm_load3_al_ps(const float *value) {
@@ -86,5 +88,6 @@ ST_ALWAYS_INLINE double _st_mm256_sum_pd(__m256d a) {
 
 #endif // __AVX__
 
+} // namespace smalltensor
 
 #endif

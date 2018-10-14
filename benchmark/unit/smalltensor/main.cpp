@@ -6,6 +6,7 @@
 
 
 
+using namespace smalltensor;
 
 int main(int argc, char const *argv[])
 {

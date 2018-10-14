@@ -5,6 +5,7 @@
 #include <functional>
 #include <atomic>
 #include "../include_small_tensor.h"
+using namespace smalltensor;
 void f1(int n)
 {
     // =============================================

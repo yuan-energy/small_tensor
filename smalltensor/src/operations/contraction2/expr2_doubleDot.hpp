@@ -1,6 +1,6 @@
 #pragma once
 
-
+namespace smalltensor{
 
 template <typename val_type, 
           std::size_t d1, std::size_t d2, 
@@ -72,3 +72,4 @@ ST_ALWAYS_INLINE expr2<val_type,d1,d2,i,j> operator*(
     return ret_ij;
 }
 
+}

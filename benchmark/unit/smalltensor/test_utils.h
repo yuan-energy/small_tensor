@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <fstream>
-
+using namespace smalltensor;
 Index<'I'> I;
 Index<'J'> J;
 Index<'K'> K;

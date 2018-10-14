@@ -3,6 +3,8 @@
 
 #include "intrinsics_ext.hpp"
 
+namespace smalltensor{
+
 template<typename T, size_t M, size_t N>
 ST_ALWAYS_INLINE T _contraction_2(const T* ST_RESTRICT a, const T* ST_RESTRICT b) {
     // std::cerr << " hello1" << std::endl ; 
@@ -51,7 +53,7 @@ ST_ALWAYS_INLINE double _contraction_2<double,3,3>(const double* ST_RESTRICT a, 
 
 
 
-
+} // namespace smalltensor
 
 
 #endif // SMALL_TENSOR_INTRINSICS_CONTRACTION2_H_

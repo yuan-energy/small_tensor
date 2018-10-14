@@ -3,6 +3,9 @@
 #include "../expressions/expressions.h"
 
 using namespace std;
+
+namespace smalltensor{
+
 template <typename __dat_t, std::size_t __d1, std::size_t __d2, std::size_t __d3>
 class tensor3
 {
@@ -78,4 +81,7 @@ public:
 		return (*this);
 	}
 };
+
+
+} // namespace smalltensor
 

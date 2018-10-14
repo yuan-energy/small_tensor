@@ -3,6 +3,9 @@
 #include "../expressions/expressions.h"
 
 using namespace std;
+
+namespace smalltensor{
+
 template <typename __dat_t, std::size_t __d1, std::size_t __d2>
 class tensor2
 {
@@ -102,3 +105,5 @@ std::ostream &operator<<(std::ostream &output, const tensor2<__dat_t, __d1,__d2>
 	}
   return output;
 }
+
+} // smalltensor

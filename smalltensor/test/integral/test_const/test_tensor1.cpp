@@ -2,6 +2,7 @@
 
 #include <iostream>
 using namespace std;
+using namespace smalltensor;
 Index<'i'> i;
 Index<'j'> j;
 Index<'k'> k;

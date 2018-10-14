@@ -1,7 +1,7 @@
 #include "../include_small_tensor.h"
 
 #include <iostream>
-using namespace std;
+using namespace std; using namespace smalltensor;
 int main(int argc, char const *argv[])
 {
 	tensor1<double, 3> obj1;

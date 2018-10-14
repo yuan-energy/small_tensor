@@ -26,6 +26,7 @@ With small tensor library, we get the performance of a C code style combined wit
 To perform tensor operations with small-tensor, one just needs to write in the .cpp the following "exactly replicate" code:
 
 ```cpp
+using namespace smalltensor ;
 Index<'i'> i; Index<'j'> j; Index<'k'> k; Index<'l'> l;
 ```
 
@@ -40,6 +41,7 @@ stress(i,j)=stiffness(i,j,k,l)*strain(k,l);
 ##### Declaration.
 
 ```cpp
+using namespace smalltensor ;
 tensor1<double,10> vec;
 tensor2<double,3,3> stress;
 tensor3<double,2,3,3> cosserat; 

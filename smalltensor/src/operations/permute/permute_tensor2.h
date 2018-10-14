@@ -1,4 +1,7 @@
 #pragma once
+
+namespace smalltensor{
+
 template<typename expr2,
          typename dat_type, 
          char i, char j>
@@ -34,3 +37,6 @@ public:
   	return origin(n2,n1)
   }
 };
+
+} // namespace smalltensor{
+  
