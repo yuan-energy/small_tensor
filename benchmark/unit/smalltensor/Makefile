@@ -1,4 +1,4 @@
-INCLUDE_FOLDER=-I../../../smalltensorIntrinsics/app/
+INCLUDE_FOLDER=-I../../../smalltensor/
 # INCLUDE_FOLDER=-I../../smalltensor/app/
 
 compile:
