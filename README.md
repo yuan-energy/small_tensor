@@ -27,7 +27,7 @@ To perform tensor operations with small-tensor, one just needs to write in the .
 
 ```cpp
 using namespace smalltensor ;
-Index<'i'> i; Index<'j'> j; Index<'k'> k; Index<'l'> l;
+eindex<'i'> i; eindex<'j'> j; eindex<'k'> k; eindex<'l'> l;
 ```
 
 A double contraction of a 4th-order tensor stiffness with a 2nd-order tensor strain can be written simply as:
