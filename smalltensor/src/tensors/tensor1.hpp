@@ -43,19 +43,19 @@ public:
 	}
 
 	ST_ALWAYS_INLINE __dat_t& operator()(std::size_t n1_){
-		ASSERT_MSG(n1_< __d1 , "tensor1() index out of bounds in lvalue. ");
+		ASSERT_MSG(n1_< __d1 , "tensor1() eindex out of bounds in lvalue. ");
 		return _data[ n1_ ];
 	}
 	ST_ALWAYS_INLINE __dat_t operator()(std::size_t n1_)const{
-		ASSERT_MSG(n1_< __d1 , "tensor1() index out of bounds in rvalue. ");
+		ASSERT_MSG(n1_< __d1 , "tensor1() eindex out of bounds in rvalue. ");
 		return _data[ n1_ ];
 	}
 	template <char i>
-	ST_ALWAYS_INLINE expr1<__dat_t, __d1, i>& operator()(Index<i> i_){
+	ST_ALWAYS_INLINE expr1<__dat_t, __d1, i>& operator()(eindex<i> i_){
         return static_cast<expr1<__dat_t, __d1, i>&>(*this);
 	}
 	template <char i>
-	ST_ALWAYS_INLINE expr1<__dat_t, __d1, i> const& operator()(Index<i> i_)const{
+	ST_ALWAYS_INLINE expr1<__dat_t, __d1, i> const& operator()(eindex<i> i_)const{
         return static_cast<expr1<__dat_t, __d1, i>const&>(*this);
 	}
 	ST_ALWAYS_INLINE tensor1& operator*=(__dat_t const& scalar_){

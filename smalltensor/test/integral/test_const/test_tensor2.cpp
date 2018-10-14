@@ -11,10 +11,10 @@ int main(int argc, char const *argv[])
 	tensor4<double, 3,3,3,3> Ee ;
 
 	obj2(2,2) = 2.;
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
+	eindex<'i'> i;
+	eindex<'j'> j;
+	eindex<'k'> k;
+	eindex<'l'> l;
 
 	// Test 1
 	obj1(2,2)= 1;

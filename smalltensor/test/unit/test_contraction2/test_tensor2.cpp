@@ -9,10 +9,10 @@ int main(int argc, char const *argv[])
 	tensor4<double, 3,3,3,3> obj3;
 	obj1(2,0) = 3.;
 	obj3(1,0,2,0) = 7;
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
+	eindex<'i'> i;
+	eindex<'j'> j;
+	eindex<'k'> k;
+	eindex<'l'> l;
 	obj2(i,j) = obj3(i,j,k,l) * obj1(k,l);
 	ASSERT_MSG(obj2(1,0)==21,"tensor1 obj3(_i) contraction 2 operator error");
 

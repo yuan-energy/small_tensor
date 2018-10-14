@@ -2,9 +2,9 @@
 #include <iostream>
 #include <fstream>
 using namespace smalltensor;
-Index<'I'> I;
-Index<'J'> J;
-Index<'K'> K;
+eindex<'I'> I;
+eindex<'J'> J;
+eindex<'K'> K;
 
 
 void write_to_file(int m, int n, int k , double duration, std::string const& prefix=""){

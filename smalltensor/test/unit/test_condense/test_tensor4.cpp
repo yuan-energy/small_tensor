@@ -9,9 +9,9 @@ int main(int argc, char const *argv[])
 	obj1(1,2,1,2) = 9993;
 	obj1(1,2,1,1) = 3;
 	obj1(1,2,2,2) = 39;
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
+	eindex<'i'> i;
+	eindex<'j'> j;
+	eindex<'k'> k;
 	obj2(i,j) = obj1(i,j,k,k);
 	ASSERT_MSG(obj2(1,2)==42,"tensor4(i,j,k,k) condense tensor error");
 

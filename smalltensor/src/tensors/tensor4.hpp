@@ -45,28 +45,28 @@ public:
 	ST_ALWAYS_INLINE __dat_t& operator()(std::size_t n1_, std::size_t n2_,  
 							   std::size_t n3_, std::size_t n4_){
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4,
-			"tensor4() index out of bounds in lvalue. ");
+			"tensor4() eindex out of bounds in lvalue. ");
 		return _data[ n1_ * __d2 * __d3 *__d4 + n2_ * __d3 * __d4 + n3_ * __d4 + n4_];
 	}
 	ST_ALWAYS_INLINE __dat_t operator()(std::size_t n1_, std::size_t n2_, 
 		                      std::size_t n3_, std::size_t n4_)const{
 		ASSERT_MSG(n1_< __d1 && n2_ < __d2 && n3_< __d3 && n4_ < __d4, 
-			"tensor4() index out of bounds in rvalue. ");
+			"tensor4() eindex out of bounds in rvalue. ");
 		return _data[ n1_ * __d2 * __d3 *__d4 + n2_ * __d3 * __d4 + n3_ * __d4 + n4_];
 	}
 	template <char i, char j, char k, char l>
 	ST_ALWAYS_INLINE expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>& 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_){
+	operator()(eindex<i> i_, eindex<j> j_, eindex<k> k_, eindex<l> l_){
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>&>(*this);
 	}
 	template <char i, char j, char k, char l>
 	ST_ALWAYS_INLINE expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l> const& 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<l> l_)const{
+	operator()(eindex<i> i_, eindex<j> j_, eindex<k> k_, eindex<l> l_)const{
         return static_cast<expr4<__dat_t, __d1, __d2, __d3, __d4, i, j, k, l>const&>(*this);
 	}
 	template <char i, char j, char k>
 	ST_ALWAYS_INLINE expr2<__dat_t, __d1, __d2, i, j> 
-	operator()(Index<i> i_, Index<j> j_, Index<k> k_, Index<k/*same*/> l_){
+	operator()(eindex<i> i_, eindex<j> j_, eindex<k> k_, eindex<k/*same*/> l_){
 		ASSERT_MSG(__d3 == __d4, "Dimension size should be equal for dummy indices. ");
 		typedef expr2<__dat_t, __d1, __d2, i, j> ret_type;
 		ret_type ret_ij;

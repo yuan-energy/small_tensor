@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 	tensor1<double, 3> obj3;
 	obj1(2) = 3.;
 	obj2(2) = 2.;
-	Index<'i'> _i;
+	eindex<'i'> _i;
 	obj3(_i) = + obj1(_i);
 	ASSERT_MSG(obj3(2)== 3,"tensor1 obj3(_i) minus operator error");
 	ASSERT_MSG(obj2(2)== 2,"tensor1 obj2(_i) minus operator error");
@@ -17,8 +17,8 @@ int main(int argc, char const *argv[])
 
 	cout<<"Done execution. Exiting..." <<endl;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// eindex<'i'> i;
+	// eindex<'j'> j;
 
 	// tensor1<double, 3> L;
 	// tensor1<double, 3> R;

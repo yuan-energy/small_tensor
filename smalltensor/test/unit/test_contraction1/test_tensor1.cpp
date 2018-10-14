@@ -9,8 +9,8 @@ int main(int argc, char const *argv[])
 	tensor1<double, 3> obj2;
 	obj1(2) = 3.;
 	obj2(2) = 2.;
-	Index<'i'> _i;
-	Index<'j'> _j;
+	eindex<'i'> _i;
+	eindex<'j'> _j;
 	double ret1 = obj2(_i) * obj1(_i);
 	ASSERT_MSG(ret1==6,"tensor1 obj3(_i) contraction 1 operator error");
 	ASSERT_MSG(obj2(2)== 2,"tensor1 obj2(_i) contraction 1 operator error");

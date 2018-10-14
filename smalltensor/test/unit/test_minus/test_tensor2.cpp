@@ -9,16 +9,16 @@ int main(int argc, char const *argv[])
 	tensor2<double, 3,3> obj3;
 	obj1(2,2) = 3.;
 	obj2(2,2) = 2.;
-	Index<'i'> _i;
-	Index<'j'> _j;
+	eindex<'i'> _i;
+	eindex<'j'> _j;
 	obj3(_i,_j) = - obj1(_i,_j);
 	// cout<<"obj3(2,2) = " << obj3(2,2) <<endl;
 	ASSERT_MSG(obj3(2,2)==-3,"tensor2(_i,_j) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// eindex<'i'> i;
+	// eindex<'j'> j;
 
 	// tensor1<double, 3> L;
 	// tensor1<double, 3> R;

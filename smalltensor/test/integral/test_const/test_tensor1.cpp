@@ -3,10 +3,10 @@
 #include <iostream>
 using namespace std;
 using namespace smalltensor;
-Index<'i'> i;
-Index<'j'> j;
-Index<'k'> k;
-Index<'l'> l;
+eindex<'i'> i;
+eindex<'j'> j;
+eindex<'k'> k;
+eindex<'l'> l;
 
 void test_const(stresstensor const& B)
 {

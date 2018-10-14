@@ -23,8 +23,8 @@ int main(int argc, char const *argv[])
 	obj5 = std::move(obj2);
 	ASSERT_MSG(obj5(1,2)==3,"obj5(n1,n2) move assignment operator error");
 
-	Index<'i'> i;
-	Index<'j'> j;
+	eindex<'i'> i;
+	eindex<'j'> j;
 
 	tensor2<double, 3, 3> L;
 	tensor2<double, 3, 3> R;

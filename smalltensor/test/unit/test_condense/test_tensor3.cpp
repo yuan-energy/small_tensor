@@ -8,8 +8,8 @@ int main(int argc, char const *argv[])
 	tensor1<double, 3> obj2;
 	obj1(1,2,1) = 3;
 	obj1(1,1,1) = 42;
-	Index<'i'> i;
-	Index<'j'> j;
+	eindex<'i'> i;
+	eindex<'j'> j;
 	obj2(i) = obj1(i,j,j);
 	ASSERT_MSG(obj2(1)==42,"tensor3(i,j,j) condense tensor error");
 

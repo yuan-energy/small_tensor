@@ -13,10 +13,10 @@ int main(int argc, char const *argv[])
 	tensor3<double, 3,3,3> obj7;
 
 	obj2(2,2) = 2.;
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
-	Index<'l'> l;
+	eindex<'i'> i;
+	eindex<'j'> j;
+	eindex<'k'> k;
+	eindex<'l'> l;
 
 	// Test 1
 	obj6(2,2,2,2)=1;

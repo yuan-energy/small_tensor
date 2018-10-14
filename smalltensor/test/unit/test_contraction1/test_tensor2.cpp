@@ -18,9 +18,9 @@ int main(int argc, char const *argv[])
 	tensor2<float, 2,2> obj10;
 
 	obj2(2,2) = 2.;
-	Index<'i'> i;
-	Index<'j'> j;
-	Index<'k'> k;
+	eindex<'i'> i;
+	eindex<'j'> j;
+	eindex<'k'> k;
 
 	// Test 1
 	obj1(2,2,2)=1;

@@ -9,17 +9,17 @@ int main(int argc, char const *argv[])
 	tensor3<double, 3,3,3> obj3;
 	obj1(2,1,2) = 3.;
 	obj2(2,1,2) = 2.;
-	Index<'i'> _i;
-	Index<'j'> _j;
-	Index<'k'> _k;
+	eindex<'i'> _i;
+	eindex<'j'> _j;
+	eindex<'k'> _k;
 	obj3(_i,_j,_k) = + obj1(_i,_j,_k);
 	// cout<<"obj3(_i,_j,_k)="<<obj3(2,1,2)<<endl;
 	ASSERT_MSG(obj3(2,1,2)==3,"tensor3(_i,_j,_k) minus operator error");
 
 	cout<<"Done execution. Exiting..." <<endl;
 
-	// Index<'i'> i;
-	// Index<'j'> j;
+	// eindex<'i'> i;
+	// eindex<'j'> j;
 
 	// tensor1<double, 3> L;
 	// tensor1<double, 3> R;
