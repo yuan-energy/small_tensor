@@ -84,6 +84,28 @@ int main(int argc, char const *argv[])
 	ASSERT_MSG(m3(1,0)==64,"tensor2(_i,_j) contraction1  operator error");
 	ASSERT_MSG(m3(1,1)==79,"tensor2(_i,_j) contraction1  operator error");
 
+	// Test 6
+	tensor2<float, 3, 3> t1 ; 
+	tensor2<float, 3, 3> t2 ; 
+	tensor2<float, 3, 3> t3 ; 
+
+	t1(0,0) = 1 ; t1(0,1) = 4 ; t1(0,2) = 7 ; 
+	t1(1,0) = 2 ; t1(1,1) = 5 ; t1(1,2) = 8 ; 
+	t1(2,0) = 3 ; t1(2,1) = 6 ; t1(2,2) = 9 ; 
+	t2(0,0) = 2 ; t2(0,1) = 3 ; t2(0,2) = 4 ; 
+	t2(1,0) = 5 ; t2(1,1) = 6 ; t2(1,2) = 7 ; 
+	t2(2,0) = 8 ; t2(2,1) = 9 ; t2(2,2) = 10 ; 
+	t3(i,j) = t1(k,i) * t2(k,j) ; 
+	ASSERT_MSG(t3(0,0)==36,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(0,1)==42,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(0,2)==48,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(1,0)==81,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(1,1)==96,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(1,2)==111,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(2,0)==126,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(2,1)==150,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t3(2,2)==174,"tensor2(_i,_j) contraction1  operator error");
+
 	cout<<"Done execution. Exiting..." <<endl;
 
 	return 0;
