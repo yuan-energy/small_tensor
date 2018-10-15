@@ -90,16 +90,6 @@ public:
 		return (*this);
 	}
 
-	// static ST_ALWAYS_INLINE tensor2& operator*=(__dat_t const& scalar_) const {
-	// 	tensor2
-	// 	for (std::size_t n1 = 0; n1 < __d1; ++n1){
-	// 		for (std::size_t n2 = 0; n2 < __d2; ++n2){
-	// 			(*this)(n1,n2) *= scalar_ ;
-	// 		}
-	// 	}
-	// 	return (*this);
-	// }
-
 	ST_ALWAYS_INLINE const tensor2 Inv() const
 	{
 	    assert( 3 == __d1 );
@@ -141,14 +131,10 @@ public:
 		__dat_t col0[3] = {_data[0], _data[3], _data[6]} ;
 		__dat_t col1[3] = {_data[1], _data[4], _data[7]} ;
 		__dat_t col2[3] = {_data[2], _data[5], _data[8]} ;
-		// std::cerr << " col0 = " << col0[0] << ", " << col0[1] << ", " << col0[2] << std::endl ; 
-		// std::cerr << " col1 = " << col1[0] << ", " << col1[1] << ", " << col1[2] << std::endl ; 
-		// std::cerr << " col2 = " << col2[0] << ", " << col2[1] << ", " << col2[2] << std::endl ; 
 		__dat_t cross[3] = {col1[1] * col2[2] - col1[2] * col2[1] ,
 							col1[2] * col2[0] - col1[0] * col2[2] , 
 							col1[0] * col2[1] - col1[1] * col2[0]
 				} ; 
-		// std::cerr << " cross = " << cross[0] << ", " << cross[1] << ", " << cross[2] << std::endl ; 
 		return col0[0] * cross[0] + col0[1] * cross[1] + col0[2] * cross[2] ; // dot product
 	}
 
