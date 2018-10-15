@@ -90,7 +90,69 @@ public:
 		return (*this);
 	}
 
-	
+	// static ST_ALWAYS_INLINE tensor2& operator*=(__dat_t const& scalar_) const {
+	// 	tensor2
+	// 	for (std::size_t n1 = 0; n1 < __d1; ++n1){
+	// 		for (std::size_t n2 = 0; n2 < __d2; ++n2){
+	// 			(*this)(n1,n2) *= scalar_ ;
+	// 		}
+	// 	}
+	// 	return (*this);
+	// }
+
+	ST_ALWAYS_INLINE const tensor2 Inv() const
+	{
+	    assert( 3 == __d1 );
+	    assert( 3 == __d2 );
+
+	    const __dat_t det = compute_Determinant();
+	    tensor2 inverse ; 
+	    if (det != 0 ){
+	    	const float invDet = 1.0f / det;
+	    	__dat_t col0[3] = {_data[0], _data[3], _data[6]} ;
+	    	__dat_t col1[3] = {_data[1], _data[4], _data[7]} ;
+	    	__dat_t col2[3] = {_data[2], _data[5], _data[8]} ;
+
+	    	inverse._data[0] = invDet * (col1[1]  * col2[2] - col2[1] * col1[2]);
+	    	inverse._data[3] = invDet * -(col0[1] * col2[2] - col2[1] * col0[2]);
+	    	inverse._data[6] = invDet * (col0[1] * col1[2] - col0[2] * col1[1] );
+
+	    	inverse._data[1] = invDet * -(col1[0] * col2[2] - col1[2] * col2[0]);
+	    	inverse._data[4] = invDet * (col0[0] * col2[2] - col0[2] * col2[0]);
+	    	inverse._data[7] = invDet * -(col0[0] * col1[2] - col0[2] * col1[0]);
+
+	    	inverse._data[2] = invDet * (col1[0] * col2[1] - col1[1]  * col2[0]);
+	    	inverse._data[5] = invDet * -(col0[0] * col2[1] - col0[1] * col2[0]);
+	    	inverse._data[8] = invDet * (col0[0] * col1[1]  - col1[0] * col0[1]);
+	    	return inverse ; 
+	    }else{
+	    	inverse._data[0] = 1 ;
+	    	inverse._data[3] = 1 ;
+	    	inverse._data[6] = 1 ;
+	    	return inverse ; 
+	    }
+
+	}
+
+	__dat_t ST_ALWAYS_INLINE compute_Determinant( )	const {
+		assert( 3 == __d1 );
+		assert( 3 == __d2 );
+
+		__dat_t col0[3] = {_data[0], _data[3], _data[6]} ;
+		__dat_t col1[3] = {_data[1], _data[4], _data[7]} ;
+		__dat_t col2[3] = {_data[2], _data[5], _data[8]} ;
+		// std::cerr << " col0 = " << col0[0] << ", " << col0[1] << ", " << col0[2] << std::endl ; 
+		// std::cerr << " col1 = " << col1[0] << ", " << col1[1] << ", " << col1[2] << std::endl ; 
+		// std::cerr << " col2 = " << col2[0] << ", " << col2[1] << ", " << col2[2] << std::endl ; 
+		__dat_t cross[3] = {col1[1] * col2[2] - col1[2] * col2[1] ,
+							col1[2] * col2[0] - col1[0] * col2[2] , 
+							col1[0] * col2[1] - col1[1] * col2[0]
+				} ; 
+		// std::cerr << " cross = " << cross[0] << ", " << cross[1] << ", " << cross[2] << std::endl ; 
+		return col0[0] * cross[0] + col0[1] * cross[1] + col0[2] * cross[2] ; // dot product
+	}
+
+
 
 };
 

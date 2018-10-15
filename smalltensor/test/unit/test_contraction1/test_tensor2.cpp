@@ -106,6 +106,20 @@ int main(int argc, char const *argv[])
 	ASSERT_MSG(t3(2,1)==150,"tensor2(_i,_j) contraction1  operator error");
 	ASSERT_MSG(t3(2,2)==174,"tensor2(_i,_j) contraction1  operator error");
 
+	// Test 7
+	tensor2<float, 3,3> t4 ; 
+	t4(0,0) = 1 ; t4(0,1) = 4 ; t4(0,2) = 7 ; 
+	t4(1,0) = 2 ; t4(1,1) = 5 ; t4(1,2) = 8 ; 
+	t4(2,0) = 3 ; t4(2,1) = 6 ; t4(2,2) = 10 ; 
+	auto t5 = t4.Inv() ; 
+	ASSERT_MSG(t5(0,2)==1,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t5(1,2)==-2,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t5(2,0)==1,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t5(2,1)==-2,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t5(2,2)==1,"tensor2(_i,_j) contraction1  operator error");
+	ASSERT_MSG(t4.compute_Determinant()==-3,"tensor2(_i,_j) contraction1  operator error");
+
+
 	cout<<"Done execution. Exiting..." <<endl;
 
 	return 0;
