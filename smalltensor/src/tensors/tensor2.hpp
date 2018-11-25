@@ -138,7 +138,9 @@ public:
 		return col0[0] * cross[0] + col0[1] * cross[1] + col0[2] * cross[2] ; // dot product
 	}
 
-
+	void ST_ALWAYS_INLINE zero() {
+		memset(_data, 0, sizeof(__dat_t)*__d1*__d2) ; 
+	}
 
 };
 
